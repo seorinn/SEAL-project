@@ -31,7 +31,6 @@ function GetInformPage({ userInfo, setUserInfo }) {
   const [isValidPhone, setIsValidPhone] = useState(true);
   const [isSended, setIsSended] = useState(false);
   const [submitCode, setSubmitCode] = useState(false);
-  const [isCorrectCode, setIsCorrectCode] = useState(false);
   const [code, setCode] = useState("");
 
   const handleInput = (e) => {
@@ -75,7 +74,11 @@ function GetInformPage({ userInfo, setUserInfo }) {
       .confirm(code)
       .then((result) => {
         const user = result.user;
-        setIsCorrectCode(true);
+        // setIsCorrectCode(true);
+        setUserInfo({
+          ...userInfo,
+          isChecked: true,
+        });
         // ...
       })
       .catch((error) => {
@@ -96,10 +99,10 @@ function GetInformPage({ userInfo, setUserInfo }) {
     }
   };
   const handleSubmit = () => {
-    const { name, affiliation, position, phonenumber } = userInfo;
-    if (name && affiliation && position && phonenumber && isCorrectCode) {
+    const { name, affiliation, position, phonenumber, isChecked } = userInfo;
+    if (name && affiliation && position && phonenumber && isChecked) {
       navigation("/test");
-    } else if (!isCorrectCode) {
+    } else if (!isChecked) {
       alert("전화번호 인증을 완료해주세요.");
     } else alert("항목을 모두 입력해주세요");
   };
@@ -158,10 +161,10 @@ function GetInformPage({ userInfo, setUserInfo }) {
             <button onClick={handleCheckCode}>인증번호 확인</button>
           </div>
           <div id="sign-in-button"></div>
-          {isSended && submitCode && !isCorrectCode && (
+          {isSended && submitCode && !userInfo.isChecked && (
             <span className="wrong">인증번호가 일치하지 않습니다.</span>
           )}
-          {isSended && submitCode && isCorrectCode && (
+          {isSended && submitCode && userInfo.isChecked && (
             <span>인증되었습니다.</span>
           )}
           <div id="recaptcha-container"></div>

@@ -5,7 +5,7 @@ import ProgressBar from "./ProgreeBar";
 import Question from "./Question";
 import "./index.css";
 
-function TestPage() {
+function TestPage({ userInfo }) {
   const navigator = useNavigate();
   const [state, setState] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -34,6 +34,8 @@ function TestPage() {
     Strategist: 0,
     Analyst: 0,
   });
+
+  if (!userInfo.isChecked) navigator("/");
 
   useEffect(() => {
     const data = QuestionList();

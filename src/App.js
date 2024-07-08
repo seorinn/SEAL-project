@@ -12,6 +12,7 @@ function App() {
     affiliation: "",
     position: "",
     phonenumber: "",
+    isChecked: false,
   });
 
   return (
@@ -25,7 +26,7 @@ function App() {
               <GetInformPage userInfo={userInfo} setUserInfo={setUserInfo} />
             }
           />
-          <Route path="/test" element={<TestPage />} />
+          <Route path="/test" element={<TestPage userInfo={userInfo} />} />
           <Route path="/result" element={<ResultPage userInfo={userInfo} />} />
         </Routes>
       </div>
