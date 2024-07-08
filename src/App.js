@@ -5,6 +5,7 @@ import GetInformPage from "./pages/GetInformPage";
 import TestPage from "./pages/TestPage";
 import ResultPage from "./pages/ResultPage";
 import "./App.css";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   const [userInfo, setUserInfo] = useState({
@@ -28,6 +29,7 @@ function App() {
           />
           <Route path="/test" element={<TestPage userInfo={userInfo} />} />
           <Route path="/result" element={<ResultPage userInfo={userInfo} />} />
+          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </div>
