@@ -8,26 +8,27 @@ import {
 } from "firebase/auth";
 import "./index.css";
 
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_APIKEY,
-//   authDomain: process.env.REACT_APP_AUTHDOMAIN,
-//   projectId: process.env.REACT_APP_PROJECT_ID,
-//   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-//   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-//   appId: process.env.REACT_APP_APP_ID,
-//   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-// };
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+};
 
-// const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-// const getPhoneNumberFromUserInput = (phonenumber) => {
-//   return `+82${phonenumber.slice(1)}`;
-// };
+const getPhoneNumberFromUserInput = (phonenumber) => {
+  return `+82${phonenumber.slice(1)}`;
+};
 
-// const auth = getAuth();
+const auth = getAuth();
 
 function GetInformPage({ userInfo, setUserInfo }) {
   const navigation = useNavigate();
+  const [isValidPhone, setIsValidPhone] = useState(true);
   const [isSended, setIsSended] = useState(false);
   const [submitCode, setSubmitCode] = useState(false);
   const [isCorrectCode, setIsCorrectCode] = useState(false);
@@ -35,48 +36,52 @@ function GetInformPage({ userInfo, setUserInfo }) {
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setUserInfo({
-      ...userInfo,
-      [name]: value,
-    });
+    if (name === "code") setCode(value);
+    else
+      setUserInfo({
+        ...userInfo,
+        [name]: value,
+      });
   };
 
   const handleSendCode = () => {
-    // if (!userInfo.phonenumber) return;
-    // setIsSended(true);
-    // window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
-    //   size: "invisible",
-    //   callback: (response) => {
-    //     //...
-    //   },
-    // });
-    // auth.languageCode = "ko";
-    // const phonenumber = getPhoneNumberFromUserInput(userInfo.phonenumber);
-    // const appVerifier = window.recaptchaVerifier;
-    // signInWithPhoneNumber(auth, phonenumber, appVerifier)
-    //   .then((confirmationResult) => {
-    //     window.confirmationResult = confirmationResult;
-    //   })
-    //   .catch((error) => {
-    // this.firebaseError(error);
-    //     console.log("SMS Failed");
-    //   });
+    const phoneRegex = /^010\d{8}$/;
+    setIsValidPhone(phoneRegex.test(userInfo.phonenumber));
+    if (!userInfo.phonenumber || !isValidPhone) return;
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
+      size: "invisible",
+      callback: (response) => {
+        //...
+      },
+    });
+    auth.languageCode = "ko";
+    const phonenumber = getPhoneNumberFromUserInput(userInfo.phonenumber);
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, phonenumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setIsSended(true);
+      })
+      .catch((error) => {
+        firebaseError(error);
+        console.log(error);
+      });
   };
 
   const handleCheckCode = () => {
-    // if (!isSended) return;
-    // setSubmitCode(true);
-    // window.confirmationResult
-    //   .confirm(code)
-    //   .then((result) => {
-    //     const user = result.user;
-    //     // ...
-    //     setIsCorrectCode(true);
-    //   })
-    //   .catch((error) => {
-    // this.firebaseError(error);
-    //     console.log(error);
-    //   });
+    if (!isSended) return;
+    setSubmitCode(true);
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        const user = result.user;
+        setIsCorrectCode(true);
+        // ...
+      })
+      .catch((error) => {
+        firebaseError(error);
+        console.log(error);
+      });
   };
 
   const firebaseError = (error) => {
@@ -94,9 +99,9 @@ function GetInformPage({ userInfo, setUserInfo }) {
     const { name, affiliation, position, phonenumber } = userInfo;
     if (name && affiliation && position && phonenumber && isCorrectCode) {
       navigation("/test");
-    } else {
-      alert("항목을 입력해주세요");
-    }
+    } else if (!isCorrectCode) {
+      alert("전화번호 인증을 완료해주세요.");
+    } else alert("항목을 모두 입력해주세요");
   };
 
   return (
@@ -135,11 +140,12 @@ function GetInformPage({ userInfo, setUserInfo }) {
               placeholder="'-' 없이 입력해주세요."
               onChange={handleInput}
             />
-            <button onClick={handleSendCode}>
-              {isSended ? "인증 재요청" : "인증 요청"}
-            </button>
+            <button onClick={handleSendCode}>인증 요청</button>
           </div>
           {isSended && <span>인증번호가 발송되었습니다.</span>}
+          {!isValidPhone && (
+            <span className="wrong">잘못된 형식의 전화번호입니다.</span>
+          )}
         </div>
         <div>
           <p>인증번호 확인</p>
@@ -147,12 +153,16 @@ function GetInformPage({ userInfo, setUserInfo }) {
             <input
               name="code"
               placeholder="인증번호 6자리를 입력해주세요."
-              // onChange={handleInput}
+              onChange={handleInput}
             />
+            <div id="sign-in-button"></div>
             <button onClick={handleCheckCode}>인증번호 확인</button>
           </div>
           {isSended && submitCode && !isCorrectCode && (
-            <span className="wrong-code">인증번호가 일치하지 않습니다.</span>
+            <span className="wrong">인증번호가 일치하지 않습니다.</span>
+          )}
+          {isSended && submitCode && isCorrectCode && (
+            <span>인증되었습니다.</span>
           )}
           <div id="recaptcha-container"></div>
         </div>
