@@ -1,0 +1,54 @@
+.GetInformPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+}
+.GetInformPage .input-container {
+  margin-bottom: 3rem;
+  font-weight: 600;
+}
+.GetInformPage .input-container div {
+  width: 25rem;
+  display: flex;
+  flex-direction: column;
+}
+.GetInformPage .input-container div .inputAndButton {
+  display: flex;
+  flex-direction: row;
+}
+.GetInformPage .input-container input {
+  flex: 1;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.GetInformPage .inputAndButton button {
+  outline: none;
+  border: 2px solid hsl(205, 46%, 59%);
+  border-radius: 0.5rem;
+  margin-left: 0.5rem;
+  background-color: transparent;
+  color: hsl(205, 46%, 59%);
+  font-weight: 900;
+}
+.GetInformPage .btn-submit {
+  padding: 1rem 5rem;
+  background-color: hsl(205, 46%, 59%);
+  outline: none;
+  border: none;
+  border-radius: 2rem;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.GetInformPage span {
+  color: hwb(120 20% 35%);
+  margin: 0.5rem 0;
+}
+.GetInformPage .wrong-code {
+  color: rgb(236, 0, 0);
+}

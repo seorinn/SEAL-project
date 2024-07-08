@@ -1,0 +1,32 @@
+.Question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 4rem;
+  font-family: "Pretendard";
+  font-weight: 700;
+}
+.Question .title {
+  cursor: default;
+  margin-bottom: 3rem;
+  font-size: 1.2rem;
+}
+.Question .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70rem;
+}
+.Question .buttons {
+  display: flex;
+  width: 40%;
+  padding: 0 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.Question.true {
+  opacity: 0.5;
+}

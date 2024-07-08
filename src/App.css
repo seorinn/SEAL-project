@@ -1,0 +1,12 @@
+.App {
+  width: 100%;
+}
+.App-Body {
+  padding-top: 3.5rem;
+}
+p {
+  cursor: default;
+}
+button {
+  cursor: pointer;
+}
