@@ -155,9 +155,9 @@ function GetInformPage({ userInfo, setUserInfo }) {
               placeholder="인증번호 6자리를 입력해주세요."
               onChange={handleInput}
             />
-            <div id="sign-in-button"></div>
             <button onClick={handleCheckCode}>인증번호 확인</button>
           </div>
+          <div id="sign-in-button"></div>
           {isSended && submitCode && !isCorrectCode && (
             <span className="wrong">인증번호가 일치하지 않습니다.</span>
           )}

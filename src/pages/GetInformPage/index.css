@@ -26,6 +26,7 @@
   padding: 1rem;
 }
 .GetInformPage .inputAndButton button {
+  min-width: 7rem;
   outline: none;
   border: 2px solid hsl(205, 46%, 59%);
   border-radius: 0.5rem;
