@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 import { QuestionList } from "../../util";
 import ProgressBar from "./ProgreeBar";
 import Question from "./Question";
@@ -10,6 +11,7 @@ function TestPage({ userInfo }) {
   const [state, setState] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [questionData, setQuestionData] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [sumChecked, setSumChecked] = useState(0);
   const [scores, setScores] = useState(Array(100).fill(0));
   const [scoreData, setScoreData] = useState({
@@ -35,7 +37,22 @@ function TestPage({ userInfo }) {
     Analyst: 0,
   });
 
-  if (!userInfo.isChecked) navigator("/");
+  // if (!userInfo.isChecked) navigator("/");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("test.xlsx");
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: "array" });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        setQuestions(jsonData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const data = QuestionList();
