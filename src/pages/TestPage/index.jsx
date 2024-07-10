@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
-import { QuestionList } from "../../util";
 import ProgressBar from "./ProgreeBar";
 import Question from "./Question";
 import "./index.css";
@@ -9,44 +8,23 @@ import "./index.css";
 function TestPage({ userInfo }) {
   const navigator = useNavigate();
   const [state, setState] = useState([]);
+  const [questionsOnPage, setQuestionsOnPage] = useState([]);
+  const [scores, setScores] = useState(Array(60).fill(0));
   const [pageIndex, setPageIndex] = useState(0);
-  const [questionData, setQuestionData] = useState([]);
-  const [questions, setQuestions] = useState([]);
   const [sumChecked, setSumChecked] = useState(0);
-  const [scores, setScores] = useState(Array(100).fill(0));
-  const [scoreData, setScoreData] = useState({
-    // empatheticCommunicator
-    noneE: 0,
-    Facilitator: 0,
-    Advisor: 0,
-    Coordinator: 0,
-    // actionOrientedAchiever
-    noneA: 0,
-    Transformer: 0,
-    Innovator: 0,
-    Adventurer: 0,
-    // loyanStabilizer
-    noneL: 0,
-    Supporter: 0,
-    Guardian: 0,
-    Mediator: 0,
-    // strategicThinker
-    noneS: 0,
-    Critic: 0,
-    Strategist: 0,
-    Analyst: 0,
-  });
+  const [scoreData, setScoreData] = useState();
 
-  // if (!userInfo.isChecked) navigator("/");
+  if (!userInfo.isChecked) navigator("/");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("test.xlsx");
+        const response = await fetch("question-data.xlsx");
         const arrayBuffer = await response.arrayBuffer();
         const workbook = XLSX.read(arrayBuffer, { type: "array" });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        setQuestions(jsonData);
+        dividePageFunc(jsonData);
       } catch (error) {
         console.log(error);
       }
@@ -54,19 +32,30 @@ function TestPage({ userInfo }) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const data = QuestionList();
+  const dividePageFunc = (questions) => {
+    let data = [];
+    let sub = [];
+    questions.map((question, index) => {
+      if (index > 0 && question.persona !== questions[index - 1].persona) {
+        data.push(sub);
+        sub = [];
+        sub.push({ ...question, id: index + 1 });
+      } else {
+        sub.push({ ...question, id: index + 1 });
+        if (index === questions.length - 1) data.push(sub);
+      }
+    });
     setState(data);
-    setQuestionData(data[pageIndex]);
-  }, [QuestionList]);
+    setQuestionsOnPage(data[pageIndex]);
+  };
 
   useEffect(() => {
     if (state.length > 0) {
       setState(
-        state.map((item) =>
-          item.map((i) => ({
-            ...i,
-            value: scores[i.id - 1],
+        state.map((page) =>
+          page.map((question) => ({
+            ...question,
+            value: scores[question.id - 1],
           }))
         )
       );
@@ -74,12 +63,19 @@ function TestPage({ userInfo }) {
   }, [scores]);
 
   const onClickNext = () => {
-    if (sumChecked < questionData.length) {
+    if (sumChecked < questionsOnPage.length) {
       alert("모든 항목에 체크해주세요.");
       return;
     }
-    setPageIndex(pageIndex + 1);
-    setSumChecked(0);
+
+    if (pageIndex < state.length - 1) {
+      setSumChecked(0);
+      setQuestionsOnPage(state[pageIndex + 1]);
+      setPageIndex(pageIndex + 1);
+    } else {
+      setScoreFunction();
+      console.log("d");
+    }
     window.scrollTo({
       top: 10,
       behavior: "instant",
@@ -87,59 +83,43 @@ function TestPage({ userInfo }) {
   };
 
   useEffect(() => {
-    if (state.length > 0) {
-      if (pageIndex < state.length) {
-        setQuestionData(state[pageIndex]);
-      } else {
-        setScoreFunction();
-        console.log(scoreData);
-        navigator("/result", { state: scoreData });
-      }
+    if (scoreData) {
+      navigator("/result", { state: scoreData });
+      console.log(scoreData);
     }
-  }, [pageIndex]);
+  }, [scoreData]);
 
   const setScoreFunction = () => {
-    state.map((item) =>
-      item.map((i) => {
-        const persona = i.persona;
-        if (persona !== "")
-          setScoreData({
-            ...scoreData,
-            [persona]: (scoreData[persona] += i.value / 2),
-          });
-        else if (i.type === "Empathetic Communicator") {
-          setScoreData({
-            ...scoreData,
-            noneE: (scoreData.noneE += i.value),
-          });
-        } else if (i.type === "Action-Oriented Achiever") {
-          setScoreData({
-            ...scoreData,
-            noneA: (scoreData.noneA += i.value),
-          });
-        } else if (i.type === "Loyal Stabilizer") {
-          setScoreData({
-            ...scoreData,
-            noneL: (scoreData.noneL += i.value),
-          });
-        } else if (i.type === "Strategic Thinker") {
-          setScoreData({
-            ...scoreData,
-            noneS: (scoreData.noneS += i.value),
-          });
+    const accumulatedScoreData = state.reduce((acc, page) => {
+      return page.reduce((innerAcc, question) => {
+        const point = question.point;
+        const value = question.value;
+        if (question.persona) {
+          const persona = question.persona.split(" ")[0];
+          innerAcc[persona] = (innerAcc[persona] || 0) + point * value;
+        } else {
+          const type = `none${question.type.slice(0, 1)}`;
+          innerAcc[type] = (innerAcc[type] || 0) + point * value;
         }
-      })
-    );
+        return innerAcc;
+      }, acc);
+    }, {});
+
+    setScoreData((preScoreData) => ({
+      ...preScoreData,
+      ...accumulatedScoreData,
+    }));
   };
-  if (!questionData) return;
+
+  if (!questionsOnPage) return;
   return (
     <div className="TestPage">
       <div className="test-header">SEAL Proto 1차</div>
       <div className="progressbar-container">
-        <ProgressBar data={questionData} total={100} />
+        <ProgressBar data={questionsOnPage} total={100} />
       </div>
       <div className="question-box">
-        {questionData.map((item) => (
+        {questionsOnPage.map((item) => (
           <Question
             key={item.keyId}
             {...item}
