@@ -2,7 +2,7 @@ import { useState } from "react";
 import ButtonItem from "./ButtonItem";
 import "./index.css";
 
-function Question({ id, title, checked, setChecked, scores, setScores }) {
+function Question({ id, title, checked, setChecked, setState, state }) {
   const buttons = [
     { id: 0, type: "agree" },
     { id: 1, type: "agree" },
@@ -19,9 +19,23 @@ function Question({ id, title, checked, setChecked, scores, setScores }) {
     }
     setSelectedBtn(buttonId);
     setIsChecked(true);
-    let updatedScores = [...scores];
-    updatedScores[id - 1] = buttons.length - buttonId;
-    setScores(updatedScores);
+
+    setState(
+      state.map((page) =>
+        page.map((question) => {
+          if (id === question.id)
+            return {
+              ...question,
+              value:
+                id === question.id
+                  ? buttons.length - buttonId
+                  : question.value || 0,
+            };
+          else return { ...question };
+        })
+      )
+    );
+
     document.getElementById(`q${id}`).scrollIntoView({ behavior: "smooth" });
   };
 

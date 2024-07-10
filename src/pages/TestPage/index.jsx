@@ -8,7 +8,6 @@ function TestPage({ userInfo, questionData }) {
   const navigator = useNavigate();
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
-  const [scores, setScores] = useState(Array(60).fill(0));
   const [pageIndex, setPageIndex] = useState(0);
   const [sumChecked, setSumChecked] = useState(0);
   const [scoreData, setScoreData] = useState();
@@ -33,19 +32,6 @@ function TestPage({ userInfo, questionData }) {
       setQuestionsOnPage(data[pageIndex]);
     }
   }, [questionData]);
-
-  useEffect(() => {
-    if (state.length > 0) {
-      setState(
-        state.map((page) =>
-          page.map((question) => ({
-            ...question,
-            value: scores[question.id - 1],
-          }))
-        )
-      );
-    }
-  }, [scores]);
 
   const onClickNext = () => {
     if (sumChecked < questionsOnPage.length) {
@@ -110,8 +96,8 @@ function TestPage({ userInfo, questionData }) {
             {...item}
             checked={sumChecked}
             setChecked={setSumChecked}
-            scores={scores}
-            setScores={setScores}
+            setState={setState}
+            state={state}
           />
         ))}
       </div>
