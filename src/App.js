@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import * as XLSX from "xlsx";
 import Header from "../src/components/Header";
 import GetInformPage from "./pages/GetInformPage";
 import TestPage from "./pages/TestPage";
 import ResultPage from "./pages/ResultPage";
-import "./App.css";
 import NotFoundPage from "./pages/NotFoundPage";
+import "./App.css";
 
 function App() {
+  const [questionData, setQuestionData] = useState([]);
+  const [resultData, setResultData] = useState([]);
   const [userInfo, setUserInfo] = useState({
     name: "",
     affiliation: "",
@@ -15,6 +18,25 @@ function App() {
     phonenumber: "",
     isChecked: false,
   });
+
+  useEffect(() => {
+    fetchData("questions", "question-data.xlsx");
+    fetchData("results", "result-data.xlsx");
+  }, []);
+
+  const fetchData = async (type, filename) => {
+    try {
+      const response = await fetch(filename);
+      const arrayBuffer = await response.arrayBuffer();
+      const workbook = XLSX.read(arrayBuffer, { type: "array" });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      if (type === "questions") setQuestionData(jsonData);
+      else if (type === "results") setResultData(jsonData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="App">
@@ -27,8 +49,16 @@ function App() {
               <GetInformPage userInfo={userInfo} setUserInfo={setUserInfo} />
             }
           />
-          <Route path="/test" element={<TestPage userInfo={userInfo} />} />
-          <Route path="/result" element={<ResultPage userInfo={userInfo} />} />
+          <Route
+            path="/test"
+            element={
+              <TestPage userInfo={userInfo} questionData={questionData} />
+            }
+          />
+          <Route
+            path="/result"
+            element={<ResultPage userInfo={userInfo} resultData={resultData} />}
+          />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </div>

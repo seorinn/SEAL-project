@@ -28,12 +28,18 @@
 .GetInformPage .inputAndButton button {
   min-width: 7rem;
   outline: none;
-  border: 2px solid hsl(205, 46%, 59%);
+  border: 2px solid hwb(205 49% 11%);
   border-radius: 0.5rem;
   margin-left: 0.5rem;
+  background-color: hwb(205 49% 11%);
+  color: white;
+  font-weight: 900;
+}
+.GetInformPage .inputAndButton button.true {
+  border: 2px solid hwb(205 49% 11%);
   background-color: transparent;
   color: hsl(205, 46%, 59%);
-  font-weight: 900;
+  cursor: default;
 }
 .GetInformPage .btn-submit {
   padding: 1rem 5rem;

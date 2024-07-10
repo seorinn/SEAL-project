@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as XLSX from "xlsx";
-import ProgressBar from "./ProgreeBar";
+import ProgressBar from "./ProgressBar";
 import Question from "./Question";
 import "./index.css";
 
-function TestPage({ userInfo }) {
+function TestPage({ userInfo, questionData }) {
   const navigator = useNavigate();
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
@@ -17,37 +16,23 @@ function TestPage({ userInfo }) {
   if (!userInfo.isChecked) navigator("/");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("question-data.xlsx");
-        const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: "array" });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        dividePageFunc(jsonData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const dividePageFunc = (questions) => {
-    let data = [];
-    let sub = [];
-    questions.map((question, index) => {
-      if (index > 0 && question.persona !== questions[index - 1].persona) {
-        data.push(sub);
-        sub = [];
-        sub.push({ ...question, id: index + 1 });
-      } else {
-        sub.push({ ...question, id: index + 1 });
-        if (index === questions.length - 1) data.push(sub);
-      }
-    });
-    setState(data);
-    setQuestionsOnPage(data[pageIndex]);
-  };
+    if (questionData) {
+      let data = [];
+      let sub = [];
+      questionData.map((question, index) => {
+        if (index > 0 && question.persona !== questionData[index - 1].persona) {
+          data.push(sub);
+          sub = [];
+          sub.push({ ...question, id: index + 1 });
+        } else {
+          sub.push({ ...question, id: index + 1 });
+          if (index === questionData.length - 1) data.push(sub);
+        }
+      });
+      setState(data);
+      setQuestionsOnPage(data[pageIndex]);
+    }
+  }, [questionData]);
 
   useEffect(() => {
     if (state.length > 0) {
@@ -95,7 +80,7 @@ function TestPage({ userInfo }) {
         const point = question.point;
         const value = question.value;
         if (question.persona) {
-          const persona = question.persona.split(" ")[0];
+          const persona = question.persona;
           innerAcc[persona] = (innerAcc[persona] || 0) + point * value;
         } else {
           const type = `none${question.type.slice(0, 1)}`;
@@ -116,7 +101,7 @@ function TestPage({ userInfo }) {
     <div className="TestPage">
       <div className="test-header">SEAL Proto 1차</div>
       <div className="progressbar-container">
-        <ProgressBar data={questionsOnPage} total={100} />
+        <ProgressBar data={questionsOnPage} total={60} />
       </div>
       <div className="question-box">
         {questionsOnPage.map((item) => (

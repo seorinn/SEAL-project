@@ -32,6 +32,7 @@ function GetInformPage({ userInfo, setUserInfo }) {
   const [isSended, setIsSended] = useState(false);
   const [submitCode, setSubmitCode] = useState(false);
   const [code, setCode] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -47,6 +48,7 @@ function GetInformPage({ userInfo, setUserInfo }) {
     const phoneRegex = /^010\d{8}$/;
     setIsValidPhone(phoneRegex.test(userInfo.phonenumber));
     if (!userInfo.phonenumber || !isValidPhone) return;
+    setIsSended(true);
     window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
       size: "invisible",
       callback: (response) => {
@@ -59,9 +61,9 @@ function GetInformPage({ userInfo, setUserInfo }) {
     signInWithPhoneNumber(auth, phonenumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        setIsSended(true);
       })
       .catch((error) => {
+        setIsSended(false);
         firebaseError(error);
         console.log(error);
       });
@@ -69,19 +71,19 @@ function GetInformPage({ userInfo, setUserInfo }) {
 
   const handleCheckCode = () => {
     if (!isSended) return;
-    setSubmitCode(true);
+    setIsChecked(true);
     window.confirmationResult
       .confirm(code)
       .then((result) => {
-        const user = result.user;
-        // setIsCorrectCode(true);
+        setSubmitCode(true);
         setUserInfo({
           ...userInfo,
           isChecked: true,
         });
-        // ...
       })
       .catch((error) => {
+        setSubmitCode(true);
+        setIsChecked(false);
         firebaseError(error);
         console.log(error);
       });
@@ -143,7 +145,12 @@ function GetInformPage({ userInfo, setUserInfo }) {
               placeholder="'-' 없이 입력해주세요."
               onChange={handleInput}
             />
-            <button onClick={handleSendCode}>인증 요청</button>
+            <button
+              className={`${isSended}`}
+              onClick={!isSended ? handleSendCode : null}
+            >
+              인증 요청
+            </button>
           </div>
           {isSended && <span>인증번호가 발송되었습니다.</span>}
           {!isValidPhone && (
@@ -158,7 +165,12 @@ function GetInformPage({ userInfo, setUserInfo }) {
               placeholder="인증번호 6자리를 입력해주세요."
               onChange={handleInput}
             />
-            <button onClick={handleCheckCode}>인증번호 확인</button>
+            <button
+              className={`${!isSended || isChecked}`}
+              onClick={!(!isSended || isChecked) ? handleCheckCode : null}
+            >
+              인증번호 확인
+            </button>
           </div>
           <div id="sign-in-button"></div>
           {isSended && submitCode && !userInfo.isChecked && (

@@ -5,7 +5,7 @@ import { ResultList } from "../../util";
 import ResultItem from "./ResultItem";
 import "./index.css";
 
-function ResultPage({ userInfo }) {
+function ResultPage({ userInfo, resultData }) {
   const { toPDF, targetRef } = usePDF({
     filename: `SEAL 진단 테스트 결과_${userInfo.name}.pdf`,
   });
@@ -125,9 +125,18 @@ function ResultPage({ userInfo }) {
   }, [highstType]);
 
   useEffect(() => {
-    setResults(ResultList(highstPersona));
+    if (resultData.length > 0 && highstPersona) {
+      let data = [];
+      resultData.map((item) => {
+        if (item.persona.split(" ")[0] === highstPersona) {
+          data.push(item);
+        }
+      });
+      if (data.length > 0) setResults(data);
+    }
   }, [highstPersona]);
 
+  if (results.lentgh === 0) return <>loadi ng</>;
   return (
     <div className="ResultPage">
       <div ref={targetRef} className="result-container">
