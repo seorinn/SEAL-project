@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import ResultItem from "./ResultItem";
 
 function Result({ resultData, persona }) {
-  const [results, setresults] = useState([]);
+  const [results, setResults] = useState([]);
 
   useEffect(() => {
     if (resultData.length > 0)
-      setresults(
+      setResults(
         resultData.filter((item) => item.persona.split(" ")[0] === persona)
       );
-  }, [resultData]);
+  }, [resultData, persona]);
 
   return (
     <div>

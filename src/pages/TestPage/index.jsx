@@ -8,7 +8,7 @@ function TestPage({ userInfo, questionData }) {
   const navigator = useNavigate();
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(15);
   const [sumChecked, setSumChecked] = useState(0);
 
   // if (!userInfo.isChecked) navigator("/");
@@ -57,7 +57,7 @@ function TestPage({ userInfo, questionData }) {
         return page.reduce((innerAcc, question) => {
           const type = question.type;
           const point = question.point;
-          const value = question.value;
+          const value = question.value || 0;
           if (givenType === type) {
             if (question.persona) {
               const persona = question.persona;
@@ -83,6 +83,7 @@ function TestPage({ userInfo, questionData }) {
       personas: getScores(item.type),
     }));
 
+    console.log(formattedScoreData);
     navigator("/result", { state: formattedScoreData });
   };
 

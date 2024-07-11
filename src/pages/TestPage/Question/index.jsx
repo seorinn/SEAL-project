@@ -36,7 +36,7 @@ function Question({
           if (id === question.id)
             return {
               ...question,
-              vlaue: id === question.id ? value : question.value || 0,
+              value: id === question.id ? value : question.value || 0,
             };
           else return { ...question };
         })
