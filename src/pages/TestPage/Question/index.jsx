@@ -2,7 +2,15 @@ import { useState } from "react";
 import ButtonItem from "./ButtonItem";
 import "./index.css";
 
-function Question({ id, title, checked, setChecked, setState, state }) {
+function Question({
+  id,
+  title,
+  isPositive,
+  checked,
+  setChecked,
+  setState,
+  state,
+}) {
   const buttons = [
     { id: 0, type: "agree" },
     { id: 1, type: "agree" },
@@ -20,16 +28,15 @@ function Question({ id, title, checked, setChecked, setState, state }) {
     setSelectedBtn(buttonId);
     setIsChecked(true);
 
+    const value = isPositive ? buttons.length - buttonId : buttonId + 1;
+
     setState(
       state.map((page) =>
         page.map((question) => {
           if (id === question.id)
             return {
               ...question,
-              value:
-                id === question.id
-                  ? buttons.length - buttonId
-                  : question.value || 0,
+              vlaue: id === question.id ? value : question.value || 0,
             };
           else return { ...question };
         })
