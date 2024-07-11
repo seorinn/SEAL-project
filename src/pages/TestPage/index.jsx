@@ -8,10 +8,10 @@ function TestPage({ userInfo, questionData }) {
   const navigator = useNavigate();
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
-  const [pageIndex, setPageIndex] = useState(15);
+  const [pageIndex, setPageIndex] = useState(0);
   const [sumChecked, setSumChecked] = useState(0);
 
-  // if (!userInfo.isChecked) navigator("/");
+  if (!userInfo.isChecked) navigator("/");
 
   useEffect(() => {
     if (questionData) {
