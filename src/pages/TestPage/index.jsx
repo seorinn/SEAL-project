@@ -10,9 +10,8 @@ function TestPage({ userInfo, questionData }) {
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [sumChecked, setSumChecked] = useState(0);
-  const [scoreData, setScoreData] = useState();
 
-  if (!userInfo.isChecked) navigator("/");
+  // if (!userInfo.isChecked) navigator("/");
 
   useEffect(() => {
     if (questionData) {
@@ -44,8 +43,7 @@ function TestPage({ userInfo, questionData }) {
       setQuestionsOnPage(state[pageIndex + 1]);
       setPageIndex(pageIndex + 1);
     } else {
-      setScoreFunction();
-      console.log("d");
+      handleGetResult();
     }
     window.scrollTo({
       top: 10,
@@ -53,33 +51,39 @@ function TestPage({ userInfo, questionData }) {
     });
   };
 
-  useEffect(() => {
-    if (scoreData) {
-      navigator("/result", { state: scoreData });
-      console.log(scoreData);
-    }
-  }, [scoreData]);
+  const handleGetResult = () => {
+    const getScores = (givenType) => {
+      return state.reduce((acc, page) => {
+        return page.reduce((innerAcc, question) => {
+          const type = question.type;
+          const point = question.point;
+          const value = question.value;
+          if (givenType === type) {
+            if (question.persona) {
+              const persona = question.persona;
+              innerAcc[persona] = (innerAcc[persona] || 0) + point * value;
+            } else {
+              const type = `none${question.type.slice(0, 1)}`;
+              innerAcc[type] = (innerAcc[type] || 0) + point * value;
+            }
+          }
+          return innerAcc;
+        }, acc);
+      }, {});
+    };
 
-  const setScoreFunction = () => {
-    const accumulatedScoreData = state.reduce((acc, page) => {
-      return page.reduce((innerAcc, question) => {
-        const point = question.point;
-        const value = question.value;
-        if (question.persona) {
-          const persona = question.persona;
-          innerAcc[persona] = (innerAcc[persona] || 0) + point * value;
-        } else {
-          const type = `none${question.type.slice(0, 1)}`;
-          innerAcc[type] = (innerAcc[type] || 0) + point * value;
-        }
-        return innerAcc;
-      }, acc);
-    }, {});
-
-    setScoreData((preScoreData) => ({
-      ...preScoreData,
-      ...accumulatedScoreData,
+    const scoreData = [
+      { type: "Empathetic Communicator" },
+      { type: "Action-Oriented Achiever" },
+      { type: "Loyan Stabilizer" },
+      { type: "Strategic Thinker" },
+    ];
+    const formattedScoreData = scoreData.map((item) => ({
+      ...item,
+      personas: getScores(item.type),
     }));
+
+    navigator("/result", { state: formattedScoreData });
   };
 
   if (!questionsOnPage) return;

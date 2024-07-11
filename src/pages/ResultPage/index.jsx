@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { usePDF } from "react-to-pdf";
-import { ResultList } from "../../util";
-import ResultItem from "./ResultItem";
+import Result from "./Result";
 import "./index.css";
 
 function ResultPage({ userInfo, resultData }) {
@@ -10,70 +9,9 @@ function ResultPage({ userInfo, resultData }) {
     filename: `SEAL 진단 테스트 결과_${userInfo.name}.pdf`,
   });
   const location = useLocation();
-  const {
-    noneE,
-    Facilitator,
-    Advisor,
-    Coordinator,
-    noneA,
-    Transformer,
-    Innovator,
-    Adventurer,
-    noneL,
-    Supporter,
-    Guardian,
-    Mediator,
-    noneS,
-    Critic,
-    Strategist,
-    Analyst,
-  } = location.state;
-
-  const [scoreData, setScoreData] = useState([
-    {
-      type: "Empathetic Communicator",
-      personas: {
-        none: noneE,
-        Facilitator: Facilitator,
-        Advisor: Advisor,
-        Coordinator: Coordinator,
-      },
-      value: 0,
-    },
-    {
-      type: "Action-Oriented Achiever",
-      personas: {
-        none: noneA,
-        Transformer: Transformer,
-        Innovator: Innovator,
-        Adventurer: Adventurer,
-      },
-      value: 0,
-    },
-    {
-      type: "Loyal Stabilizer",
-      personas: {
-        none: noneL,
-        Supporter: Supporter,
-        Guardian: Guardian,
-        Mediator: Mediator,
-      },
-      value: 0,
-    },
-    {
-      type: "Strategic Thinker",
-      personas: {
-        none: noneS,
-        Critic: Critic,
-        Strategist: Strategist,
-        Analyst: Analyst,
-      },
-      value: 0,
-    },
-  ]);
-  const [highstType, setHighstType] = useState();
-  const [highstPersona, setHighstPersona] = useState();
-  const [results, setResults] = useState([]);
+  const [scoreData, setScoreData] = useState(location.state);
+  const [highstType, setHighstType] = useState("");
+  const [highstPersona, setHighstPersona] = useState("");
   const [subtypes, setSubtypes] = useState([]);
 
   const formattedDate = `${new Date().getFullYear()}.${String(
@@ -105,12 +43,9 @@ function ResultPage({ userInfo, resultData }) {
 
   useEffect(() => {
     setHighstType(findHighest(scoreData));
-  }, [scoreData]);
-
-  useEffect(() => {
     let data = [];
     scoreData.map((item) => {
-      if (item.type === highstType) {
+      if (item.type === findHighest(scoreData)) {
         const [type, value] = [
           Object.keys(item.personas),
           Object.values(item.personas),
@@ -122,21 +57,8 @@ function ResultPage({ userInfo, resultData }) {
     });
     setHighstPersona(findHighest(data));
     setSubtypes(data);
-  }, [highstType]);
+  }, [scoreData]);
 
-  useEffect(() => {
-    if (resultData.length > 0 && highstPersona) {
-      let data = [];
-      resultData.map((item) => {
-        if (item.persona.split(" ")[0] === highstPersona) {
-          data.push(item);
-        }
-      });
-      if (data.length > 0) setResults(data);
-    }
-  }, [highstPersona]);
-
-  if (results.lentgh === 0) return <>loadi ng</>;
   return (
     <div className="ResultPage">
       <div ref={targetRef} className="result-container">
@@ -156,11 +78,7 @@ function ResultPage({ userInfo, resultData }) {
           <h3>
             Sub Type: <b>{highstPersona}</b>
           </h3>
-          <div>
-            {results.map((result, index) => (
-              <ResultItem key={index} index={index} result={result} />
-            ))}
-          </div>
+          <Result resultData={resultData} persona={highstPersona} />
         </div>
         <div className="result-table">
           <div className="score-box">
