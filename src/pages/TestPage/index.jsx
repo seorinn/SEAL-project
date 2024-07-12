@@ -11,22 +11,31 @@ function TestPage({ userInfo, questionData }) {
   const [pageIndex, setPageIndex] = useState(0);
   const [sumChecked, setSumChecked] = useState(0);
 
-  if (!userInfo.isChecked) navigator("/");
+  // if (!userInfo.isChecked) navigator("/");
 
   useEffect(() => {
     if (questionData) {
+      let shuffledData = questionData.slice();
+      for (let i = shuffledData.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledData[i], shuffledData[j]] = [shuffledData[j], shuffledData[i]];
+      }
+
       let data = [];
       let sub = [];
-      questionData.map((question, index) => {
-        if (index > 0 && question.persona !== questionData[index - 1].persona) {
+      let i = 0;
+
+      for (let q of shuffledData) {
+        if (i === 6) {
           data.push(sub);
           sub = [];
-          sub.push({ ...question, id: index + 1 });
-        } else {
-          sub.push({ ...question, id: index + 1 });
-          if (index === questionData.length - 1) data.push(sub);
+          i = 0;
         }
-      });
+        sub.push(q);
+        i += 1;
+      }
+
+      data.push(sub);
       setState(data);
       setQuestionsOnPage(data[pageIndex]);
     }
@@ -92,7 +101,7 @@ function TestPage({ userInfo, questionData }) {
     <div className="TestPage">
       <div className="test-header">SEAL Proto 1차</div>
       <div className="progressbar-container">
-        <ProgressBar data={questionsOnPage} total={60} />
+        <ProgressBar pageIndex={pageIndex} sumChecked={sumChecked} total={60} />
       </div>
       <div className="question-box">
         {questionsOnPage.map((item) => (

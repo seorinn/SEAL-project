@@ -13,13 +13,13 @@ const Bar = styled.div`
   z-index: 1;
 `;
 
-function ProgressBar({ data, total }) {
+function ProgressBar({ pageIndex, sumChecked, total }) {
   const [progressRate, setProgressRate] = useState(0);
   useEffect(() => {
-    if (data.length > 0) {
-      setProgressRate(((data[0].id - 1) / total) * 100);
-    }
-  }, [data, total]);
+    setProgressRate(
+      Math.round(((pageIndex * 6 + sumChecked) / total) * 100 * 10) / 10
+    );
+  }, [pageIndex, sumChecked, total]);
 
   if (progressRate !== 0)
     return (

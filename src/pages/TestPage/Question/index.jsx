@@ -3,7 +3,7 @@ import ButtonItem from "./ButtonItem";
 import "./index.css";
 
 function Question({
-  id,
+  keyId,
   title,
   isPositive,
   checked,
@@ -33,23 +33,23 @@ function Question({
     setState(
       state.map((page) =>
         page.map((question) => {
-          if (id === question.id)
+          if (keyId === question.keyId)
             return {
               ...question,
-              value: id === question.id ? value : question.value || 0,
+              value: keyId === question.keyId ? value : question.value || 0,
             };
           else return { ...question };
         })
       )
     );
 
-    document.getElementById(`q${id}`).scrollIntoView({ behavior: "smooth" });
+    document.getElementById(`q${keyId}`).scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className={`Question ${isChecked}`}>
       <div className="title">{title}</div>
-      <div className="button-container" id={`q${id}`}>
+      <div className="button-container" id={`q${keyId}`}>
         <p className="agree">동의함</p>
         <div className="buttons">
           {buttons.map((item, index) => (
