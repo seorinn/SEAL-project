@@ -7,6 +7,7 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 import "./index.css";
+import Code from "../../components/Code";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -26,8 +27,10 @@ const getPhoneNumberFromUserInput = (phonenumber) => {
 
 const auth = getAuth();
 
-function GetInformPage({ userInfo, setUserInfo }) {
+function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const navigation = useNavigate();
+  const accessCode = process.env.REACT_APP_CODE;
+
   const [isValidPhone, setIsValidPhone] = useState(true);
   const [isSended, setIsSended] = useState(false);
   const [submitCode, setSubmitCode] = useState(false);
@@ -101,14 +104,24 @@ function GetInformPage({ userInfo, setUserInfo }) {
     }
   };
   const handleSubmit = () => {
-    const { name, affiliation, position, phonenumber, isChecked } = userInfo;
-    if (name && affiliation && position && phonenumber && isChecked) {
+    const { name, company, affiliation, position, phonenumber, isChecked } =
+      userInfo;
+    if (
+      name &&
+      company &&
+      affiliation &&
+      position &&
+      phonenumber &&
+      isChecked
+    ) {
       navigation("/test");
     } else if (!isChecked) {
       alert("전화번호 인증을 완료해주세요.");
     } else alert("항목을 모두 입력해주세요");
   };
 
+  if (!isUser)
+    return <Code code={accessCode} isValid={isUser} setIsValid={setIsUser} />;
   return (
     <div className="GetInformPage">
       <h2>SEAL 진단 테스트</h2>
@@ -118,6 +131,14 @@ function GetInformPage({ userInfo, setUserInfo }) {
           <input
             name="name"
             placeholder="이름을 입력해주세요"
+            onChange={handleInput}
+          />
+        </div>
+        <div>
+          <p>회사명</p>
+          <input
+            name="company"
+            placeholder="회사명을 입력해주세요"
             onChange={handleInput}
           />
         </div>

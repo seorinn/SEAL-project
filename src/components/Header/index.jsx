@@ -15,7 +15,7 @@ function Header({ setUserInfo }) {
     <div className="Header">
       <div>
         <p onClick={goMain}>루트컨설팅</p>
-        <button>menu</button>
+        <button onClick={() => navigation(`/admin`)}>관리자로 이동</button>
       </div>
     </div>
   );

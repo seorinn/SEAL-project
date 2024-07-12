@@ -1,0 +1,14 @@
+.TableBody {
+  width: 42rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(240, 240, 240);
+  padding: 0.5rem 3rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.TableBody .body-item {
+  /* width: 10rem; */
+  display: flex;
+  justify-content: center;
+}

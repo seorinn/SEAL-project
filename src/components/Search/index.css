@@ -1,0 +1,34 @@
+.Search {
+  display: flex;
+  align-items: center;
+}
+.Search input {
+  width: 20rem;
+  outline: none;
+  border: 2px solid hwb(205 49% 11%);
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  margin-right: 0.5rem;
+}
+.Search button {
+  background-color: hwb(205 49% 11%);
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+}
+/*detail search bar*/
+.Search_detail {
+  display: flex;
+  align-items: center;
+}
+.Search_detail input {
+  width: 15rem;
+  outline: none;
+  border: 1px solid hsl(0, 0%, 73%);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+}

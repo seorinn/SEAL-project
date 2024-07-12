@@ -7,17 +7,21 @@ import TestPage from "./pages/TestPage";
 import ResultPage from "./pages/ResultPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import "./App.css";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   const [questionData, setQuestionData] = useState([]);
   const [resultData, setResultData] = useState([]);
   const [userInfo, setUserInfo] = useState({
     name: "",
+    company: "",
     affiliation: "",
     position: "",
     phonenumber: "",
     isChecked: false,
   });
+  const [isUser, setIsUser] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     fetchData("questions", "question-data.xlsx");
@@ -46,7 +50,12 @@ function App() {
           <Route
             path="/"
             element={
-              <GetInformPage userInfo={userInfo} setUserInfo={setUserInfo} />
+              <GetInformPage
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                isUser={isUser}
+                setIsUser={setIsUser}
+              />
             }
           />
           <Route
@@ -58,6 +67,10 @@ function App() {
           <Route
             path="/result"
             element={<ResultPage userInfo={userInfo} resultData={resultData} />}
+          />
+          <Route
+            path="/admin"
+            element={<AdminPage isAdmin={isAdmin} setIsAdmin={setIsAdmin} />}
           />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

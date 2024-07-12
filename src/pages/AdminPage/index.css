@@ -1,0 +1,22 @@
+.AdminPage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+.AdminPage h2,
+h4 {
+  padding: 0 3rem;
+  line-height: 0;
+}
+.AdminPage .search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.AdminPage .keyword {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
