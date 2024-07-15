@@ -9,14 +9,14 @@
   text-align: center;
   height: 15rem;
   background-color: hsl(205, 46%, 59%);
-  padding: 2rem 1rem;
+  padding: 2rem 0;
   font-family: "Pretendard";
   font-size: 2.5rem;
   font-weight: 700;
   color: white;
 }
 .TestPage .question-box {
-  padding: 3rem 0;
+  padding: 6rem 0;
 }
 .TestPage .button-box {
   display: flex;

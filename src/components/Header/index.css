@@ -4,7 +4,7 @@
   width: 100%;
   height: fit-content;
   border-bottom: 1px solid gray;
-  z-index: 1;
+  z-index: 2;
 }
 .Header p {
   cursor: pointer;
@@ -17,4 +17,10 @@
   font-family: "Pretendard";
   font-size: 1.25rem;
   font-weight: 600;
+}
+.Header div button {
+  border-radius: 0.25rem;
+  outline: none;
+  border: 1px solid black;
+  background-color: transparent;
 }

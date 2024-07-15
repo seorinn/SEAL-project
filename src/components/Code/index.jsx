@@ -21,6 +21,7 @@ function Code({ code, isValid, setIsValid }) {
   return (
     <div className="Code">
       <p>코드를 입력해주세요.</p>
+      (임시 코드 : {code})
       <input type="password" onChange={handleInput} onKeyDown={handleKeyDown} />
       <button onClick={onSubmit}>제출</button>
       {isSubmitted && !isValid && <>잘못된 코드입니다.</>}

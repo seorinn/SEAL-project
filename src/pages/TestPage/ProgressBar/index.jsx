@@ -21,16 +21,15 @@ function ProgressBar({ pageIndex, sumChecked, total }) {
     );
   }, [pageIndex, sumChecked, total]);
 
-  if (progressRate !== 0)
-    return (
-      <div className="ProgressBar">
-        <div>{progressRate}%</div>
-        <div className="progressbar">
-          <div className="background-progress"></div>
-          <Bar width={progressRate} color={"black"} />
-        </div>
+  return (
+    <div className="ProgressBar">
+      <div>{progressRate}%</div>
+      <div className="progressbar">
+        <div className="background-progress"></div>
+        <Bar width={progressRate} color={"black"} />
       </div>
-    );
+    </div>
+  );
 }
 
 export default ProgressBar;

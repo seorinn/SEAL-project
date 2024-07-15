@@ -1,12 +1,12 @@
 .AdminPage {
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
+  padding: 2.5rem 2.5rem;
+  margin: auto;
 }
 .AdminPage h2,
 h4 {
-  padding: 0 3rem;
   line-height: 0;
 }
 .AdminPage .search-container {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonItem from "./ButtonItem";
 import "./index.css";
 
@@ -43,13 +43,17 @@ function Question({
       )
     );
 
-    document.getElementById(`q${keyId}`).scrollIntoView({ behavior: "smooth" });
+    const scrollAmount = 15 * 16;
+    window.scrollTo({
+      top: window.pageYOffset + scrollAmount,
+      behavior: "smooth",
+    });
   };
 
   return (
     <div className={`Question ${isChecked}`}>
       <div className="title">{title}</div>
-      <div className="button-container" id={`q${keyId}`}>
+      <div className="button-container" id={`${keyId}`}>
         <p className="agree">동의함</p>
         <div className="buttons">
           {buttons.map((item, index) => (

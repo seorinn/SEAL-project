@@ -50,8 +50,9 @@ function ResultPage({ userInfo, resultData }) {
           Object.keys(item.personas),
           Object.values(item.personas),
         ];
-        for (var i = 1; i < type.length; i++) {
-          data.push({ type: type[i], value: value[i] });
+        for (var i = 0; i < type.length; i++) {
+          if (!type[i].includes("none"))
+            data.push({ type: type[i], value: value[i] });
         }
       }
     });
