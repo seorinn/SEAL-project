@@ -41,8 +41,7 @@ function ResultPage({ userInfo, resultData }) {
     return max.type;
   };
 
-  const pdfHandler = async () => {
-    toPDF();
+  const saveToStorage = () => {
     const storage = getStorage();
     const filename = `${company}_${affiliation}_${position}_${name}_${phonenumber}`;
     const storageRef = ref(storage, `userdata/${filename}.txt`);
@@ -87,6 +86,7 @@ function ResultPage({ userInfo, resultData }) {
     });
     setHighstPersona(findHighest(data));
     setSubtypes(data);
+    saveToStorage();
   }, [scoreData]);
 
   return (
@@ -125,7 +125,12 @@ function ResultPage({ userInfo, resultData }) {
           </div>
         </div>
       </div>
-      <button className="btnPDF" onClick={pdfHandler}>
+      <button
+        className="btnPDF"
+        onClick={() => {
+          toPDF();
+        }}
+      >
         PDF 저장하기
       </button>
     </div>
