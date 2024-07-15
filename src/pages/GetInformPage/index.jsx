@@ -31,11 +31,12 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const navigation = useNavigate();
   const accessCode = process.env.REACT_APP_CODE;
 
-  const [isValidPhone, setIsValidPhone] = useState(true);
+  const [isValidPhone, setIsValidPhone] = useState();
+  const [isValidCode, setIsValidCode] = useState();
   const [isSended, setIsSended] = useState(false);
   const [submitCode, setSubmitCode] = useState(false);
   const [code, setCode] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(null);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -73,19 +74,19 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   };
 
   const handleCheckCode = () => {
-    if (!isSended) return;
-    setIsChecked(true);
+    setIsValidCode(code.length === 6);
+    if (!isSended || !isValidCode) return;
+    setSubmitCode(true);
     window.confirmationResult
       .confirm(code)
       .then((result) => {
-        setSubmitCode(true);
+        setIsChecked(true);
         setUserInfo({
           ...userInfo,
           isChecked: true,
         });
       })
       .catch((error) => {
-        setSubmitCode(true);
         setIsChecked(false);
         firebaseError(error);
         console.log(error);
@@ -174,7 +175,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
             </button>
           </div>
           {isSended && <span>인증번호가 발송되었습니다.</span>}
-          {!isValidPhone && (
+          {isValidPhone === false && (
             <span className="wrong">잘못된 형식의 전화번호입니다.</span>
           )}
         </div>
@@ -194,11 +195,17 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
             </button>
           </div>
           <div id="sign-in-button"></div>
-          {isSended && submitCode && !userInfo.isChecked && (
+          {isSended && submitCode && isChecked === null && (
+            <span>확인중입니다...</span>
+          )}
+          {isSended && submitCode && isChecked === true && (
+            <span>인증되었습니다.</span>
+          )}
+          {isSended && submitCode && isChecked === false && (
             <span className="wrong">인증번호가 일치하지 않습니다.</span>
           )}
-          {isSended && submitCode && userInfo.isChecked && (
-            <span>인증되었습니다.</span>
+          {isValidCode === false && (
+            <span className="wrong">6자리의 인증번호를 입력해주세요.</span>
           )}
           <div id="recaptcha-container"></div>
         </div>
