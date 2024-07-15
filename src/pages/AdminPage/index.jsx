@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getStorage, ref, listAll } from "firebase/storage";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import "./index.css";
@@ -8,11 +9,38 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   const code = process.env.REACT_APP_ADMIN;
   const [keyword, setKeyword] = useState("");
   const [detailKeyword, setDetailKeyword] = useState("");
-  const [data, setData] = useState(mockData);
-  const [searchedData, setSearchedData] = useState(data);
+  const [data, setData] = useState([]);
+  const [searchedData, setSearchedData] = useState([]);
   const [detailData, setDetailData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const storage = getStorage();
+    const listRef = ref(storage, "userdata");
+    let userlist = [];
+
+    listAll(listRef)
+      .then((res) => {
+        setLoading(true);
+        res.prefixes.forEach((folderRef) => {});
+        res.items.forEach((itemRef) => {
+          const [company, affiliation, position, name, phonenumber] =
+            itemRef._location.path_.split("/")[1].split(".")[0].split("_");
+          userlist.push({ company, affiliation, position, name, phonenumber });
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setData(userlist);
+        setSearchedData(userlist);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setDetailKeyword("");
     setSearchedData(
       data.filter((item) => {
         let hasKeyword = false;
@@ -53,102 +81,13 @@ function AdminPage({ isAdmin, setIsAdmin }) {
           </div>
         </>
       )}
-      <Table data={detailKeyword ? detailData : searchedData} />
+      {loading ? (
+        "불러오는 중입니다"
+      ) : (
+        <Table data={detailKeyword ? detailData : searchedData} />
+      )}
     </div>
   );
 }
-
-const mockData = [
-  {
-    name: "name1",
-    company: "company1",
-    affiliation: "affiliation1",
-    position: "position1",
-    phonenumber: "01012345678",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name2",
-    company: "company1",
-    affiliation: "affiliation1",
-    position: "position2",
-    phonenumber: "01046575678",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name3",
-    company: "company1",
-    affiliation: "affiliation2",
-    position: "position1",
-    phonenumber: "01012456778",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name4",
-    company: "company1",
-    affiliation: "affiliation2",
-    position: "position3",
-    phonenumber: "01012378948",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name5",
-    company: "company2",
-    affiliation: "affiliation6",
-    position: "position5",
-    phonenumber: "01017898678",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name6",
-    company: "company2",
-    affiliation: "affiliation6",
-    position: "position5",
-    phonenumber: "01012222278",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name7",
-    company: "company2",
-    affiliation: "affiliation5",
-    position: "position2",
-    phonenumber: "01012569678",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name8",
-    company: "company2",
-    affiliation: "affiliation4",
-    position: "position9",
-    phonenumber: "01012123678",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name9",
-    company: "company3",
-    affiliation: "affiliation1",
-    position: "position1",
-    phonenumber: "01012344478",
-    type: "E",
-    persona: "f",
-  },
-  {
-    name: "name10",
-    company: "company3",
-    affiliation: "affiliation1",
-    position: "position1",
-    phonenumber: "01098746678",
-    type: "E",
-    persona: "f",
-  },
-];
 
 export default AdminPage;
