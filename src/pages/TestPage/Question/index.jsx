@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ButtonItem from "./ButtonItem";
 import "./index.css";
 

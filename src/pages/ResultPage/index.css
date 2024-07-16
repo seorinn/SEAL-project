@@ -39,3 +39,14 @@ h3 {
   width: fit-content;
   background-color: hsl(60, 100%, 87%);
 }
+.ResultPage .button-container button {
+  position: fixed;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  top: 50%;
+}
+.ResultPage .btn-next {
+  right: 0;
+}
