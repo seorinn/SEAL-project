@@ -5,8 +5,8 @@ function Layout0({
   name,
   affiliation,
   position,
-  highstType,
-  highstPersona,
+  highestType,
+  highestPersona,
   subtypes,
   results,
   date,
@@ -24,10 +24,10 @@ function Layout0({
       <div className="result-body">
         <h1>Diagnostic Summary </h1>
         <h2>
-          Main Type: <b>{highstType}</b>
+          Main Type: <b>{highestType}</b>
         </h2>
         <h3>
-          Sub Type: <b>{highstPersona}</b>
+          Sub Type: <b>{highestPersona}</b>
         </h3>
         {results.map((item, index) => (
           <ResultItem key={index} index={index} result={item} />
@@ -41,7 +41,7 @@ function Layout0({
           ))}
         </div>
         <div className="score-box">
-          <b>하위 유형 점수 ({highstType} 내)</b>
+          <b>하위 유형 점수 ({highestType} 내)</b>
           {subtypes.map((item, index) => (
             <div key={index}>{`${item.type}: ${item.value}점`}</div>
           ))}

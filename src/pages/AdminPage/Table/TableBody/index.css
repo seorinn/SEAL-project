@@ -1,26 +1,45 @@
 .TableBody {
-  width: 50rem;
+  width: 55rem;
   display: flex;
   background-color: rgb(240, 240, 240);
   padding: 0.5rem 0rem;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
+  align-items: center;
 }
 .TableBody .body-item {
   display: flex;
   justify-content: center;
 }
-.TableBody button {
+.TableBody .button-container {
+  display: flex;
+}
+.TableBody .button-container button {
   outline: none;
-  border: none;
-  background-color: hsl(0, 74%, 92%);
-  color: rgb(0, 0, 0);
+  font-size: 0.875rem;
   font-weight: 700;
   border-radius: 0.25rem;
-  padding: 0.125rem 0.5rem;
+  padding: 0.125rem 0.625rem;
+  white-space: none;
 }
-.TableBody .btn-mod {
-  margin-right: 0.5rem;
-  background-color: hwb(205 49% 11%);
-  color: white;
+.TableBody .button-container .btn_download {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+}
+.TableBody .button-container .btn-mod {
+  margin-right: 0.3rem;
+  border: none;
+  background-color: hwb(0 83% 17%);
+  /* color: white; */
+}
+.TableBody .button-container .btn-del {
+  border: none;
+  background-color: hsl(0, 37%, 86%);
+}
+.TableBody .btn_download .icon_download {
+  width: 1.125rem;
+  height: 1.125rem;
+  padding-left: 0.25rem;
 }

@@ -15,8 +15,12 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getUserList();
+  }, []);
+
+  const getUserList = () => {
     const storage = getStorage();
-    const listRef = ref(storage, "userdata");
+    const listRef = ref(storage, "userdata/pdfs/");
     let userlist = [];
 
     listAll(listRef)
@@ -25,7 +29,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
         res.prefixes.forEach((folderRef) => {});
         res.items.forEach((itemRef) => {
           const [company, affiliation, position, name, phonenumber] =
-            itemRef._location.path_.split("/")[1].split(".")[0].split("_");
+            itemRef._location.path_.split("/")[2].split(".")[0].split("_");
           userlist.push({ company, affiliation, position, name, phonenumber });
         });
       })
@@ -37,7 +41,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
         setSearchedData(userlist);
         setLoading(false);
       });
-  }, []);
+  };
 
   useEffect(() => {
     setDetailKeyword("");
@@ -69,7 +73,14 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   return (
     <div className="AdminPage">
       <h4>[관리자 페이지]</h4>
-      <h2>진단 결과 목록</h2>
+      <h2
+        onClick={() => {
+          getUserList();
+          setKeyword("");
+        }}
+      >
+        진단 결과 목록
+      </h2>
       <div className="search-container">
         <Search setKeyword={setKeyword} />
       </div>
@@ -84,7 +95,10 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       {loading ? (
         "불러오는 중입니다"
       ) : (
-        <Table data={detailKeyword ? detailData : searchedData} />
+        <Table
+          data={detailKeyword ? detailData : searchedData}
+          getUserList={getUserList}
+        />
       )}
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/server";
 import { useLocation } from "react-router-dom";
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadString } from "firebase/storage";
+import { getStorage, ref, uploadBytes, uploadString } from "firebase/storage";
 import html2pdf from "html2pdf.js";
 import Layout0 from "../../components/ResultPages/Layout0";
 import Layout1 from "../../components/ResultPages/Layout1";
@@ -24,8 +24,9 @@ const app = initializeApp(firebaseConfig);
 function ResultPage({ userInfo, resultData }) {
   const location = useLocation();
   const { name, company, affiliation, position, phonenumber } = userInfo;
-  const [highstType, setHighstType] = useState("");
-  const [highstPersona, setHighstPersona] = useState("");
+
+  const [highestType, setHighestType] = useState("");
+  const [highestPersona, setHighestPersona] = useState("");
   const [subtypes, setSubtypes] = useState([]);
   const [scoreData, setScoreData] = useState(location.state);
   const [results, setResults] = useState([]);
@@ -51,7 +52,7 @@ function ResultPage({ userInfo, resultData }) {
   }, []);
 
   useEffect(() => {
-    setHighstType(findHighest(scoreData));
+    setHighestType(findHighest(scoreData));
     let data = [];
     scoreData.map((item) => {
       if (item.type === findHighest(scoreData)) {
@@ -65,7 +66,7 @@ function ResultPage({ userInfo, resultData }) {
         }
       }
     });
-    setHighstPersona(findHighest(data));
+    setHighestPersona(findHighest(data));
     setSubtypes(data);
   }, [scoreData]);
 
@@ -73,13 +74,13 @@ function ResultPage({ userInfo, resultData }) {
     if (resultData.length > 0)
       setResults(
         resultData.filter(
-          (item) => item.persona.split(" ")[0] === highstPersona
+          (item) => item.persona.split(" ")[0] === highestPersona
         )
       );
-  }, [resultData, highstPersona]);
+  }, [resultData, highestPersona]);
 
   useEffect(() => {
-    if (results.length > 0) saveToStorage();
+    if (results.length > 0 && name) generatePDF(false);
   }, [results]);
 
   const findHighest = (data) => {
@@ -90,15 +91,15 @@ function ResultPage({ userInfo, resultData }) {
     return max.type;
   };
 
-  const generatePDF = () => {
+  const generatePDF = async (isClickedDownload) => {
     const pages = [
       <Layout0
         scoreData={scoreData}
         name={name}
         affiliation={affiliation}
         position={position}
-        highstType={highstType}
-        highstPersona={highstPersona}
+        highestType={highestType}
+        highestPersona={highestPersona}
         subtypes={subtypes}
         results={results}
         date={formattedDate}
@@ -116,32 +117,35 @@ function ResultPage({ userInfo, resultData }) {
       </div>
     );
     const html = ReactDOM.renderToStaticMarkup(element);
-    html2pdf().from(html).save("my-pdf.pdf");
-  };
-
-  const saveToStorage = () => {
-    const storage = getStorage();
-    const filename = `${company}_${affiliation}_${position}_${name}_${phonenumber}`;
-    const storageRef = ref(storage, `userdata/${filename}.txt`);
-    uploadString(
-      storageRef,
-      `date=${formattedDate}/scoreData=${scoreData[0].value}$${
-        scoreData[1].value
-      }$${scoreData[2].value}$${
-        scoreData[3].value
-      }/highstType=${highstType}/highstPersona=${highstPersona}/subtypes=${
-        subtypes[0].type
-      }-${subtypes[0].value}
-      $${subtypes[1].type}-${subtypes[1].value}$${subtypes[2].type}-${
-        subtypes[2].value
-      }results=${results.map((result) => `${result.title}-${result.content}$`)}`
-    )
-      .then((response) => {
-        console.log("Success to save!");
-      })
-      .catch((error) => {
-        console.log(error);
+    if (isClickedDownload)
+      html2pdf().from(html).save(`SEAL 진단 결과지_${name}.pdf`);
+    else {
+      const pdfOptions = {
+        filename: `SEAL 진단 결과지_${name}.pdf`,
+        html2canvas: {},
+        jsPDF: {},
+      };
+      const pdfBlob = await new Promise((resolve, reject) => {
+        html2pdf()
+          .from(html)
+          .set(pdfOptions)
+          .outputPdf("blob")
+          .then(resolve)
+          .catch(reject);
       });
+
+      const storage = getStorage();
+      const pdfRef = ref(
+        storage,
+        `userdata/pdfs/${company}_${affiliation}_${position}_${name}_${phonenumber}.pdf`
+      );
+
+      uploadBytes(pdfRef, pdfBlob)
+        .then((snapshot) => {
+          console.log("PDF uploaded to storage");
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
   return (
@@ -152,8 +156,8 @@ function ResultPage({ userInfo, resultData }) {
           name={name}
           affiliation={affiliation}
           position={position}
-          highstType={highstType}
-          highstPersona={highstPersona}
+          highestType={highestType}
+          highestPersona={highestPersona}
           subtypes={subtypes}
           results={results}
           date={formattedDate}
@@ -161,7 +165,7 @@ function ResultPage({ userInfo, resultData }) {
       )}
       {step === 1 && <Layout1 />}
       {step === 2 && <Layout2 />}
-      <button className="btnPDF" onClick={generatePDF}>
+      <button className="btnPDF" onClick={() => generatePDF(true)}>
         PDF 저장하기
       </button>
       <div className="button-container">

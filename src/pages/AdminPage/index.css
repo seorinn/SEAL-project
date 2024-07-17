@@ -9,6 +9,9 @@
 h4 {
   line-height: 0;
 }
+.AdminPage h2 {
+  cursor: pointer;
+}
 .AdminPage .search-container {
   display: flex;
   align-items: center;
