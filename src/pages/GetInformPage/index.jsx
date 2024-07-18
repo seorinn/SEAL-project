@@ -51,7 +51,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const handleSendCode = () => {
     const phoneRegex = /^010\d{8}$/;
     setIsValidPhone(phoneRegex.test(userInfo.phonenumber));
-    if (!userInfo.phonenumber || !isValidPhone) return;
+    if (!userInfo.phonenumber || !phoneRegex.test(userInfo.phonenumber)) return;
     setIsSended(true);
     window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
       size: "invisible",
@@ -75,7 +75,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
 
   const handleCheckCode = () => {
     setIsValidCode(code.length === 6);
-    if (!isSended || !isValidCode) return;
+    if (!isSended || !(code.length === 6)) return;
     setSubmitCode(true);
     window.confirmationResult
       .confirm(code)
@@ -189,8 +189,8 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
               onChange={handleInput}
             />
             <button
-              className={`${!isSended || isChecked}`}
-              onClick={!(!isSended || isChecked) ? handleCheckCode : null}
+              className={`${!isSended || submitCode}`}
+              onClick={!(!isSended || submitCode) ? handleCheckCode : null}
             >
               인증번호 확인
             </button>
