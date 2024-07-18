@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/server";
 import { useLocation } from "react-router-dom";
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, uploadString } from "firebase/storage";
+import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 import html2pdf from "html2pdf.js";
 import Layout0 from "../../components/ResultPages/Layout0";
 import Layout1 from "../../components/ResultPages/Layout1";
 import Layout2 from "../../components/ResultPages/Layout2";
 import "./index.css";
+import { getUserList } from "../../util";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -80,7 +81,9 @@ function ResultPage({ userInfo, resultData }) {
   }, [resultData, highestPersona]);
 
   useEffect(() => {
-    if (results.length > 0 && name) generatePDF(false);
+    if (results.length > 0 && name) {
+      generatePDF(false);
+    }
   }, [results]);
 
   const findHighest = (data) => {
@@ -120,6 +123,21 @@ function ResultPage({ userInfo, resultData }) {
     if (isClickedDownload)
       html2pdf().from(html).save(`SEAL 진단 결과지_${name}.pdf`);
     else {
+      const storage = getStorage();
+      const pdfRef = ref(
+        storage,
+        `userdata/pdfs/${company}_${affiliation}_${position}_${name}_${phonenumber}_${highestType}_${highestPersona}.pdf`
+      );
+      const userList = getUserList();
+      (await userList).map((user) => {
+        if (phonenumber === user.phonenumber) {
+          const oldRef = ref(
+            storage,
+            `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.mainType}_${user.subType}.pdf`
+          );
+          deleteObject(oldRef).catch((error) => console.log(error));
+        }
+      });
       const pdfOptions = {
         filename: `SEAL 진단 결과지_${name}.pdf`,
         html2canvas: {},
@@ -133,12 +151,6 @@ function ResultPage({ userInfo, resultData }) {
           .then(resolve)
           .catch(reject);
       });
-
-      const storage = getStorage();
-      const pdfRef = ref(
-        storage,
-        `userdata/pdfs/${company}_${affiliation}_${position}_${name}_${phonenumber}.pdf`
-      );
 
       uploadBytes(pdfRef, pdfBlob)
         .then((snapshot) => {

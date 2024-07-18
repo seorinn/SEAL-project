@@ -1,10 +1,10 @@
 .TableHead {
-  width: 55rem;
+  width: 65rem;
   display: flex;
   background-color: hwb(207 85% 7%);
-  padding: 0.5rem 0rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
+  padding: 0.75rem 0rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 .TableHead .head-item {
   display: flex;

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { getStorage, ref, listAll } from "firebase/storage";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
-import "./index.css";
 import Table from "./Table";
+import "./index.css";
+import { getUserList } from "../../util";
 
 function AdminPage({ isAdmin, setIsAdmin }) {
   const code = process.env.REACT_APP_ADMIN;
@@ -15,32 +18,19 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUserList();
+    getUserListFunc();
   }, []);
 
-  const getUserList = () => {
-    const storage = getStorage();
-    const listRef = ref(storage, "userdata/pdfs/");
-    let userlist = [];
-
-    listAll(listRef)
-      .then((res) => {
-        setLoading(true);
-        res.prefixes.forEach((folderRef) => {});
-        res.items.forEach((itemRef) => {
-          const [company, affiliation, position, name, phonenumber] =
-            itemRef._location.path_.split("/")[2].split(".")[0].split("_");
-          userlist.push({ company, affiliation, position, name, phonenumber });
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setData(userlist);
-        setSearchedData(userlist);
-        setLoading(false);
-      });
+  const getUserListFunc = async () => {
+    setLoading(true);
+    try {
+      const userList = await getUserList();
+      setData(userList);
+      setSearchedData(userList);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -68,6 +58,15 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     );
   }, [detailKeyword]);
 
+  const handleDownloadExcel = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([wbout], { type: "application/octet-stream" });
+    saveAs(blob, "data.xlsx");
+  };
+
   if (!isAdmin)
     return <Code code={code} isValid={isAdmin} setIsValid={setIsAdmin} />;
   return (
@@ -75,7 +74,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       <h4>[관리자 페이지]</h4>
       <h2
         onClick={() => {
-          getUserList();
+          getUserListFunc();
           setKeyword("");
         }}
       >
@@ -93,11 +92,12 @@ function AdminPage({ isAdmin, setIsAdmin }) {
         </>
       )}
       {loading ? (
-        "불러오는 중입니다"
+        "불러오는 중입니다..."
       ) : (
         <Table
           data={detailKeyword ? detailData : searchedData}
-          getUserList={getUserList}
+          getUserListFunc={getUserListFunc}
+          handleDownloadExcel={handleDownloadExcel}
         />
       )}
     </div>

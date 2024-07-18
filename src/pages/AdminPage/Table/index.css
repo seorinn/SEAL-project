@@ -3,5 +3,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 0;
+}
+.Table .download-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.Table .btn_excel {
+  outline: none;
+  border: 2px solid green;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  background-color: transparent;
+  padding: 0.25rem 0.75rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }

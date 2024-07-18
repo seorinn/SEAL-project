@@ -2,18 +2,22 @@ import {
   getStorage,
   ref,
   getDownloadURL,
+  uploadBytes,
   deleteObject,
 } from "firebase/storage";
 import icon_download from "../../../../assets/icons/icon_download.png";
 import "./index.css";
+import { useState } from "react";
+import ModifyModal from "./ModifyModal";
 
-function TableBody({ data, getUserList, widths }) {
+function TableBody({ data, getUserListFunc, widths }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [values] = [Object.values(data)];
 
   const storage = getStorage();
   const pathReference = ref(
     storage,
-    `userdata/pdfs/${data.company}_${data.affiliation}_${data.position}_${data.name}_${data.phonenumber}.pdf`
+    `userdata/pdfs/${data.company}_${data.affiliation}_${data.position}_${data.name}_${data.phonenumber}_${data.mainType}_${data.subType}.pdf`
   );
 
   const handleDelete = () => {
@@ -21,10 +25,36 @@ function TableBody({ data, getUserList, widths }) {
       deleteObject(pathReference)
         .then(() => {
           alert("삭제되었습니다");
-          getUserList();
+          getUserListFunc();
         })
         .catch((error) => console.log(error));
     }
+  };
+
+  const handleModifyUserInfo = (changedData) => {
+    setModalIsOpen(false);
+    const oldFileRef = pathReference;
+    const newPath = `userdata/pdfs/${changedData.company}_${changedData.affiliation}_${changedData.position}_${changedData.name}_${data.phonenumber}_${changedData.mainType}_${changedData.subType}.pdf`;
+    getDownloadURL(oldFileRef)
+      .then((url) => {
+        return fetch(url);
+      })
+      .then((response) => response.blob())
+      .then((blob) => {
+        const newFileRef = ref(storage, newPath);
+        return uploadBytes(newFileRef, blob);
+      })
+      .then(() => {
+        alert("저장되었습니다.");
+        deleteObject(pathReference)
+          .then(() => {
+            getUserListFunc();
+          })
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const handleDownload = async () => {
@@ -53,7 +83,9 @@ function TableBody({ data, getUserList, widths }) {
           className="body-item"
           style={{ width: widths[index] + "%" }}
         >
-          {item}
+          {item.startsWith("010")
+            ? item.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+            : item}
         </div>
       ))}
       <div
@@ -61,14 +93,22 @@ function TableBody({ data, getUserList, widths }) {
         style={{ width: widths[widths.length - 1] + "%" }}
       >
         <button className="btn_download" onClick={handleDownload}>
-          진단결과
+          PDF
           <img className="icon_download" alt="download" src={icon_download} />
         </button>
-        <button className="btn-mod">수정</button>
+        <button className="btn-mod" onClick={() => setModalIsOpen(true)}>
+          수정
+        </button>
         <button className="btn-del" onClick={handleDelete}>
           삭제
         </button>
       </div>
+      <ModifyModal
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+        data={data}
+        handleModifyUserInfo={handleModifyUserInfo}
+      />
     </div>
   );
 }

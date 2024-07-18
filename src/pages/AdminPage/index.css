@@ -1,5 +1,5 @@
 .AdminPage {
-  width: fit-content;
+  width: 65rem;
   display: flex;
   flex-direction: column;
   padding: 2.5rem 2.5rem;
