@@ -10,9 +10,8 @@
   height: 15rem;
   background-color: hsl(205, 46%, 59%);
   padding: 2rem 0;
-  font-family: "Pretendard";
   font-size: 2.5rem;
-  font-weight: 700;
+  /* font-weight: 700; */
   color: white;
 }
 .TestPage .question-box {
@@ -25,8 +24,7 @@
 }
 .TestPage .button-box button {
   text-align: center;
-  font-family: "Pretendard";
-  font-weight: 600;
+  /* font-weight: 600; */
   font-size: 1.25rem;
   color: white;
   padding: 1rem 6rem;

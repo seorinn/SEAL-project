@@ -7,7 +7,7 @@
 }
 .GetInformPage .input-container {
   margin-bottom: 3rem;
-  font-weight: 600;
+  /* font-weight: 600; */
 }
 .GetInformPage .input-container div {
   width: 25rem;
@@ -33,7 +33,8 @@
   margin-left: 0.5rem;
   background-color: hwb(205 49% 11%);
   color: white;
-  font-weight: 900;
+  font-weight: 700;
+  font-size: 0.875rem;
 }
 .GetInformPage .inputAndButton button.true {
   border: 2px solid hwb(205 49% 11%);
@@ -49,7 +50,7 @@
   border-radius: 2rem;
   color: white;
   font-size: 1.125rem;
-  font-weight: 600;
+  /* font-weight: 600; */
   margin-bottom: 2rem;
 }
 .GetInformPage span {

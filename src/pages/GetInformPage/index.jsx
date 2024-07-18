@@ -163,6 +163,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
           <p>전화번호</p>
           <div className="inputAndButton">
             <input
+              type="tel"
               name="phonenumber"
               placeholder="'-' 없이 입력해주세요."
               onChange={handleInput}

@@ -6,8 +6,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-family: "Pretendard";
-  font-weight: 700;
+  /* font-weight: 700; */
 }
 .Question .title {
   cursor: default;

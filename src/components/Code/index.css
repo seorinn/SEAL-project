@@ -1,9 +1,21 @@
 .Code {
   width: 100%;
   height: 100%;
-  padding-top: 10rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.Code input {
+  padding: 0.25rem;
+  margin: 1rem;
+  border: 2px solid rgb(87, 87, 87);
+  border-radius: 0.5rem;
+}
+.Code button {
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 3rem;
+  font-size: 0.875rem;
 }
