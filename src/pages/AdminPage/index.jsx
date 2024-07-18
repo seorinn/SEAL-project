@@ -64,7 +64,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
     const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const blob = new Blob([wbout], { type: "application/octet-stream" });
-    saveAs(blob, "data.xlsx");
+    saveAs(blob, "SEAL 진단 사용자 목록.xlsx");
   };
 
   if (!isAdmin)
