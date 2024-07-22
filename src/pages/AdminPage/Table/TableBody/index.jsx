@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   getStorage,
   ref,
@@ -5,23 +6,28 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage";
-import icon_download from "../../../../assets/icons/icon_download.png";
-import "./index.css";
-import { useState } from "react";
+// import icon_download from "../../../../assets/icons/icon_download.png";
 import ModifyModal from "./ModifyModal";
+import "./index.css";
 
-function TableBody({ data, getUserListFunc, widths }) {
+function TableBody({
+  userData,
+  listData,
+  setListData,
+  getUserListFunc,
+  widths,
+}) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [values] = [Object.values(data)];
+  const [values] = [Object.values(userData)];
 
   const storage = getStorage();
   const pathReference = ref(
     storage,
-    `userdata/pdfs/${data.company}_${data.affiliation}_${data.position}_${data.name}_${data.phonenumber}_${data.mainType}_${data.subType}.pdf`
+    `userdata/pdfs/${userData.company}_${userData.affiliation}_${userData.position}_${userData.name}_${userData.phonenumber}_${userData.mainType}_${userData.subType}.pdf`
   );
 
   const handleDelete = () => {
-    if (window.confirm(`${data.name}님의 정보를 삭제하시겠습니까?`)) {
+    if (window.confirm(`${userData.name}님의 정보를 삭제하시겠습니까?`)) {
       deleteObject(pathReference)
         .then(() => {
           alert("삭제되었습니다");
@@ -34,7 +40,7 @@ function TableBody({ data, getUserListFunc, widths }) {
   const handleModifyUserInfo = (changedData) => {
     setModalIsOpen(false);
     const oldFileRef = pathReference;
-    const newPath = `userdata/pdfs/${changedData.company}_${changedData.affiliation}_${changedData.position}_${changedData.name}_${data.phonenumber}_${changedData.mainType}_${changedData.subType}.pdf`;
+    const newPath = `userdata/pdfs/${changedData.company}_${changedData.affiliation}_${changedData.position}_${changedData.name}_${userData.phonenumber}_${changedData.mainType}_${changedData.subType}.pdf`;
     getDownloadURL(oldFileRef)
       .then((url) => {
         return fetch(url);
@@ -57,24 +63,24 @@ function TableBody({ data, getUserListFunc, widths }) {
       });
   };
 
-  const handleDownload = async () => {
-    try {
-      const url = await getDownloadURL(pathReference);
-      const response = await fetch(url);
-      const blob = await response.blob();
+  // const handleDownload = async () => {
+  //   try {
+  //     const url = await getDownloadURL(pathReference);
+  //     const response = await fetch(url);
+  //     const blob = await response.blob();
 
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.setAttribute("download", `SEAL 진단 결과지_${data.name}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     const link = document.createElement("a");
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.setAttribute("download", `SEAL 진단 결과지_${userData.name}.pdf`);
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  if (!data) return;
+  if (!userData) return;
   return (
     <div className="TableBody">
       {values.map((item, index) => (
@@ -83,19 +89,37 @@ function TableBody({ data, getUserListFunc, widths }) {
           className="body-item"
           style={{ width: widths[index] + "%" }}
         >
-          {item.startsWith("010")
-            ? item.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
-            : item}
+          {typeof item !== "string" ? (
+            <input
+              type="checkbox"
+              checked={userData.isChecked}
+              onChange={() =>
+                setListData(
+                  listData.map((user) => ({
+                    ...user,
+                    isChecked:
+                      user.phonenumber === userData.phonenumber
+                        ? !user.isChecked
+                        : user.isChecked,
+                  }))
+                )
+              }
+            />
+          ) : item.startsWith("010") ? (
+            item.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+          ) : (
+            item
+          )}
         </div>
       ))}
       <div
         className="button-container"
         style={{ width: widths[widths.length - 1] + "%" }}
       >
-        <button className="btn_download" onClick={handleDownload}>
+        {/* <button className="btn_download" onClick={handleDownload}>
           PDF
           <img className="icon_download" alt="download" src={icon_download} />
-        </button>
+        </button> */}
         <button className="btn-mod" onClick={() => setModalIsOpen(true)}>
           수정
         </button>
@@ -106,7 +130,7 @@ function TableBody({ data, getUserListFunc, widths }) {
       <ModifyModal
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
-        data={data}
+        data={userData}
         handleModifyUserInfo={handleModifyUserInfo}
       />
     </div>

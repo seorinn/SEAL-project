@@ -72,6 +72,9 @@
   border: none;
   border-radius: 0.25rem;
 }
+.ModifyModal button:first-child {
+  margin-right: 1.5rem;
+}
 .ModifyModal .btn_save {
   background-color: hwb(207 85% 7%);
 }

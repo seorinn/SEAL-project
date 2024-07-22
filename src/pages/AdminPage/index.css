@@ -1,6 +1,5 @@
 .AdminPage {
-  width: 65rem;
-  display: flex;
+  width: 75rem;
   flex-direction: column;
   padding: 2.5rem 2.5rem;
   margin: auto;
@@ -16,10 +15,15 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 0;
+  padding: 2rem 0;
 }
 .AdminPage .keyword {
   display: flex;
   justify-content: center;
   padding: 1rem 0;
+}
+.AdminPage .table-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

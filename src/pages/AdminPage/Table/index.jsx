@@ -1,33 +1,87 @@
+import { useState } from "react";
+import icon_polygon from "../../../assets/icons/icon_polygon.png";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import "./index.css";
 
-function Table({ data, getUserListFunc, handleDownloadExcel }) {
-  const keys = [
-    "회사",
-    "소속",
-    "직급",
-    "이름",
-    "전화번호",
-    "Main type",
-    "Sub type",
-    "",
-  ];
-  const widths = [11.5, 11.5, 10, 7, 16.5, 12.5, 12, 19];
+function Table({
+  data,
+  setData,
+  headers,
+  widths,
+  sortBy,
+  setSortBy,
+  isAscending,
+  setIsAscending,
+  getUserListFunc,
+  handleDownloadPDF,
+  handleDownloadExcel,
+  sortDataFunc,
+}) {
+  const [showSortMenu, setShowSortMenu] = useState(false);
+
+  const handleSort = (item, ascend) => {
+    setShowSortMenu(false);
+    if (item) setSortBy(item);
+    sortDataFunc(
+      item.id || sortBy.id,
+      ascend === undefined ? isAscending : ascend
+    );
+  };
 
   if (!data) return;
   return (
     <div className="Table">
-      <div className="download-container">
+      <p className="total-number">{data.length}명</p>
+      <div className="buttons">
+        <div className="sort-container">
+          <button
+            className="btn_sort"
+            onClick={() => setShowSortMenu(!showSortMenu)}
+          >
+            {sortBy.name} 순
+            <img alt="icon_polygon" src={icon_polygon} />
+          </button>
+          {showSortMenu && (
+            <div className="menu-sort">
+              {headers.map(
+                (item, index) =>
+                  item.id && (
+                    <button
+                      key={index}
+                      className="btn_sort_item"
+                      onClick={() => handleSort(item)}
+                    >
+                      {item.name} 순
+                    </button>
+                  )
+              )}
+            </div>
+          )}
+          <button
+            className="btn_sort"
+            onClick={() => {
+              handleSort(sortBy, !isAscending);
+              setIsAscending(!isAscending);
+            }}
+          >
+            {isAscending ? "오름차순" : "내림차순"}
+          </button>
+        </div>
+        <button className="btn_pdf" onClick={handleDownloadPDF}>
+          PDF 다운로드
+        </button>
         <button className="btn_excel" onClick={handleDownloadExcel}>
-          Excel 다운로드
+          전체 Excel 다운로드
         </button>
       </div>
-      <TableHead keys={keys} widths={widths} />
+      <TableHead data={data} setData={setData} keys={headers} widths={widths} />
       {data.map((item) => (
         <TableBody
           key={item.phonenumber}
-          data={item}
+          userData={item}
+          listData={data}
+          setListData={setData}
           getUserListFunc={getUserListFunc}
           widths={widths}
         />
