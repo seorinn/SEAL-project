@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
@@ -27,7 +27,7 @@ const getPhoneNumberFromUserInput = (phonenumber) => {
 
 const auth = getAuth();
 
-function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
+function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser, courses }) {
   const navigation = useNavigate();
   const accessCode = process.env.REACT_APP_CODE;
 
@@ -37,6 +37,16 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const [submitCode, setSubmitCode] = useState(false);
   const [code, setCode] = useState("");
   const [isChecked, setIsChecked] = useState(null);
+
+  useEffect(() => {
+    if (courses.length > 0) {
+      setUserInfo({ ...userInfo, course: courses[0].name });
+    }
+  }, [courses]);
+
+  const handleSelectCourse = (e) => {
+    setUserInfo({ ...userInfo, course: e.target.value });
+  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -127,6 +137,16 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
     <div className="GetInformPage">
       <h2>SEAL 진단 테스트</h2>
       <div className="input-container">
+        <div>
+          <p>참여 과정</p>
+          <select value={userInfo.course} onChange={handleSelectCourse}>
+            {courses.map((course) => (
+              <option key={course.name} value={course.name}>
+                {course.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <p>이름</p>
           <input

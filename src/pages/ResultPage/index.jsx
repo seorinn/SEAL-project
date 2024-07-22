@@ -24,7 +24,8 @@ const app = initializeApp(firebaseConfig);
 
 function ResultPage({ userInfo, resultData }) {
   const location = useLocation();
-  const { name, company, affiliation, position, phonenumber } = userInfo;
+  const { course, name, company, affiliation, position, phonenumber } =
+    userInfo;
 
   const [highestType, setHighestType] = useState("");
   const [highestPersona, setHighestPersona] = useState("");
@@ -126,14 +127,14 @@ function ResultPage({ userInfo, resultData }) {
       const storage = getStorage();
       const pdfRef = ref(
         storage,
-        `userdata/pdfs/${company}_${affiliation}_${position}_${name}_${phonenumber}_${highestType}_${highestPersona}.pdf`
+        `userdata/pdfs/${company}_${affiliation}_${position}_${name}_${phonenumber}_${course}_${highestType}_${highestPersona}.pdf`
       );
       const userList = getUserList();
       (await userList).map((user) => {
         if (phonenumber === user.phonenumber) {
           const oldRef = ref(
             storage,
-            `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.mainType}_${user.subType}.pdf`
+            `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.course}_${user.mainType}_${user.subType}.pdf`
           );
           deleteObject(oldRef).catch((error) => console.log(error));
         }

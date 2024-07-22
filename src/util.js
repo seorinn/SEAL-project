@@ -15,6 +15,7 @@ export const getUserList = async () => {
           position,
           name,
           phonenumber,
+          course,
           mainType,
           subType,
         ] = itemRef._location.path_.split("/")[2].split(".")[0].split("_");
@@ -24,6 +25,7 @@ export const getUserList = async () => {
           position,
           name,
           phonenumber,
+          course,
           mainType,
           subType,
         });

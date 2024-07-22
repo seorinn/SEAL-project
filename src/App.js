@@ -6,13 +6,17 @@ import GetInformPage from "./pages/GetInformPage";
 import TestPage from "./pages/TestPage";
 import ResultPage from "./pages/ResultPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import "./App.css";
 import AdminPage from "./pages/AdminPage";
+import "./App.css";
+
+import ResultForTest from "./pages/ResultForTest";
 
 function App() {
   const [questionData, setQuestionData] = useState([]);
   const [resultData, setResultData] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [userInfo, setUserInfo] = useState({
+    course: "",
     name: "",
     company: "",
     affiliation: "",
@@ -26,6 +30,7 @@ function App() {
   useEffect(() => {
     fetchData("questions", "question-data.xlsx");
     fetchData("results", "result-data.xlsx");
+    fetchData("courses", "course-data.xlsx");
   }, []);
 
   const fetchData = async (type, filename) => {
@@ -37,6 +42,7 @@ function App() {
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
       if (type === "questions") setQuestionData(jsonData);
       else if (type === "results") setResultData(jsonData);
+      else if (type === "courses") setCourses(jsonData);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +50,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header setUserInfo={setUserInfo} />
+      <Header userInfo={userInfo} setUserInfo={setUserInfo} />
       <div className="App-Body">
         <Routes>
           <Route
@@ -55,6 +61,7 @@ function App() {
                 setUserInfo={setUserInfo}
                 isUser={isUser}
                 setIsUser={setIsUser}
+                courses={courses}
               />
             }
           />
@@ -73,6 +80,7 @@ function App() {
             element={<AdminPage isAdmin={isAdmin} setIsAdmin={setIsAdmin} />}
           />
           <Route path="/*" element={<NotFoundPage />} />
+          <Route path="/resultfortest" element={<ResultForTest />} />
         </Routes>
       </div>
     </div>

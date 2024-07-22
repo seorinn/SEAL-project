@@ -18,12 +18,15 @@
   display: flex;
   flex-direction: row;
 }
+.GetInformPage select,
 .GetInformPage .input-container input {
   flex: 1;
   outline: none;
   border: 1px solid gray;
   border-radius: 0.5rem;
   padding: 1rem;
+  -moz-appearance: none;
+  appearance: none;
 }
 .GetInformPage .inputAndButton button {
   min-width: 7rem;
