@@ -9,8 +9,6 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AdminPage from "./pages/AdminPage";
 import "./App.css";
 
-import ResultForTest from "./pages/ResultForTest";
-
 function App() {
   const [questionData, setQuestionData] = useState([]);
   const [resultData, setResultData] = useState([]);
@@ -80,7 +78,6 @@ function App() {
             element={<AdminPage isAdmin={isAdmin} setIsAdmin={setIsAdmin} />}
           />
           <Route path="/*" element={<NotFoundPage />} />
-          <Route path="/resultfortest" element={<ResultForTest />} />
         </Routes>
       </div>
     </div>
