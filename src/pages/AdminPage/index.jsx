@@ -100,7 +100,9 @@ function AdminPage({ isAdmin, setIsAdmin }) {
 
   const handleDownloadExcel = () => {
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(data);
+    const ws = XLSX.utils.json_to_sheet(
+      data.map(({ isChecked, ...rest }) => rest)
+    );
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
     const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const blob = new Blob([wbout], { type: "application/octet-stream" });
