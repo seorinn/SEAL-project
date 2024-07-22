@@ -24,11 +24,12 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     { id: "position", name: "직급" },
     { id: "name", name: "이름" },
     { id: "phonenumber", name: "전화번호" },
+    { id: "course", name: "과정명" },
     { id: "mainType", name: "Main type" },
     { id: "subType", name: "Sub type" },
     "",
   ];
-  const widths = [6, 12, 12, 11, 7, 16, 13, 12, 10];
+  const widths = [5, 11, 11, 10, 6, 15, 11, 10, 11, 9];
   const [sortBy, setSortBy] = useState(headers[1]);
   const [loading, setLoading] = useState(true);
 
@@ -66,10 +67,13 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     setDetailKeyword("");
     setSearchedData(
       data.filter((item) => {
-        console.log(0);
         let hasKeyword = false;
         Object.values(item).map((i) => {
-          if (typeof i === "string" && i.includes(keyword)) hasKeyword = true;
+          if (
+            typeof i === "string" &&
+            i.toUpperCase().includes(keyword.toUpperCase())
+          )
+            hasKeyword = true;
         });
         return hasKeyword;
       })
@@ -83,7 +87,10 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       searchedData.filter((item) => {
         let hasKeyword = false;
         Object.values(item).map((i) => {
-          if (typeof i === "string" && i.includes(detailKeyword))
+          if (
+            typeof i === "string" &&
+            i.toUpperCase().includes(detailKeyword.toUpperCase())
+          )
             hasKeyword = true;
         });
         return hasKeyword;
@@ -126,7 +133,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       if (user.isChecked) {
         const pathReference = ref(
           storage,
-          `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.mainType}_${user.subType}.pdf`
+          `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.course}_${user.mainType}_${user.subType}.pdf`
         );
         try {
           const url = await getDownloadURL(pathReference);
