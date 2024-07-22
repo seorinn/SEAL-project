@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import "./index.css";
 import Code from "../../components/Code";
+import { fetchData } from "../../util";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -27,10 +28,11 @@ const getPhoneNumberFromUserInput = (phonenumber) => {
 
 const auth = getAuth();
 
-function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser, courses }) {
+function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const navigation = useNavigate();
   const accessCode = process.env.REACT_APP_CODE;
 
+  const [courses, setCourses] = useState([]);
   const [isValidPhone, setIsValidPhone] = useState();
   const [isValidCode, setIsValidCode] = useState();
   const [isSended, setIsSended] = useState(false);
@@ -39,14 +41,11 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser, courses }) {
   const [isChecked, setIsChecked] = useState(null);
 
   useEffect(() => {
-    if (courses.length > 0) {
-      setUserInfo({ ...userInfo, course: courses[0].name });
-    }
-  }, [courses]);
-
-  const handleSelectCourse = (e) => {
-    setUserInfo({ ...userInfo, course: e.target.value });
-  };
+    fetchData("course-data.xlsx").then((res) => {
+      setCourses(res);
+      setUserInfo({ ...userInfo, course: res[0].name });
+    });
+  }, []);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -139,7 +138,12 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser, courses }) {
       <div className="input-container">
         <div>
           <p>참여 과정</p>
-          <select value={userInfo.course} onChange={handleSelectCourse}>
+          <select
+            value={userInfo.course}
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, course: e.target.value })
+            }
+          >
             {courses.map((course) => (
               <option key={course.name} value={course.name}>
                 {course.name}

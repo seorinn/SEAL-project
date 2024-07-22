@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchData } from "../../../util";
 import icon_polygon from "../../../assets/icons/icon_polygon.png";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
@@ -19,6 +20,11 @@ function Table({
   sortDataFunc,
 }) {
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    fetchData("course-data.xlsx").then((res) => setCourses(res));
+  }, []);
 
   const handleSort = (item, ascend) => {
     setShowSortMenu(false);
@@ -84,6 +90,8 @@ function Table({
           setListData={setData}
           getUserListFunc={getUserListFunc}
           widths={widths}
+          headers={headers}
+          courses={courses}
         />
       ))}
     </div>

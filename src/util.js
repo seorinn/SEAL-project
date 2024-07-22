@@ -1,4 +1,5 @@
 import { getStorage, ref, listAll } from "firebase/storage";
+import * as XLSX from "xlsx";
 
 export const getUserList = async () => {
   const storage = getStorage();
@@ -35,4 +36,17 @@ export const getUserList = async () => {
       console.log(error);
     });
   return userlist;
+};
+
+export const fetchData = async (filename) => {
+  try {
+    const response = await fetch(filename);
+    const arrayBuffer = await response.arrayBuffer();
+    const workbook = XLSX.read(arrayBuffer, { type: "array" });
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    return jsonData;
+  } catch (error) {
+    console.log(error);
+  }
 };

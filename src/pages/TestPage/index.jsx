@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
 import Question from "./Question";
 import "./index.css";
+import { fetchData } from "../../util";
 
-function TestPage({ userInfo, questionData }) {
+function TestPage({ userInfo }) {
   const navigator = useNavigate();
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
@@ -14,8 +15,8 @@ function TestPage({ userInfo, questionData }) {
   // if (!userInfo.isChecked) navigator("/");
 
   useEffect(() => {
-    if (questionData) {
-      let shuffledData = questionData.slice();
+    fetchData("question-data.xlsx").then((res) => {
+      let shuffledData = res.slice();
       for (let i = shuffledData.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledData[i], shuffledData[j]] = [shuffledData[j], shuffledData[i]];
@@ -38,8 +39,8 @@ function TestPage({ userInfo, questionData }) {
       data.push(sub);
       setState(data);
       setQuestionsOnPage(data[pageIndex]);
-    }
-  }, [questionData]);
+    });
+  }, []);
 
   const onClickNext = () => {
     if (sumChecked < questionsOnPage.length) {

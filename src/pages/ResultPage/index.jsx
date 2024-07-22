@@ -4,11 +4,11 @@ import { useLocation } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 import html2pdf from "html2pdf.js";
+import { fetchData, getUserList } from "../../util";
 import Layout0 from "../../components/ResultPages/Layout0";
 import Layout1 from "../../components/ResultPages/Layout1";
 import Layout2 from "../../components/ResultPages/Layout2";
 import "./index.css";
-import { getUserList } from "../../util";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -22,7 +22,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-function ResultPage({ userInfo, resultData }) {
+function ResultPage({ userInfo }) {
   const location = useLocation();
   const { course, name, company, affiliation, position, phonenumber } =
     userInfo;
@@ -73,13 +73,12 @@ function ResultPage({ userInfo, resultData }) {
   }, [scoreData]);
 
   useEffect(() => {
-    if (resultData.length > 0)
+    fetchData("result-data.xlsx").then((res) => {
       setResults(
-        resultData.filter(
-          (item) => item.persona.split(" ")[0] === highestPersona
-        )
+        res.filter((item) => item.persona.split(" ")[0] === highestPersona)
       );
-  }, [resultData, highestPersona]);
+    });
+  }, [highestPersona]);
 
   useEffect(() => {
     if (results.length > 0 && name) {

@@ -40,13 +40,18 @@
   padding: 0 0.75rem;
   font-size: 1.125rem;
 }
+.ModifyModal select,
 .ModifyModal input {
+  outline: none;
   border: 1px solid rgb(168, 168, 168);
   border-radius: 0.25rem;
   width: 15rem;
   height: 2.125rem;
   padding: 0 1rem;
   font-weight: 700;
+}
+.ModifyModal select {
+  width: 17.125rem;
 }
 .ModifyModal input::placeholder {
   color: rgb(199, 199, 199);

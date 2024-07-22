@@ -16,6 +16,8 @@ function TableBody({
   setListData,
   getUserListFunc,
   widths,
+  headers,
+  courses,
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [values] = [Object.values(userData)];
@@ -23,7 +25,7 @@ function TableBody({
   const storage = getStorage();
   const pathReference = ref(
     storage,
-    `userdata/pdfs/${userData.company}_${userData.affiliation}_${userData.position}_${userData.name}_${userData.phonenumber}_${userData.mainType}_${userData.subType}.pdf`
+    `userdata/pdfs/${userData.company}_${userData.affiliation}_${userData.position}_${userData.name}_${userData.phonenumber}_${userData.course}_${userData.mainType}_${userData.subType}.pdf`
   );
 
   const handleDelete = () => {
@@ -40,7 +42,7 @@ function TableBody({
   const handleModifyUserInfo = (changedData) => {
     setModalIsOpen(false);
     const oldFileRef = pathReference;
-    const newPath = `userdata/pdfs/${changedData.company}_${changedData.affiliation}_${changedData.position}_${changedData.name}_${userData.phonenumber}_${changedData.mainType}_${changedData.subType}.pdf`;
+    const newPath = `userdata/pdfs/${changedData.company}_${changedData.affiliation}_${changedData.position}_${changedData.name}_${userData.phonenumber}_${changedData.course}_${changedData.mainType}_${changedData.subType}.pdf`;
     getDownloadURL(oldFileRef)
       .then((url) => {
         return fetch(url);
@@ -132,6 +134,8 @@ function TableBody({
         setModalIsOpen={setModalIsOpen}
         data={userData}
         handleModifyUserInfo={handleModifyUserInfo}
+        headers={headers}
+        courses={courses}
       />
     </div>
   );
