@@ -21,6 +21,7 @@ function TableBody({
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [values] = [Object.values(userData)];
+  const [loading, setLoading] = useState(false);
 
   const storage = getStorage();
   const pathReference = ref(
@@ -30,17 +31,22 @@ function TableBody({
 
   const handleDelete = () => {
     if (window.confirm(`${userData.name}님의 정보를 삭제하시겠습니까?`)) {
+      setLoading(true);
       deleteObject(pathReference)
         .then(() => {
-          alert("삭제되었습니다");
+          setLoading(false);
           getUserListFunc();
+          alert("삭제되었습니다");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+        });
     }
   };
 
   const handleModifyUserInfo = (changedData) => {
-    setModalIsOpen(false);
+    setLoading(true);
     const oldFileRef = pathReference;
     const newPath = `userdata/pdfs/${changedData.company}_${changedData.affiliation}_${changedData.position}_${changedData.name}_${userData.phonenumber}_${changedData.course}_${changedData.mainType}_${changedData.subType}.pdf`;
     getDownloadURL(oldFileRef)
@@ -53,7 +59,8 @@ function TableBody({
         return uploadBytes(newFileRef, blob);
       })
       .then(() => {
-        alert("저장되었습니다.");
+        setLoading(false);
+        setModalIsOpen(false);
         deleteObject(pathReference)
           .then(() => {
             getUserListFunc();
@@ -62,6 +69,8 @@ function TableBody({
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false);
+        setModalIsOpen(false);
       });
   };
 
@@ -136,6 +145,7 @@ function TableBody({
         handleModifyUserInfo={handleModifyUserInfo}
         headers={headers}
         courses={courses}
+        loading={loading}
       />
     </div>
   );

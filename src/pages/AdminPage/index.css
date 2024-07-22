@@ -1,5 +1,5 @@
 .AdminPage {
-  width: 75rem;
+  width: 80rem;
   flex-direction: column;
   padding: 2.5rem 2.5rem;
   margin: auto;
@@ -26,4 +26,14 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.AdminPage .loading {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

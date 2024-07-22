@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchData } from "../../../../../util";
+import { PulseLoader } from "react-spinners";
 import "./index.css";
 
 function ModifyModal({
@@ -9,6 +9,7 @@ function ModifyModal({
   handleModifyUserInfo,
   headers,
   courses,
+  loading,
 }) {
   const [changedData, setChangedData] = useState({
     company: data.company,
@@ -65,6 +66,11 @@ function ModifyModal({
       ref={modalRef}
       onClick={(e) => modalOutsideClick(e)}
     >
+      {loading && (
+        <div className="loading">
+          <PulseLoader color="hsla(194, 56%, 63%, 1)" />
+        </div>
+      )}
       <div className="modal-container">
         <div className="title">고객 정보 수정</div>
         <div className="user-info">

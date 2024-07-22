@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { PulseLoader } from "react-spinners";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
@@ -130,26 +131,36 @@ function AdminPage({ isAdmin, setIsAdmin }) {
 
   const handleDownloadPDF = async () => {
     const targetData = detailKeyword ? detailData : searchedData;
+    let count = 0;
     for (let i = 0; i < targetData.length; i++) {
       const user = targetData[i];
-      if (user.isChecked) {
-        const pathReference = ref(
-          storage,
-          `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.course}_${user.mainType}_${user.subType}.pdf`
-        );
-        try {
-          const url = await getDownloadURL(pathReference);
-          const response = await fetch(url);
-          const blob = await response.blob();
+      if (user.isChecked) count++;
+    }
+    if (count === 0) alert("다운받을 항목을 체크해주세요.");
+    else {
+      if (count > 1 && !window.confirm(`${count}개 항목 다운로드`)) return;
+      for (let i = 0; i < targetData.length; i++) {
+        const user = targetData[i];
+        if (user.isChecked) {
+          count++;
+          const pathReference = ref(
+            storage,
+            `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.course}_${user.mainType}_${user.subType}.pdf`
+          );
+          try {
+            const url = await getDownloadURL(pathReference);
+            const response = await fetch(url);
+            const blob = await response.blob();
 
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.setAttribute("download", `SEAL 진단 결과지_${user.name}.pdf`);
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } catch (error) {
-          console.log(error);
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute("download", `SEAL 진단 결과지_${user.name}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     }
@@ -181,7 +192,9 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       )}
       <div className="table-container">
         {loading ? (
-          "불러오는 중입니다..."
+          <div className="loading">
+            <PulseLoader color="hsla(194, 56%, 63%, 1)" />
+          </div>
         ) : (
           <Table
             data={detailKeyword ? detailData : searchedData}
