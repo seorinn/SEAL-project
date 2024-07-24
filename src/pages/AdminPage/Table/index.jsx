@@ -14,10 +14,10 @@ function Table({
   setSortBy,
   isAscending,
   setIsAscending,
-  getUserListFunc,
   handleDownloadPDF,
   handleDownloadExcel,
   sortDataFunc,
+  initData,
 }) {
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [courses, setCourses] = useState([]);
@@ -88,10 +88,10 @@ function Table({
           userData={item}
           listData={data}
           setListData={setData}
-          getUserListFunc={getUserListFunc}
           widths={widths}
           headers={headers}
           courses={courses}
+          initData={initData}
         />
       ))}
     </div>

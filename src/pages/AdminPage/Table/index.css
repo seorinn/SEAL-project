@@ -24,7 +24,6 @@
   font-size: 0.875rem;
   background-color: transparent;
   padding: 0.25rem 0.75rem;
-  margin-right: 1rem;
   margin-bottom: 1rem;
 }
 .Table .buttons .btn_pdf {
@@ -34,7 +33,7 @@
   font-size: 0.875rem;
   background-color: transparent;
   padding: 0.25rem 0.75rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   margin-bottom: 1rem;
 }
 
@@ -50,7 +49,7 @@
   font-size: 0.875rem;
   background-color: transparent;
   padding: 0.25rem 0.75rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   margin-bottom: 1rem;
 }
 .Table .btn_sort img {

@@ -13,6 +13,12 @@ function TestPage({ userInfo }) {
   const [sumChecked, setSumChecked] = useState(0);
 
   // if (!userInfo.isChecked) navigator("/");
+  const [newquestions, setnewquestions] = useState([]);
+  useEffect(() => {
+    fetchData("newquestion-data.xlsx").then((res) => {
+      setnewquestions(res);
+    });
+  }, []);
 
   useEffect(() => {
     fetchData("question-data.xlsx").then((res) => {

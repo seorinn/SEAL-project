@@ -28,7 +28,7 @@ function TableHead({ data, setData, keys, widths }) {
           className="head-item"
           style={{ width: widths[index] + "%" }}
         >
-          {index === 0 ? (
+          {item === "checkbox" ? (
             <input
               type="checkbox"
               checked={isChecked}

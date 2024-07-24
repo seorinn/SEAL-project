@@ -75,7 +75,7 @@ function ModifyModal({
         <div className="title">고객 정보 수정</div>
         <div className="user-info">
           {headers.slice(1, -1).map((item) => (
-            <div className={`${item.id}`}>
+            <div key={item.name} className={`${item.id}`}>
               <p>{item.name}</p>
 
               {item.id === "course" ? (

@@ -1,3 +1,8 @@
+.ResultPage {
+  /* width: calc(210mm * 1.5);
+  height: calc(297mm * 1.5);
+  margin: auto; */
+}
 .ResultPage .result-header {
   background-color: hsl(205, 46%, 59%);
   color: white;

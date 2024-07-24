@@ -1,34 +1,26 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/server";
 import { useLocation } from "react-router-dom";
-import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 import html2pdf from "html2pdf.js";
-import { fetchData, getUserList } from "../../util";
+import {
+  fetchData,
+  getUserList,
+  getStoragePath,
+  getFileName,
+} from "../../util";
 import Layout0 from "../../components/ResultPages/Layout0";
 import Layout1 from "../../components/ResultPages/Layout1";
 import Layout2 from "../../components/ResultPages/Layout2";
+import MainCover from "../../components/ResultPages/Cover/MainCover";
+import InnerCover1 from "../../components/ResultPages/Cover/InnerCover1";
+import InnerCover2 from "../../components/ResultPages/Cover/InnerCover2";
 import "./index.css";
-
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_APIKEY,
-  authDomain: process.env.REACT_APP_AUTHDOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-};
-
-const app = initializeApp(firebaseConfig);
 
 function ResultPage({ userInfo }) {
   const location = useLocation();
-  const { course, name, company, affiliation, position, phonenumber } =
-    userInfo;
-
-  const [highestType, setHighestType] = useState("");
-  const [highestPersona, setHighestPersona] = useState("");
+  const [mainType, setMainType] = useState("");
+  const [subType, setSubType] = useState("");
   const [subtypes, setSubtypes] = useState([]);
   const [scoreData, setScoreData] = useState(location.state);
   const [results, setResults] = useState([]);
@@ -54,7 +46,7 @@ function ResultPage({ userInfo }) {
   }, []);
 
   useEffect(() => {
-    setHighestType(findHighest(scoreData));
+    setMainType(findHighest(scoreData));
     let data = [];
     scoreData.map((item) => {
       if (item.type === findHighest(scoreData)) {
@@ -68,20 +60,17 @@ function ResultPage({ userInfo }) {
         }
       }
     });
-    setHighestPersona(findHighest(data));
+    setSubType(findHighest(data));
     setSubtypes(data);
+    fetchData("result-data.xlsx").then((res) => {
+      setResults(
+        res.filter((item) => item.persona.split(" ")[0] === findHighest(data))
+      );
+    });
   }, [scoreData]);
 
   useEffect(() => {
-    fetchData("result-data.xlsx").then((res) => {
-      setResults(
-        res.filter((item) => item.persona.split(" ")[0] === highestPersona)
-      );
-    });
-  }, [highestPersona]);
-
-  useEffect(() => {
-    if (results.length > 0 && name) {
+    if (results.length > 0 && userInfo.name) {
       generatePDF(false);
     }
   }, [results]);
@@ -96,13 +85,16 @@ function ResultPage({ userInfo }) {
 
   const generatePDF = async (isClickedDownload) => {
     const pages = [
+      <MainCover />,
+      <InnerCover1 />,
+      <InnerCover2 />,
       <Layout0
         scoreData={scoreData}
-        name={name}
-        affiliation={affiliation}
-        position={position}
-        highestType={highestType}
-        highestPersona={highestPersona}
+        name={userInfo.name}
+        affiliation={userInfo.affiliation}
+        position={userInfo.position}
+        highestType={mainType}
+        highestPersona={subType}
         subtypes={subtypes}
         results={results}
         date={formattedDate}
@@ -121,25 +113,26 @@ function ResultPage({ userInfo }) {
     );
     const html = ReactDOM.renderToStaticMarkup(element);
     if (isClickedDownload)
-      html2pdf().from(html).save(`SEAL 진단 결과지_${name}.pdf`);
+      html2pdf().from(html).save(getFileName(userInfo.name));
     else {
       const storage = getStorage();
       const pdfRef = ref(
         storage,
-        `userdata/pdfs/${company}_${affiliation}_${position}_${name}_${phonenumber}_${course}_${highestType}_${highestPersona}.pdf`
+        getStoragePath({
+          ...userInfo,
+          mainType,
+          subType,
+        })
       );
       const userList = getUserList();
-      (await userList).map((user) => {
-        if (phonenumber === user.phonenumber) {
-          const oldRef = ref(
-            storage,
-            `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.course}_${user.mainType}_${user.subType}.pdf`
-          );
+      (await userList).map((item) => {
+        if (userInfo.phonenumber === item.phonenumber) {
+          const oldRef = ref(storage, getStoragePath(item));
           deleteObject(oldRef).catch((error) => console.log(error));
         }
       });
       const pdfOptions = {
-        filename: `SEAL 진단 결과지_${name}.pdf`,
+        filename: getFileName(userInfo.name),
         html2canvas: {},
         jsPDF: {},
       };
@@ -165,11 +158,11 @@ function ResultPage({ userInfo }) {
       {step === 0 && (
         <Layout0
           scoreData={scoreData}
-          name={name}
-          affiliation={affiliation}
-          position={position}
-          highestType={highestType}
-          highestPersona={highestPersona}
+          name={userInfo.name}
+          affiliation={userInfo.affiliation}
+          position={userInfo.position}
+          highestType={mainType}
+          highestPersona={subType}
           subtypes={subtypes}
           results={results}
           date={formattedDate}

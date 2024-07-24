@@ -21,6 +21,7 @@ export const getUserList = async () => {
           subType,
         ] = itemRef._location.path_.split("/")[2].split(".")[0].split("_");
         userlist.push({
+          isChecked: false,
           company,
           affiliation,
           position,
@@ -43,10 +44,23 @@ export const fetchData = async (filename) => {
     const response = await fetch(filename);
     const arrayBuffer = await response.arrayBuffer();
     const workbook = XLSX.read(arrayBuffer, { type: "array" });
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet);
-    return jsonData;
+    let array = [];
+    for (var i = 0; i < workbook.SheetNames.length; i++) {
+      const worksheet = workbook.Sheets[workbook.SheetNames[i]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      if (workbook.SheetNames.length === 1) return jsonData;
+      else array.push(jsonData);
+    }
+    return array;
   } catch (error) {
     console.log(error);
   }
+};
+
+export const getStoragePath = (body) => {
+  return `userdata/pdfs/${body.company}_${body.affiliation}_${body.position}_${body.name}_${body.phonenumber}_${body.course}_${body.mainType}_${body.subType}.pdf`;
+};
+
+export const getFileName = (name) => {
+  return `SEAL 진단 결과지_${name}.pdf`;
 };

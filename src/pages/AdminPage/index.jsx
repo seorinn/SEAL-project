@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { PulseLoader } from "react-spinners";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { PulseLoader } from "react-spinners";
+import { getUserList, getStoragePath, getFileName } from "../../util";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
 import "./index.css";
-import { getUserList } from "../../util";
 
 function AdminPage({ isAdmin, setIsAdmin }) {
   const storage = getStorage();
@@ -19,7 +19,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   const [detailData, setDetailData] = useState([]);
   const [isAscending, setIsAscending] = useState(true);
   const headers = [
-    "",
+    "checkbox",
     { id: "company", name: "회사" },
     { id: "affiliation", name: "소속" },
     { id: "position", name: "직급" },
@@ -28,33 +28,31 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     { id: "course", name: "과정명" },
     { id: "mainType", name: "Main type" },
     { id: "subType", name: "Sub type" },
-    "",
+    "buttons",
   ];
-  const widths = [5, 11, 11, 10, 6, 15, 11, 10, 11, 9];
+  const widths = [5, 11, 11, 10, 7, 14, 11, 10, 11, 9];
   const [sortBy, setSortBy] = useState(headers[1]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUserListFunc();
+    initData();
   }, []);
 
-  const getUserListFunc = async () => {
+  useEffect(() => {
+    getSearchedData();
+  }, [data, detailKeyword]);
+
+  useEffect(() => {
+    setDetailKeyword("");
+    getSearchedData();
+  }, [keyword]);
+
+  const initData = async () => {
     setLoading(true);
     try {
       const userList = await getUserList();
-      setData(
-        userList.map((user) => ({
-          isChecked: false,
-          ...user,
-        }))
-      );
-      setSearchedData(
-        userList.map((user) => ({
-          isChecked: false,
-          ...user,
-        }))
-      );
-      setLoading(false);
+      setData(userList);
+      if (!keyword) setSearchedData(userList);
     } catch (error) {
       console.error(error);
     } finally {
@@ -62,42 +60,36 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     }
   };
 
-  useEffect(() => {
+  const getSearchedData = () => {
     setSortBy(headers[1]);
     setIsAscending(true);
-    setDetailKeyword("");
-    setSearchedData(
-      data.filter((item) => {
-        let hasKeyword = false;
-        Object.values(item).map((i) => {
-          if (
-            typeof i === "string" &&
-            i.toUpperCase().includes(keyword.toUpperCase())
-          )
-            hasKeyword = true;
-        });
-        return hasKeyword;
-      })
-    );
-  }, [keyword]);
-
-  useEffect(() => {
-    setSortBy(headers[1]);
-    setIsAscending(true);
-    setDetailData(
-      searchedData.filter((item) => {
-        let hasKeyword = false;
-        Object.values(item).map((i) => {
-          if (
-            typeof i === "string" &&
-            i.toUpperCase().includes(detailKeyword.toUpperCase())
-          )
-            hasKeyword = true;
-        });
-        return hasKeyword;
-      })
-    );
-  }, [detailKeyword]);
+    const searched = data.filter((item) => {
+      let hasKeyword = false;
+      Object.values(item).map((i) => {
+        if (
+          typeof i === "string" &&
+          i.toUpperCase().includes(keyword.toUpperCase())
+        )
+          hasKeyword = true;
+      });
+      return hasKeyword;
+    });
+    setSearchedData(searched);
+    if (detailKeyword)
+      setDetailData(
+        searched.filter((item) => {
+          let hasKeyword = false;
+          Object.values(item).map((i) => {
+            if (
+              typeof i === "string" &&
+              i.toUpperCase().includes(detailKeyword.toUpperCase())
+            )
+              hasKeyword = true;
+          });
+          return hasKeyword;
+        })
+      );
+  };
 
   const handleDownloadExcel = () => {
     const wb = XLSX.utils.book_new();
@@ -142,11 +134,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       for (let i = 0; i < targetData.length; i++) {
         const user = targetData[i];
         if (user.isChecked) {
-          count++;
-          const pathReference = ref(
-            storage,
-            `userdata/pdfs/${user.company}_${user.affiliation}_${user.position}_${user.name}_${user.phonenumber}_${user.course}_${user.mainType}_${user.subType}.pdf`
-          );
+          const pathReference = ref(storage, getStoragePath(user));
           try {
             const url = await getDownloadURL(pathReference);
             const response = await fetch(url);
@@ -154,7 +142,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
 
             const link = document.createElement("a");
             link.href = window.URL.createObjectURL(blob);
-            link.setAttribute("download", `SEAL 진단 결과지_${user.name}.pdf`);
+            link.setAttribute("download", getFileName(user.name));
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -172,8 +160,8 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     <div className="AdminPage">
       <h4>[관리자 페이지]</h4>
       <h2
-        onClick={() => {
-          getUserListFunc();
+        onClick={async () => {
+          setData(await getUserList());
           setKeyword("");
         }}
       >
@@ -205,10 +193,10 @@ function AdminPage({ isAdmin, setIsAdmin }) {
             sortBy={sortBy}
             setSortBy={setSortBy}
             setIsAscending={setIsAscending}
-            getUserListFunc={getUserListFunc}
             handleDownloadPDF={handleDownloadPDF}
             handleDownloadExcel={handleDownloadExcel}
             sortDataFunc={sortDataFunc}
+            initData={initData}
           />
         )}
       </div>

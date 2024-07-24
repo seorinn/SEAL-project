@@ -6,6 +6,7 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage";
+import { getStoragePath, getUserList } from "../../../../util";
 // import icon_download from "../../../../assets/icons/icon_download.png";
 import ModifyModal from "./ModifyModal";
 import "./index.css";
@@ -14,20 +15,17 @@ function TableBody({
   userData,
   listData,
   setListData,
-  getUserListFunc,
   widths,
   headers,
   courses,
+  initData,
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [values] = [Object.values(userData)];
   const [loading, setLoading] = useState(false);
 
   const storage = getStorage();
-  const pathReference = ref(
-    storage,
-    `userdata/pdfs/${userData.company}_${userData.affiliation}_${userData.position}_${userData.name}_${userData.phonenumber}_${userData.course}_${userData.mainType}_${userData.subType}.pdf`
-  );
+  const pathReference = ref(storage, getStoragePath(userData));
 
   const handleDelete = () => {
     if (window.confirm(`${userData.name}님의 정보를 삭제하시겠습니까?`)) {
@@ -35,7 +33,7 @@ function TableBody({
       deleteObject(pathReference)
         .then(() => {
           setLoading(false);
-          getUserListFunc();
+          initData();
           alert("삭제되었습니다");
         })
         .catch((error) => {
@@ -48,7 +46,7 @@ function TableBody({
   const handleModifyUserInfo = (changedData) => {
     setLoading(true);
     const oldFileRef = pathReference;
-    const newPath = `userdata/pdfs/${changedData.company}_${changedData.affiliation}_${changedData.position}_${changedData.name}_${userData.phonenumber}_${changedData.course}_${changedData.mainType}_${changedData.subType}.pdf`;
+    const newPath = getStoragePath(changedData);
     getDownloadURL(oldFileRef)
       .then((url) => {
         return fetch(url);
@@ -63,7 +61,7 @@ function TableBody({
         setModalIsOpen(false);
         deleteObject(pathReference)
           .then(() => {
-            getUserListFunc();
+            initData();
           })
           .catch((error) => console.log(error));
       })
@@ -82,7 +80,7 @@ function TableBody({
 
   //     const link = document.createElement("a");
   //     link.href = window.URL.createObjectURL(blob);
-  //     link.setAttribute("download", `SEAL 진단 결과지_${userData.name}.pdf`);
+  //     link.setAttribute("download", getFileName(userData.name));
   //     document.body.appendChild(link);
   //     link.click();
   //     document.body.removeChild(link);
