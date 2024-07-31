@@ -11,6 +11,10 @@
 }
 .CourseItem img {
   cursor: pointer;
+  width: 3.75rem;
+  height: 2.25rem;
+  border: 1px solid gray;
+  padding: 0.25rem;
 }
 .CourseItem input {
   padding: 0.5rem;
