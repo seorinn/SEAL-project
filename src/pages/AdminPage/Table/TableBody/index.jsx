@@ -19,10 +19,11 @@ function TableBody({
   headers,
   courses,
   initData,
+  loading,
+  setLoading,
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [values] = [Object.values(userData)];
-  const [loading, setLoading] = useState(false);
 
   const storage = getStorage();
   const pathReference = ref(storage, getStoragePath(userData));

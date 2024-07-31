@@ -39,6 +39,33 @@ export const getUserList = async () => {
   return userlist;
 };
 
+export const getCourseList = async () => {
+  const storage = getStorage();
+  const listRef = ref(storage, "courses/");
+  let courselist = [];
+
+  await listAll(listRef)
+    .then((res) => {
+      res.prefixes.forEach((folderRef) => {});
+      res.items.forEach((itemRef) => {
+        const [name, code, imageurl] = itemRef._location.path_
+          .split("/")[1]
+          .split(".")[0]
+          .split("_");
+        const url = imageurl.replace(/\$/g, "/");
+        courselist.push({
+          name,
+          code,
+          url,
+        });
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return courselist;
+};
+
 export const fetchData = async (filename) => {
   try {
     const response = await fetch(filename);
@@ -59,6 +86,13 @@ export const fetchData = async (filename) => {
 
 export const getStoragePath = (body) => {
   return `userdata/pdfs/${body.company}_${body.affiliation}_${body.position}_${body.name}_${body.phonenumber}_${body.course}_${body.mainType}_${body.subType}.pdf`;
+};
+
+export const getStorageCoursePath = (body) => {
+  return `courses/${body.name}_${body.code}_${body.url.replace(
+    /\//g,
+    "$"
+  )}.png`;
 };
 
 export const getFileName = (name) => {

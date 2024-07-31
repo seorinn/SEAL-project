@@ -1,0 +1,41 @@
+.CourseItem {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.CourseItem .image-container {
+  display: flex;
+  justify-content: center;
+  width: 5rem;
+  margin: auto;
+}
+.CourseItem img {
+  cursor: pointer;
+}
+.CourseItem input {
+  padding: 0.5rem;
+  margin-left: 1rem;
+  outline: none;
+  border: 1px solid hwb(207 85% 7%);
+  border-radius: 0.25rem;
+  width: 15rem;
+}
+.CourseItem input:focus {
+  outline: 1px solid hwb(207 46% 0%);
+}
+.CourseItem .input-code {
+  width: 6rem;
+}
+.CourseItem .course-buttons button {
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  margin-left: 0.75rem;
+  width: fit-content;
+  font-size: 0.875rem;
+}
+.CourseItem .btn_save {
+  background-color: hwb(207 85% 7%);
+}
+.CourseItem .btn_delete {
+  background-color: hsl(0, 24%, 88%);
+}

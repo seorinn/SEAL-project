@@ -107,7 +107,7 @@ function ModifyModal({
             </div>
           ))}
         </div>
-        <div className="buttons">
+        <div className="modal-buttons">
           <button className="btn_back" onClick={() => setModalIsOpen(false)}>
             이전
           </button>

@@ -1,4 +1,4 @@
-.ModifyModal {
+.AddCourseModal {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
 }
-.ModifyModal .modal-container {
+.AddCourseModal .modal-container {
   background-color: white;
   width: fit-content;
   height: fit-content;
@@ -22,26 +22,24 @@
   padding: 2rem 3rem;
   box-shadow: 0px 5px 15px 1px rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
-.ModifyModal .title {
+.AddCourseModal .title {
   font-size: 1.25rem;
   font-weight: 700;
   text-align: start;
   width: 100%;
   padding: 0.5rem 0.5rem 1rem 0.5rem;
 }
-.ModifyModal .user-info div {
+.AddCourseModal .input-container div {
   display: flex;
   align-items: center;
   margin-bottom: 0.25rem;
 }
-.ModifyModal p {
+.AddCourseModal p {
   width: 6rem;
   text-align: end;
-  padding: 0 0.75rem;
-  font-size: 1.125rem;
+  padding: 0 1rem;
 }
-.ModifyModal select,
-.ModifyModal input {
+.AddCourseModal input {
   outline: none;
   border: 1px solid rgb(168, 168, 168);
   border-radius: 0.25rem;
@@ -50,25 +48,15 @@
   padding: 0 1rem;
   font-weight: 700;
 }
-.ModifyModal select {
-  width: 17.125rem;
-}
-.ModifyModal input::placeholder {
-  color: rgb(199, 199, 199);
-  font-weight: 400;
-}
-.ModifyModal input:focus {
+.AddCourseModal input:focus {
   outline: 1px solid hwb(207 46% 0%);
 }
-.ModifyModal input:disabled {
-  background-color: rgb(0 0 0 / 0.1);
-}
-.ModifyModal .modal-buttons {
+.AddCourseModal .modal-buttons {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-.ModifyModal button {
+.AddCourseModal button {
   width: 12rem;
   padding: 0.75rem;
   margin-top: 1rem;
@@ -77,9 +65,17 @@
   border: none;
   border-radius: 0.25rem;
 }
-.ModifyModal button:first-child {
+.AddCourseModal button:first-child {
   margin-right: 1.5rem;
 }
-.ModifyModal .btn_save {
+.AddCourseModal .btn_submit {
   background-color: hwb(207 85% 7%);
+}
+.AddCourseModal img {
+  margin-right: 1rem;
+}
+.AddCourseModal .btn_add_file {
+  flex: 1;
+  padding: 0.5rem;
+  margin: 0;
 }
