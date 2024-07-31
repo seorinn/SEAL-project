@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { fetchData } from "../../../util";
+import { getCourseList } from "../../../util";
 import icon_polygon from "../../../assets/icons/icon_polygon.png";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
+import CourseListModal from "./CourseListModal";
+import AddCourseModal from "./AddCourseModal";
 import "./index.css";
 
 function Table({
@@ -21,10 +23,26 @@ function Table({
 }) {
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [showCourses, setShowCourses] = useState(false);
+  const [showAddCourse, setShowAddCourse] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchData("course-data.xlsx").then((res) => setCourses(res));
+    // fetchData("course-data.xlsx").then((res) => setCourses(res));
+    getCourses();
   }, []);
+
+  const getCourses = async () => {
+    setLoading(true);
+    try {
+      const courseList = await getCourseList();
+      setCourses(courseList);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSort = (item, ascend) => {
     setShowSortMenu(false);
@@ -80,6 +98,9 @@ function Table({
         <button className="btn_excel" onClick={handleDownloadExcel}>
           전체 Excel 다운로드
         </button>
+        <button className="btn_add_course" onClick={() => setShowCourses(true)}>
+          과정 관리
+        </button>
       </div>
       <TableHead data={data} setData={setData} keys={headers} widths={widths} />
       {data.map((item) => (
@@ -92,8 +113,21 @@ function Table({
           headers={headers}
           courses={courses}
           initData={initData}
+          loading={loading}
+          setLoading={setLoading}
         />
       ))}
+      <CourseListModal
+        modalIsOpen={showCourses}
+        setModalIsOpen={setShowCourses}
+        setShowAddCourse={setShowAddCourse}
+        initData={initData}
+      />
+      <AddCourseModal
+        modalIsOpen={showAddCourse}
+        setModalIsOpen={setShowAddCourse}
+        setShowCourses={setShowCourses}
+      />
     </div>
   );
 }

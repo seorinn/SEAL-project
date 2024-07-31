@@ -16,19 +16,8 @@
   display: flex;
   justify-content: end;
 }
-
-.Table .buttons .btn_excel {
+.Table .buttons button {
   outline: none;
-  border: 2px solid green;
-  border-radius: 1rem;
-  font-size: 0.875rem;
-  background-color: transparent;
-  padding: 0.25rem 0.75rem;
-  margin-bottom: 1rem;
-}
-.Table .buttons .btn_pdf {
-  outline: none;
-  border: 2px solid rgb(184, 0, 0);
   border-radius: 1rem;
   font-size: 0.875rem;
   background-color: transparent;
@@ -36,21 +25,12 @@
   margin-right: 0.5rem;
   margin-bottom: 1rem;
 }
-
 .Table .sort-container {
   position: relative;
   width: fit-content;
 }
-
 .Table .buttons .sort-container .btn_sort {
-  outline: none;
   border: 2px solid rgb(175, 175, 175);
-  border-radius: 1rem;
-  font-size: 0.875rem;
-  background-color: transparent;
-  padding: 0.25rem 0.75rem;
-  margin-right: 0.5rem;
-  margin-bottom: 1rem;
 }
 .Table .btn_sort img {
   padding-left: 0.25rem;
@@ -74,6 +54,8 @@
   border-top: 1px solid rgb(175, 175, 175);
   width: 7rem;
   box-shadow: none;
+  margin: 0;
+  border-radius: 0%;
 }
 .Table .menu-sort .btn_sort_item:hover {
   background-color: #eceff1;
@@ -86,4 +68,15 @@
 .Table .menu-sort .btn_sort_item:last-child {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+}
+.Table .buttons .btn_pdf {
+  border: 2px solid rgb(184, 0, 0);
+}
+.Table .buttons .btn_excel {
+  border: 2px solid green;
+}
+.Table .buttons .btn_add_course {
+  border: 2px solid hwb(205 41% 23%);
+  background-color: hwb(205 41% 23%);
+  color: white;
 }

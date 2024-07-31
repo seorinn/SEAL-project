@@ -30,7 +30,7 @@ const auth = getAuth();
 
 function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const navigation = useNavigate();
-  const accessCode = process.env.REACT_APP_CODE;
+  // const accessCode = process.env.REACT_APP_CODE;
 
   const [courses, setCourses] = useState([]);
   const [isValidPhone, setIsValidPhone] = useState();
@@ -131,14 +131,21 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   };
 
   if (!isUser)
-    return <Code code={accessCode} isValid={isUser} setIsValid={setIsUser} />;
+    return (
+      <Code
+        isValid={isUser}
+        setIsValid={setIsUser}
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
+      />
+    );
   return (
     <div className="GetInformPage">
       <h2>SEAL 진단 테스트</h2>
       <div className="input-container">
         <div>
           <p>참여 과정</p>
-          <select
+          {/* <select
             value={userInfo.course}
             onChange={(e) =>
               setUserInfo({ ...userInfo, course: e.target.value })
@@ -149,7 +156,8 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
                 {course.name}
               </option>
             ))}
-          </select>
+          </select> */}
+          <input value={userInfo.course} disabled />
         </div>
         <div>
           <p>이름</p>
