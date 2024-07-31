@@ -21,8 +21,8 @@ function Table({
   sortDataFunc,
   initData,
 }) {
-  const [showSortMenu, setShowSortMenu] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [showSortMenu, setShowSortMenu] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
   const [showAddCourse, setShowAddCourse] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -122,6 +122,8 @@ function Table({
         setModalIsOpen={setShowCourses}
         setShowAddCourse={setShowAddCourse}
         initData={initData}
+        courses={courses}
+        getCourses={getCourses}
       />
       <AddCourseModal
         modalIsOpen={showAddCourse}

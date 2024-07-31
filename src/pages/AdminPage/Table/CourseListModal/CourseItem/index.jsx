@@ -13,7 +13,7 @@ import {
   getUserList,
 } from "../../../../../util";
 
-function CourseItem({ name, code, url, setLoading, getCourses, initData }) {
+function CourseItem({ name, code, url, setLoading, getCourses, setIsChanged }) {
   const fileInputRef = useRef(null);
   const [course, setCourse] = useState({
     name: name,
@@ -98,7 +98,8 @@ function CourseItem({ name, code, url, setLoading, getCourses, initData }) {
             setLoading(false);
             deleteObject(oldUserFileRef)
               .then(() => {
-                initData();
+                setIsChanged(true);
+                alert("저장되었습니다.");
               })
               .catch((error) => console.log(error));
           })
@@ -116,6 +117,7 @@ function CourseItem({ name, code, url, setLoading, getCourses, initData }) {
       deleteObject(pathReference)
         .then(() => {
           setLoading(false);
+          setIsChanged(true);
           getCourses();
           alert("삭제되었습니다");
         })

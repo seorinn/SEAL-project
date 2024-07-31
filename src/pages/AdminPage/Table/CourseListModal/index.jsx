@@ -9,9 +9,11 @@ function CourseListModal({
   setModalIsOpen,
   setShowAddCourse,
   initData,
+  courses,
+  getCourses,
 }) {
   const modalRef = useRef();
-  const [courses, setCourses] = useState([]);
+  const [isChanged, setIsChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const closeModal = () => setModalIsOpen(false);
@@ -22,18 +24,6 @@ function CourseListModal({
 
   const handleKeyPress = (e) => {
     if (e.key === "Escape") closeModal();
-  };
-
-  const getCourses = async () => {
-    setLoading(true);
-    try {
-      const courseList = await getCourseList();
-      setCourses(courseList);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
   };
 
   useEffect(() => {
@@ -78,11 +68,17 @@ function CourseListModal({
               {...course}
               setLoading={setLoading}
               getCourses={getCourses}
-              initData={initData}
+              setIsChanged={setIsChanged}
             />
           ))}
         </div>
-        <button className="btn_back" onClick={closeModal}>
+        <button
+          className="btn_back"
+          onClick={() => {
+            if (isChanged) initData();
+            closeModal();
+          }}
+        >
           이전
         </button>
       </div>
