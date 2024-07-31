@@ -23,7 +23,11 @@ function App() {
 
   return (
     <div className="App">
-      <Header userInfo={userInfo} setUserInfo={setUserInfo} />
+      <Header
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
+        setIsUser={setIsUser}
+      />
       <div className="App-Body">
         <Routes>
           <Route

@@ -98,3 +98,12 @@ export const getStorageCoursePath = (body) => {
 export const getFileName = (name) => {
   return `SEAL 진단 결과지_${name}.pdf`;
 };
+
+export const getLogoImage = async (coursename) => {
+  const courseList = getCourseList();
+  let imageUrl = "";
+  (await courseList).map((item) => {
+    if (item.name === coursename) imageUrl = item.url;
+  });
+  return imageUrl;
+};
