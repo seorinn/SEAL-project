@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
@@ -8,7 +8,6 @@ import {
 } from "firebase/auth";
 import "./index.css";
 import Code from "../../components/Code";
-import { fetchData } from "../../util";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -30,22 +29,12 @@ const auth = getAuth();
 
 function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const navigation = useNavigate();
-  // const accessCode = process.env.REACT_APP_CODE;
-
-  const [courses, setCourses] = useState([]);
   const [isValidPhone, setIsValidPhone] = useState();
   const [isValidCode, setIsValidCode] = useState();
   const [isSended, setIsSended] = useState(false);
   const [submitCode, setSubmitCode] = useState(false);
   const [code, setCode] = useState("");
   const [isChecked, setIsChecked] = useState(null);
-
-  useEffect(() => {
-    fetchData("course-data.xlsx").then((res) => {
-      setCourses(res);
-      setUserInfo({ ...userInfo, course: res[0].name });
-    });
-  }, []);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -64,9 +53,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
     setIsSended(true);
     window.recaptchaVerifier = new RecaptchaVerifier(auth, "sign-in-button", {
       size: "invisible",
-      callback: (response) => {
-        //...
-      },
+      callback: (response) => {},
     });
     auth.languageCode = "ko";
     const phonenumber = getPhoneNumberFromUserInput(userInfo.phonenumber);
@@ -113,6 +100,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
       alert(error);
     }
   };
+
   const handleSubmit = () => {
     const { name, company, affiliation, position, phonenumber, isChecked } =
       userInfo;
@@ -145,18 +133,6 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
       <div className="input-container">
         <div>
           <p>참여 과정</p>
-          {/* <select
-            value={userInfo.course}
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, course: e.target.value })
-            }
-          >
-            {courses.map((course) => (
-              <option key={course.name} value={course.name}>
-                {course.name}
-              </option>
-            ))}
-          </select> */}
           <input value={userInfo.course} disabled />
         </div>
         <div>
