@@ -72,6 +72,11 @@
   background-color: hwb(207 85% 7%);
 }
 .AddCourseModal img {
+  cursor: pointer;
+  width: 3.75rem;
+  height: 2.25rem;
+  border: 1px solid gray;
+  padding: 0.25rem;
   margin-right: 1rem;
 }
 .AddCourseModal .btn_add_file {
