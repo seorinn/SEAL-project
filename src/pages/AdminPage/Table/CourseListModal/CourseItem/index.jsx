@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   getStorage,
   ref,
@@ -6,23 +6,38 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage";
+import { PulseLoader } from "react-spinners";
 import "./index.css";
 import {
+  getLogoImage,
+  getCourseList,
   getStorageCoursePath,
   getStoragePath,
   getUserList,
 } from "../../../../../util";
 
-function CourseItem({ name, code, url, setLoading, getCourses, setIsChanged }) {
+function CourseItem({ name, code, setLoading, getCourses, setIsChanged }) {
   const fileInputRef = useRef(null);
   const [course, setCourse] = useState({
     name: name,
     code: code,
-    url: url,
   });
 
   const storage = getStorage();
-  const pathReference = ref(storage, getStorageCoursePath({ name, code, url }));
+  const pathReference = ref(storage, getStorageCoursePath({ name, code }));
+
+  useEffect(() => {
+    getLogoImage(name).then((res) => setCourse({ ...course, url: res }));
+  }, []);
+
+  useEffect(
+    () =>
+      setCourse({
+        name: name,
+        code: code,
+      }),
+    [name, code]
+  );
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -51,62 +66,80 @@ function CourseItem({ name, code, url, setLoading, getCourses, setIsChanged }) {
   };
 
   const handleModifyCourse = async () => {
-    const oldPath = getStorageCoursePath({ name, code, url });
-    const newPath = getStorageCoursePath(course);
-    const oldFileRef = pathReference;
-    if (oldPath === newPath) return;
-    if (course.name === "" || course.code === "" || course.url === "") {
+    if (course.name === "" || course.code === "") {
       alert("빈 항목이 존재합니다.");
       return;
     }
+    const restCourses = (await getCourseList()).filter(
+      (item) => item.name !== name
+    );
+    const courseExists = restCourses.some(
+      (item) => course.name === item.name || course.code === item.code
+    );
+    if (courseExists) {
+      alert("이미 존재하는 코스 명 또는 코드입니다.");
+      return;
+    }
+
+    const oldPath = getStorageCoursePath({ name, code });
+    const newPath = getStorageCoursePath(course);
+    const newFileRef = ref(storage, newPath);
+    const oldFileRef = pathReference;
+
     setLoading(true);
-    getDownloadURL(oldFileRef)
-      .then((url) => {
-        return fetch(url);
-      })
-      .then((response) => response.blob())
-      .then((blob) => {
-        const newFileRef = ref(storage, newPath);
-        return uploadBytes(newFileRef, blob);
-      })
-      .then(() => {
-        deleteObject(oldFileRef)
-          .then(() => {
-            getCourses();
-          })
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      if (oldPath === newPath) {
+        if (!course.image) return;
+        uploadBytes(newFileRef, course.image);
+      } else {
+        let image;
+        if (!course.image)
+          await getDownloadURL(oldFileRef)
+            .then((url) => {
+              return fetch(url);
+            })
+            .then((response) => response.blob())
+            .then((blob) => (image = blob));
+        else image = course.image;
+        await uploadBytes(newFileRef, image)
+          .then(() => deleteObject(oldFileRef))
+          .then(() => changeUserCourse());
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      alert("저장되었습니다.");
+      getCourses();
+      setLoading(false);
+    }
+  };
+
+  const changeUserCourse = async () => {
     const userList = getUserList();
     (await userList).map((user) => {
       if (user.course === name) {
         const oldUserFileRef = ref(storage, getStoragePath(user));
-        const newUserPath = getStoragePath({ ...user, course: course.name });
-
-        getDownloadURL(oldUserFileRef)
-          .then((url) => {
-            return fetch(url);
-          })
-          .then((response) => response.blob())
-          .then((blob) => {
-            const newUserFileRef = ref(storage, newUserPath);
-            return uploadBytes(newUserFileRef, blob);
-          })
-          .then(() => {
-            setLoading(false);
-            deleteObject(oldUserFileRef)
-              .then(() => {
+        const newUserFileRef = ref(
+          storage,
+          getStoragePath({ ...user, course: course.name })
+        );
+        try {
+          getDownloadURL(oldUserFileRef)
+            .then((url) => {
+              return fetch(url);
+            })
+            .then((response) => response.blob())
+            .then((blob) => {
+              return uploadBytes(newUserFileRef, blob);
+            })
+            .then(() => {
+              deleteObject(oldUserFileRef).then(() => {
                 setIsChanged(true);
-                alert("저장되었습니다.");
-              })
-              .catch((error) => console.log(error));
-          })
-          .catch((error) => {
-            console.error(error);
-            setLoading(false);
-          });
+              });
+            });
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   };
@@ -131,11 +164,11 @@ function CourseItem({ name, code, url, setLoading, getCourses, setIsChanged }) {
   return (
     <div className="CourseItem">
       <div className="image-container">
-        <img
-          alt="logo"
-          src={`data:image/${course.url}`}
-          onClick={handleFindImage}
-        />
+        {course.url ? (
+          <img alt="logo" src={course.url} onClick={handleFindImage} />
+        ) : (
+          <PulseLoader color="rgb(200, 200, 200)" size={7} />
+        )}
       </div>
       <input
         type="file"
@@ -145,14 +178,14 @@ function CourseItem({ name, code, url, setLoading, getCourses, setIsChanged }) {
         onChange={handleFileChange}
       />
       <input
-        className="input-name"
+        className={`input-name ${name === course.name}`}
         name="name"
         value={course.name}
         placeholder={course.name}
         onChange={handleOnChange}
       />
       <input
-        className="input-code"
+        className={`input-code ${code === course.code}`}
         name="code"
         value={course.code}
         placeholder={course.code}

@@ -1,4 +1,5 @@
 .GetInformPage {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,7 +8,6 @@
 }
 .GetInformPage .input-container {
   margin-bottom: 3rem;
-  /* font-weight: 600; */
 }
 .GetInformPage .input-container div {
   width: 25rem;

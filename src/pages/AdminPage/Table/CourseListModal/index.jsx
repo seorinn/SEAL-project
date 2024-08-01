@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
-import { getCourseList } from "../../../../util";
 import "./index.css";
 import CourseItem from "./CourseItem";
 
@@ -62,6 +61,7 @@ function CourseListModal({
               </button>
             </div>
           </div>
+          {courses.length === 0 && "등록된 과정이 없습니다."}
           {courses.map((course) => (
             <CourseItem
               key={course.name}

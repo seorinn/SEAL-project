@@ -6,15 +6,16 @@
 .CourseItem .image-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 5rem;
+  height: 2.75rem;
   margin: auto;
 }
 .CourseItem img {
+  width: 4rem;
+  height: 2.5rem;
   cursor: pointer;
-  width: 3.75rem;
-  height: 2.25rem;
-  border: 1px solid gray;
-  padding: 0.25rem;
+  border: 1px solid rgb(200, 200, 200);
 }
 .CourseItem input {
   padding: 0.5rem;
@@ -23,6 +24,9 @@
   border: 1px solid hwb(207 85% 7%);
   border-radius: 0.25rem;
   width: 15rem;
+}
+.CourseItem input.false {
+  color: hwb(205 41% 23%);
 }
 .CourseItem input:focus {
   outline: 1px solid hwb(207 46% 0%);

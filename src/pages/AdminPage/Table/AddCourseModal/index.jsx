@@ -42,21 +42,22 @@ function AddCourseModal({ modalIsOpen, setModalIsOpen, setShowCourses }) {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setCourse({
-          ...course,
-          image: selectedFile,
-          url: event.target.result,
-        });
-      };
-      reader.readAsDataURL(selectedFile);
-    }
+    if (selectedFile) setCourse({ ...course, image: selectedFile });
+    // {
+    //   const reader = new FileReader();
+    //   reader.onload = (event) => {
+    //     setCourse({
+    //       ...course,
+    //       image: selectedFile,
+    //       url: event.target.result,
+    //     });
+    //   };
+    //   reader.readAsDataURL(selectedFile);
+    // }
   };
 
   const onSubmit = async () => {
-    if (course.name === "" || course.code === "" || !course.url) {
+    if (course.name === "" || course.code === "") {
       alert("코스 명, 코드, 이미지를 모두 등록해주세요");
       return;
     }
@@ -68,7 +69,6 @@ function AddCourseModal({ modalIsOpen, setModalIsOpen, setShowCourses }) {
     );
     if (courseExists) {
       alert("이미 존재하는 코스 명 또는 코드입니다.");
-      initData();
       return;
     }
     uploadBytes(pathReference, course.image)
@@ -106,7 +106,9 @@ function AddCourseModal({ modalIsOpen, setModalIsOpen, setShowCourses }) {
           </div>
           <div>
             <p>고객사 로고</p>
-            {course.url && <img alt="logo" src={course.url} />}
+            {course.image && (
+              <img alt="logo" src={URL.createObjectURL(course.image)} />
+            )}
             <button className="btn_add_file" onClick={handleFindImage}>
               파일 찾기
             </button>
