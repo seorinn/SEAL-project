@@ -1,0 +1,57 @@
+.ResultPage {
+  /* width: calc(210mm * 1.5);
+  height: calc(297mm * 1.5);
+  margin: auto; */
+}
+.ResultPage .result-header {
+  background-color: hsl(205, 46%, 59%);
+  color: white;
+  padding: 2rem 3rem;
+}
+.ResultPage .result-body {
+  padding: 2rem 3rem;
+}
+.ResultPage .btnPDF {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  border: 3px solid white;
+  outline: none;
+  border-radius: 1rem;
+  width: 7rem;
+  height: 4rem;
+  background-color: hsl(205, 46%, 59%);
+  color: white;
+  font-weight: 700;
+}
+.ResultPage .result-table {
+  position: absolute;
+  top: 27.5rem;
+  right: 2.5rem;
+  width: fit-content;
+  padding: 1rem;
+  border-radius: 1.25rem;
+  background-color: rgb(199, 228, 248);
+  z-index: -1;
+}
+.ResultPage .result-table .score-box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.ResultPage .result-body h2,
+h3 {
+  width: fit-content;
+  background-color: hsl(60, 100%, 87%);
+}
+.ResultPage .button-container button {
+  position: fixed;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  top: 50%;
+}
+.ResultPage .btn-next {
+  right: 0;
+}

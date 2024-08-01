@@ -1,0 +1,11 @@
+.CircleGraph {
+  display: flex;
+  /* width: 100%; */
+}
+.CircleGraph .circle-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1rem;
+  width: 100%;
+  /* grid-template-rows: 1fr 1fr; */
+}

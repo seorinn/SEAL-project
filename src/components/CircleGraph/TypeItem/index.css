@@ -1,0 +1,120 @@
+.CircleGraph .TypeItem {
+  position: relative;
+  width: 100%;
+  height: 20rem;
+}
+.CircleGraph .TypeItem.E {
+  display: flex;
+  justify-content: end;
+}
+.CircleGraph .TypeItem.A {
+  display: flex;
+  align-items: end;
+}
+.CircleGraph .TypeItem.L {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+}
+
+.CircleGraph .TypeItem .text-container {
+  width: 5rem;
+  height: fit-content;
+  text-align: center;
+  font-size: 1.125rem;
+  color: white;
+  padding: 1rem 3rem;
+  border-radius: 1.25rem;
+}
+
+.CircleGraph .TypeItem.S .text-container {
+  background-color: var(--color-s-main);
+}
+.CircleGraph .TypeItem.E .text-container {
+  background-color: var(--color-e-main);
+}
+
+.CircleGraph .TypeItem.A .text-container {
+  background-color: var(--color-a-main);
+}
+.CircleGraph .TypeItem.L .text-container {
+  background-color: var(--color-l-main);
+}
+
+.CircleGraph .TypeItem.S {
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+}
+.CircleGraph .TypeItem.E {
+  border-bottom: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+}
+.CircleGraph .TypeItem.A {
+  border-top: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+}
+.CircleGraph .TypeItem.L {
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+}
+
+.CircleGraph .quarter {
+  position: absolute;
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(216, 216, 216);
+}
+
+.CircleGraph .TypeItem.S .quarter {
+  bottom: 0;
+  right: 0;
+  border-top-left-radius: 100%;
+}
+.CircleGraph .TypeItem.E .quarter {
+  bottom: 0;
+  left: 0;
+  border-top-right-radius: 100%;
+}
+.CircleGraph .TypeItem.A .quarter {
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: 100%;
+}
+.CircleGraph .TypeItem.L .quarter {
+  top: 0;
+  left: 0;
+  border-bottom-right-radius: 100%;
+}
+.CircleGraph .TypeItem span {
+  font-size: 3.5rem;
+}
+
+.CircleGraph .TypeItem .inner-circle {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgb(255, 255, 255);
+}
+.CircleGraph .TypeItem.S .inner-circle {
+  bottom: 0;
+  right: 0;
+  border-top-left-radius: 100%;
+}
+.CircleGraph .TypeItem.E .inner-circle {
+  bottom: 0;
+  left: 0;
+  border-top-right-radius: 100%;
+}
+.CircleGraph .TypeItem.A .inner-circle {
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: 100%;
+}
+.CircleGraph .TypeItem.L .inner-circle {
+  top: 0;
+  left: 0;
+  border-bottom-right-radius: 100%;
+}

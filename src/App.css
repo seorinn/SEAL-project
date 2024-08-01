@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   font-family: "Pretendard-Regular";
+  /* background-color: rgb(250, 250, 250); */
 }
 .App-Body {
   width: 100%;
@@ -22,10 +23,32 @@ button {
   font-family: "Pretendard-Regular";
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
 .pdfPage {
   width: 100%;
   height: 296.625mm;
   margin: auto;
+}
+
+.resultpage {
+  width: 210mm;
+  height: 297mm;
+  box-shadow: 0 0 50px 0.2px rgb(0 0 0 / 0.075);
+  animation: opacity 1s ease forwards;
+}
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -31,6 +31,7 @@ const auth = getAuth();
 function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const navigation = useNavigate();
   const accessCode = process.env.REACT_APP_CODE;
+  const noauth = useLocation().pathname === "/noauth";
 
   const [courses, setCourses] = useState([]);
   const [isValidPhone, setIsValidPhone] = useState();
@@ -43,7 +44,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   useEffect(() => {
     fetchData("course-data.xlsx").then((res) => {
       setCourses(res);
-      setUserInfo({ ...userInfo, course: res[0].name });
+      setUserInfo({ ...userInfo, course: res[0].name, isChecked: noauth });
     });
   }, []);
 
@@ -192,48 +193,52 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
               placeholder="'-' 없이 입력해주세요."
               onChange={handleInput}
             />
-            <button
-              className={`${isSended}`}
-              onClick={!isSended ? handleSendCode : null}
-            >
-              인증 요청
-            </button>
+            {!noauth && (
+              <button
+                className={`${isSended}`}
+                onClick={!isSended ? handleSendCode : null}
+              >
+                인증 요청
+              </button>
+            )}
           </div>
           {isSended && <span>인증번호가 발송되었습니다.</span>}
           {isValidPhone === false && (
             <span className="wrong">잘못된 형식의 전화번호입니다.</span>
           )}
         </div>
-        <div>
-          <p>인증번호 확인</p>
-          <div className="inputAndButton">
-            <input
-              name="code"
-              placeholder="인증번호 6자리를 입력해주세요."
-              onChange={handleInput}
-            />
-            <button
-              className={`${!isSended || submitCode}`}
-              onClick={!(!isSended || submitCode) ? handleCheckCode : null}
-            >
-              인증번호 확인
-            </button>
+        {!noauth && (
+          <div>
+            <p>인증번호 확인</p>
+            <div className="inputAndButton">
+              <input
+                name="code"
+                placeholder="인증번호 6자리를 입력해주세요."
+                onChange={handleInput}
+              />
+              <button
+                className={`${!isSended || submitCode}`}
+                onClick={!(!isSended || submitCode) ? handleCheckCode : null}
+              >
+                인증번호 확인
+              </button>
+            </div>
+            <div id="sign-in-button"></div>
+            {isSended && submitCode && isChecked === null && (
+              <span>확인중입니다...</span>
+            )}
+            {isSended && submitCode && isChecked === true && (
+              <span>인증되었습니다.</span>
+            )}
+            {isSended && submitCode && isChecked === false && (
+              <span className="wrong">인증번호가 일치하지 않습니다.</span>
+            )}
+            {isValidCode === false && (
+              <span className="wrong">6자리의 인증번호를 입력해주세요.</span>
+            )}
+            <div id="recaptcha-container"></div>
           </div>
-          <div id="sign-in-button"></div>
-          {isSended && submitCode && isChecked === null && (
-            <span>확인중입니다...</span>
-          )}
-          {isSended && submitCode && isChecked === true && (
-            <span>인증되었습니다.</span>
-          )}
-          {isSended && submitCode && isChecked === false && (
-            <span className="wrong">인증번호가 일치하지 않습니다.</span>
-          )}
-          {isValidCode === false && (
-            <span className="wrong">6자리의 인증번호를 입력해주세요.</span>
-          )}
-          <div id="recaptcha-container"></div>
-        </div>
+        )}
       </div>
       <button className="btn-submit" onClick={handleSubmit}>
         진단 시작하기

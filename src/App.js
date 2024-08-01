@@ -8,6 +8,10 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AdminPage from "./pages/AdminPage";
 import "./App.css";
 
+import ResultForTest from "./pages/ResultForTest";
+import Test2Page from "./pages/Test2";
+import Result2Page from "./pages/Result2";
+
 function App() {
   const [userInfo, setUserInfo] = useState({
     course: "",
@@ -37,13 +41,25 @@ function App() {
               />
             }
           />
-          <Route path="/test" element={<TestPage userInfo={userInfo} />} />
-          <Route path="/result" element={<ResultPage userInfo={userInfo} />} />
+          <Route
+            path="/noauth"
+            element={
+              <GetInformPage
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                isUser={isUser}
+                setIsUser={setIsUser}
+              />
+            }
+          />
+          <Route path="/test" element={<Test2Page userInfo={userInfo} />} />
+          <Route path="/result" element={<Result2Page userInfo={userInfo} />} />
           <Route
             path="/admin"
             element={<AdminPage isAdmin={isAdmin} setIsAdmin={setIsAdmin} />}
           />
-          <Route path="/*" element={<NotFoundPage />} />
+          {/* <Route path="/*" element={<NotFoundPage />} /> */}
+          <Route path="/resultfortest" element={<ResultForTest />} />
         </Routes>
       </div>
     </div>

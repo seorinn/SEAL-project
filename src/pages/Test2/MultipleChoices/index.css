@@ -1,0 +1,22 @@
+.MultipleChoices {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.MultipleChoices .button-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.MultipleChoices .button-container .btn_answer {
+  padding: 0.5rem 1rem;
+  width: 20rem;
+  margin-bottom: 0.75rem;
+}
+.MultipleChoices .button-container .btn_answer.true {
+  border: 2px solid skyblue;
+}

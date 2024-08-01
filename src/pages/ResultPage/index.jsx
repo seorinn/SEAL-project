@@ -12,9 +12,7 @@ import {
 import Layout0 from "../../components/ResultPages/Layout0";
 import Layout1 from "../../components/ResultPages/Layout1";
 import Layout2 from "../../components/ResultPages/Layout2";
-import MainCover from "../../components/ResultPages/Cover/MainCover";
-import InnerCover1 from "../../components/ResultPages/Cover/InnerCover1";
-import InnerCover2 from "../../components/ResultPages/Cover/InnerCover2";
+import CoverPage from "../../components/ResultPages/Cover/CoverPage";
 import "./index.css";
 
 function ResultPage({ userInfo }) {
@@ -85,9 +83,7 @@ function ResultPage({ userInfo }) {
 
   const generatePDF = async (isClickedDownload) => {
     const pages = [
-      <MainCover />,
-      <InnerCover1 />,
-      <InnerCover2 />,
+      <CoverPage />,
       <Layout0
         scoreData={scoreData}
         name={userInfo.name}
