@@ -178,14 +178,14 @@ function CourseItem({ name, code, setLoading, getCourses, setIsChanged }) {
         className={`input-name ${name === course.name}`}
         name="name"
         value={course.name}
-        placeholder={course.name}
+        placeholder={name}
         onChange={handleOnChange}
       />
       <input
         className={`input-code ${code === course.code}`}
         name="code"
         value={course.code}
-        placeholder={course.code}
+        placeholder={code}
         onChange={handleOnChange}
       />
       <div className="course-buttons">
