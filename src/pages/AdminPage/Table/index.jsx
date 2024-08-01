@@ -28,7 +28,6 @@ function Table({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // fetchData("course-data.xlsx").then((res) => setCourses(res));
     getCourses();
   }, []);
 

@@ -1,8 +1,9 @@
-import { getStorage, ref, listAll } from "firebase/storage";
+import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
+import "./firebase-config";
 import * as XLSX from "xlsx";
 
+const storage = getStorage();
 export const getUserList = async () => {
-  const storage = getStorage();
   const listRef = ref(storage, "userdata/pdfs/");
   let userlist = [];
 
@@ -48,15 +49,13 @@ export const getCourseList = async () => {
     .then((res) => {
       res.prefixes.forEach((folderRef) => {});
       res.items.forEach((itemRef) => {
-        const [name, code, imageurl] = itemRef._location.path_
+        const [name, code] = itemRef._location.path_
           .split("/")[1]
           .split(".")[0]
           .split("_");
-        const url = imageurl.replace(/\$/g, "/");
         courselist.push({
           name,
           code,
-          url,
         });
       });
     })
@@ -89,10 +88,7 @@ export const getStoragePath = (body) => {
 };
 
 export const getStorageCoursePath = (body) => {
-  return `courses/${body.name}_${body.code}_${body.url.replace(
-    /\//g,
-    "$"
-  )}.png`;
+  return `courses/${body.name}_${body.code}`;
 };
 
 export const getFileName = (name) => {
@@ -103,7 +99,20 @@ export const getLogoImage = async (coursename) => {
   const courseList = getCourseList();
   let imageUrl = "";
   (await courseList).map((item) => {
-    if (item.name === coursename) imageUrl = item.url;
+    if (item.name === coursename) imageUrl = getStorageCoursePath(item);
   });
-  return imageUrl;
+
+  const pathReference = ref(storage, imageUrl);
+  try {
+    const url = await getDownloadURL(pathReference);
+    const response = await fetch(url);
+    const blob = await response.blob();
+
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+
+    return link.href;
+  } catch (error) {
+    console.log(error);
+  }
 };
