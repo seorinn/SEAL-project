@@ -88,7 +88,7 @@ export const getStoragePath = (body) => {
 };
 
 export const getStorageCoursePath = (body) => {
-  return `courses/${body.name}_${body.code}.png`;
+  return `courses/${body.name}_${body.code}`;
 };
 
 export const getFileName = (name) => {

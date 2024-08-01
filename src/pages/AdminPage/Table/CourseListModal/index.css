@@ -37,7 +37,6 @@
 }
 .CourseModal .header {
   display: flex;
-  /* justify-content: start; */
   justify-content: space-around;
   align-items: center;
   margin-bottom: 1rem;

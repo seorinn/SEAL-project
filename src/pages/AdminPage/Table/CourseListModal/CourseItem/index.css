@@ -15,7 +15,7 @@
   width: 4rem;
   height: 2.5rem;
   cursor: pointer;
-  border: 1px solid rgb(200, 200, 200);
+  border: 1px solid rgb(226, 226, 226);
 }
 .CourseItem input {
   padding: 0.5rem;
@@ -25,9 +25,15 @@
   border-radius: 0.25rem;
   width: 15rem;
 }
+
+/*modified content*/
+.CourseItem img.true {
+  border: 3px solid hwb(207 50% 11%);
+}
 .CourseItem input.false {
   color: hwb(205 41% 23%);
 }
+
 .CourseItem input:focus {
   outline: 1px solid hwb(207 46% 0%);
 }

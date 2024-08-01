@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { PulseLoader } from "react-spinners";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getCourseList, getStorageCoursePath } from "../../../../util";
 import "./index.css";
@@ -7,7 +6,6 @@ import "./index.css";
 function AddCourseModal({ modalIsOpen, setModalIsOpen, setShowCourses }) {
   const modalRef = useRef();
   const fileInputRef = useRef(null);
-  const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState({ name: "", code: "" });
 
   const closeModal = () => setModalIsOpen(false);
@@ -43,21 +41,10 @@ function AddCourseModal({ modalIsOpen, setModalIsOpen, setShowCourses }) {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) setCourse({ ...course, image: selectedFile });
-    // {
-    //   const reader = new FileReader();
-    //   reader.onload = (event) => {
-    //     setCourse({
-    //       ...course,
-    //       image: selectedFile,
-    //       url: event.target.result,
-    //     });
-    //   };
-    //   reader.readAsDataURL(selectedFile);
-    // }
   };
 
   const onSubmit = async () => {
-    if (course.name === "" || course.code === "") {
+    if (course.name === "" || course.code === "" || !course.image) {
       alert("코스 명, 코드, 이미지를 모두 등록해주세요");
       return;
     }
@@ -88,11 +75,6 @@ function AddCourseModal({ modalIsOpen, setModalIsOpen, setShowCourses }) {
       ref={modalRef}
       onClick={(e) => modalOutsideClick(e)}
     >
-      {loading && (
-        <div className="loading">
-          <PulseLoader color="hsla(194, 56%, 63%, 1)" />
-        </div>
-      )}
       <div className="modal-container">
         <div className="title">진단 과정 추가</div>
         <div className="input-container">

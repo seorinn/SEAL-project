@@ -30,15 +30,6 @@ function CourseItem({ name, code, setLoading, getCourses, setIsChanged }) {
     getLogoImage(name).then((res) => setCourse({ ...course, url: res }));
   }, []);
 
-  useEffect(
-    () =>
-      setCourse({
-        name: name,
-        code: code,
-      }),
-    [name, code]
-  );
-
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setCourse({
@@ -111,6 +102,7 @@ function CourseItem({ name, code, setLoading, getCourses, setIsChanged }) {
       alert("저장되었습니다.");
       getCourses();
       setLoading(false);
+      setCourse({ ...course, image: undefined });
     }
   };
 
@@ -165,7 +157,12 @@ function CourseItem({ name, code, setLoading, getCourses, setIsChanged }) {
     <div className="CourseItem">
       <div className="image-container">
         {course.url ? (
-          <img alt="logo" src={course.url} onClick={handleFindImage} />
+          <img
+            className={`${course.image !== undefined}`}
+            alt="logo"
+            src={course.url}
+            onClick={handleFindImage}
+          />
         ) : (
           <PulseLoader color="rgb(200, 200, 200)" size={7} />
         )}
