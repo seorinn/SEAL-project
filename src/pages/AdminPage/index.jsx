@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { getUserList, getStoragePath, getFileName } from "../../util";
@@ -30,7 +35,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     { id: "subType", name: "Sub type" },
     "buttons",
   ];
-  const widths = [5, 11, 11, 10, 7, 14, 11, 10, 11, 9];
+  const widths = [5, 11, 11, 10, 8, 16, 12, 10, 11, 4];
   const [sortBy, setSortBy] = useState(headers[1]);
   const [loading, setLoading] = useState(true);
 
@@ -121,33 +126,53 @@ function AdminPage({ isAdmin, setIsAdmin }) {
           );
   };
 
-  const handleDownloadPDF = async () => {
+  const handleCheckBox = async (button) => {
     const targetData = detailKeyword ? detailData : searchedData;
     let count = 0;
     for (let i = 0; i < targetData.length; i++) {
       const user = targetData[i];
       if (user.isChecked) count++;
     }
-    if (count === 0) alert("다운받을 항목을 체크해주세요.");
+    if (count === 0)
+      alert(`${button === "del" ? "삭제할" : "다운받을"} 항목을 체크해주세요.`);
     else {
-      if (count > 1 && !window.confirm(`${count}개 항목 다운로드`)) return;
+      if (
+        !window.confirm(
+          `${count}개 항목 ${button === "del" ? "삭제" : "다운로드"}`
+        )
+      )
+        return;
       for (let i = 0; i < targetData.length; i++) {
         const user = targetData[i];
         if (user.isChecked) {
           const pathReference = ref(storage, getStoragePath(user));
           try {
-            const url = await getDownloadURL(pathReference);
-            const response = await fetch(url);
-            const blob = await response.blob();
+            if (button === "pdf") {
+              const url = await getDownloadURL(pathReference);
+              const response = await fetch(url);
+              const blob = await response.blob();
 
-            const link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-            link.setAttribute("download", getFileName(user.name));
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+              const link = document.createElement("a");
+              link.href = window.URL.createObjectURL(blob);
+              link.setAttribute("download", getFileName(user.name));
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            } else if (button === "del") {
+              setLoading(true);
+              deleteObject(pathReference)
+                .then(() => {
+                  initData();
+                  alert("삭제되었습니다");
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
           } catch (error) {
             console.log(error);
+          } finally {
+            setLoading(false);
           }
         }
       }
@@ -193,7 +218,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
             sortBy={sortBy}
             setSortBy={setSortBy}
             setIsAscending={setIsAscending}
-            handleDownloadPDF={handleDownloadPDF}
+            handleCheckBox={handleCheckBox}
             handleDownloadExcel={handleDownloadExcel}
             sortDataFunc={sortDataFunc}
             initData={initData}

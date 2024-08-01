@@ -6,15 +6,16 @@
   margin: 1.5rem;
   position: relative;
 }
-.Table .total-number {
-  position: absolute;
-  top: -0.5rem;
-  left: 2rem;
-}
-.Table .buttons {
+.Table .button-container {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.Table .buttons {
+  display: flex;
+  align-items: center;
 }
 .Table .buttons button {
   outline: none;
@@ -22,15 +23,12 @@
   font-size: 0.875rem;
   background-color: transparent;
   padding: 0.25rem 0.75rem;
-  margin-right: 0.5rem;
-  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  border: 2px solid rgb(175, 175, 175);
 }
 .Table .sort-container {
   position: relative;
   width: fit-content;
-}
-.Table .buttons .sort-container .btn_sort {
-  border: 2px solid rgb(175, 175, 175);
 }
 .Table .btn_sort img {
   padding-left: 0.25rem;

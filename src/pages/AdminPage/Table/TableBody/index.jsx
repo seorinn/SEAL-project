@@ -6,8 +6,7 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage";
-import { getStoragePath, getUserList } from "../../../../util";
-// import icon_download from "../../../../assets/icons/icon_download.png";
+import { getStoragePath } from "../../../../util";
 import ModifyModal from "./ModifyModal";
 import "./index.css";
 
@@ -28,67 +27,32 @@ function TableBody({
   const storage = getStorage();
   const pathReference = ref(storage, getStoragePath(userData));
 
-  const handleDelete = () => {
-    if (window.confirm(`${userData.name}님의 정보를 삭제하시겠습니까?`)) {
-      setLoading(true);
-      deleteObject(pathReference)
-        .then(() => {
-          setLoading(false);
-          initData();
-          alert("삭제되었습니다");
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-        });
-    }
-  };
-
   const handleModifyUserInfo = (changedData) => {
     setLoading(true);
     const oldFileRef = pathReference;
-    const newPath = getStoragePath(changedData);
-    getDownloadURL(oldFileRef)
-      .then((url) => {
-        return fetch(url);
-      })
-      .then((response) => response.blob())
-      .then((blob) => {
-        const newFileRef = ref(storage, newPath);
-        return uploadBytes(newFileRef, blob);
-      })
-      .then(() => {
-        setLoading(false);
-        setModalIsOpen(false);
-        deleteObject(pathReference)
-          .then(() => {
-            initData();
-          })
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-        setModalIsOpen(false);
-      });
+    const newFileRef = ref(storage, getStoragePath(changedData));
+    try {
+      getDownloadURL(oldFileRef)
+        .then((url) => {
+          return fetch(url);
+        })
+        .then((response) => response.blob())
+        .then((blob) => {
+          return uploadBytes(newFileRef, blob);
+        })
+        .then(() => {
+          deleteObject(pathReference);
+        })
+        .then(() => {
+          initData();
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setModalIsOpen(false);
+    }
   };
-
-  // const handleDownload = async () => {
-  //   try {
-  //     const url = await getDownloadURL(pathReference);
-  //     const response = await fetch(url);
-  //     const blob = await response.blob();
-
-  //     const link = document.createElement("a");
-  //     link.href = window.URL.createObjectURL(blob);
-  //     link.setAttribute("download", getFileName(userData.name));
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   if (!userData) return;
   return (
@@ -122,21 +86,13 @@ function TableBody({
           )}
         </div>
       ))}
-      <div
-        className="button-container"
+      <button
+        className="btn-mod"
+        onClick={() => setModalIsOpen(true)}
         style={{ width: widths[widths.length - 1] + "%" }}
       >
-        {/* <button className="btn_download" onClick={handleDownload}>
-          PDF
-          <img className="icon_download" alt="download" src={icon_download} />
-        </button> */}
-        <button className="btn-mod" onClick={() => setModalIsOpen(true)}>
-          수정
-        </button>
-        <button className="btn-del" onClick={handleDelete}>
-          삭제
-        </button>
-      </div>
+        수정
+      </button>
       <ModifyModal
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}

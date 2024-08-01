@@ -16,7 +16,7 @@ function Table({
   setSortBy,
   isAscending,
   setIsAscending,
-  handleDownloadPDF,
+  handleCheckBox,
   handleDownloadExcel,
   sortDataFunc,
   initData,
@@ -55,51 +55,61 @@ function Table({
   if (!data) return;
   return (
     <div className="Table">
-      <p className="total-number">{data.length}명</p>
-      <div className="buttons">
-        <div className="sort-container">
-          <button
-            className="btn_sort"
-            onClick={() => setShowSortMenu(!showSortMenu)}
-          >
-            {sortBy.name} 순
-            <img alt="icon_polygon" src={icon_polygon} />
-          </button>
-          {showSortMenu && (
-            <div className="menu-sort">
-              {headers.map(
-                (item, index) =>
-                  item.id && (
-                    <button
-                      key={index}
-                      className="btn_sort_item"
-                      onClick={() => handleSort(item)}
-                    >
-                      {item.name} 순
-                    </button>
-                  )
-              )}
-            </div>
-          )}
-          <button
-            className="btn_sort"
-            onClick={() => {
-              handleSort(sortBy, !isAscending);
-              setIsAscending(!isAscending);
-            }}
-          >
-            {isAscending ? "오름차순" : "내림차순"}
+      <div className="button-container">
+        <div className="buttons">
+          <div className="total-number">총 {data.length}명</div>
+          <div className="sort-container">
+            <button
+              className="btn_sort"
+              onClick={() => setShowSortMenu(!showSortMenu)}
+            >
+              {sortBy.name} 순
+              <img alt="icon_polygon" src={icon_polygon} />
+            </button>
+            {showSortMenu && (
+              <div className="menu-sort">
+                {headers.map(
+                  (item, index) =>
+                    item.id && (
+                      <button
+                        key={index}
+                        className="btn_sort_item"
+                        onClick={() => handleSort(item)}
+                      >
+                        {item.name} 순
+                      </button>
+                    )
+                )}
+              </div>
+            )}
+            <button
+              className="btn_sort"
+              onClick={() => {
+                handleSort(sortBy, !isAscending);
+                setIsAscending(!isAscending);
+              }}
+            >
+              {isAscending ? "오름차순" : "내림차순"}
+            </button>
+          </div>
+          <button className="btn_delete" onClick={() => handleCheckBox("del")}>
+            삭제
           </button>
         </div>
-        <button className="btn_pdf" onClick={handleDownloadPDF}>
-          PDF 다운로드
-        </button>
-        <button className="btn_excel" onClick={handleDownloadExcel}>
-          전체 Excel 다운로드
-        </button>
-        <button className="btn_add_course" onClick={() => setShowCourses(true)}>
-          과정 관리
-        </button>
+        <div className="buttons">
+          <button className="btn_pdf" onClick={() => handleCheckBox("pdf")}>
+            PDF 다운로드
+          </button>
+          <button className="btn_excel" onClick={handleDownloadExcel}>
+            전체 Excel 다운로드
+          </button>
+          <button
+            className="btn_add_course"
+            onClick={() => setShowCourses(true)}
+          >
+            과정 관리
+          </button>
+        </div>
       </div>
       <TableHead data={data} setData={setData} keys={headers} widths={widths} />
       {data.map((item) => (

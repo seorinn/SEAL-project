@@ -11,13 +11,7 @@ function ModifyModal({
   courses,
   loading,
 }) {
-  const [changedData, setChangedData] = useState({
-    company: data.company,
-    affiliation: data.affiliation,
-    position: data.position,
-    name: data.name,
-    course: data.course,
-  });
+  const [changedData, setChangedData] = useState({});
   const modalRef = useRef();
   const closeModal = () => setModalIsOpen(false);
 
@@ -38,24 +32,23 @@ function ModifyModal({
   };
 
   const onSubmit = () => {
-    const { name, company, affiliation, position } = changedData;
-    if (name && company && affiliation && position)
+    const { name, company, affiliation, position, phonenumber } = changedData;
+    if (name && company && affiliation && position && phonenumber)
       handleModifyUserInfo(changedData);
     else alert("모든 항목을 입력해주세요");
   };
 
   useEffect(() => {
-    if (!modalIsOpen)
-      setChangedData({
-        company: data.company,
-        affiliation: data.affiliation,
-        position: data.position,
-        name: data.name,
-        course: data.course,
-        phonenumber: data.phonenumber,
-        mainType: data.mainType,
-        subType: data.subType,
-      });
+    setChangedData({
+      company: data.company,
+      affiliation: data.affiliation,
+      position: data.position,
+      name: data.name,
+      course: data.course,
+      phonenumber: data.phonenumber,
+      mainType: data.mainType,
+      subType: data.subType,
+    });
     document.addEventListener("keydown", handleKeyPress);
   }, [modalIsOpen]);
 
@@ -77,7 +70,6 @@ function ModifyModal({
           {headers.slice(1, -1).map((item) => (
             <div key={item.name} className={`${item.id}`}>
               <p>{item.name}</p>
-
               {item.id === "course" ? (
                 <select
                   value={changedData.course}
@@ -98,9 +90,8 @@ function ModifyModal({
                   placeholder={data[item.id]}
                   onChange={handleOnChange}
                   disabled={
-                    item.id === "phonenumber" ||
-                    item.id === "mainType" ||
-                    item.id === "subType"
+                    // item.id === "phonenumber" ||
+                    item.id === "mainType" || item.id === "subType"
                   }
                 />
               )}
