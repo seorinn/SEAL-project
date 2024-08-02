@@ -38,7 +38,7 @@ function MultipleChoices({
           <button
             key={item.id}
             className={`btn_answer ${index === selectedIndex}`}
-            onClick={() => handleSelection(index, item.answer)}
+            onClick={() => handleSelection(index, item.type)}
           >
             {item.content}
           </button>

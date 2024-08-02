@@ -42,16 +42,11 @@ function Test2Page({ userInfo }) {
         })
       );
       setTotal(count);
-      setState(
-        transformedData.map((item) =>
-          item.slice().filter((i) => i !== undefined)
-        )
+      const foramttedData = transformedData.map((item) =>
+        item.slice().filter((i) => i !== undefined)
       );
-      setQuestionsOnPage(
-        transformedData.map((item) =>
-          item.slice().filter((i) => i !== undefined)
-        )[pageIndex]
-      );
+      setState(foramttedData);
+      setQuestionsOnPage(foramttedData[pageIndex]);
     });
   }, []);
 
@@ -75,38 +70,17 @@ function Test2Page({ userInfo }) {
   };
 
   const handleGetResult = () => {
-    let arr = [];
-    let result = {};
     let scoreMain = [];
     let scoreSub = [];
 
-    state.map((page) => {
-      page.map((question) => {
-        if (question.id.startsWith("ABS"))
-          arr.push({ [question.type]: question.weight * question.value });
-        else arr.push({ [question.answer]: question.weight });
+    const scores = {};
+    state.forEach((page) => {
+      page.forEach((item) => {
+        scores[item.type] = (scores[item.type] || 0) + item.value;
       });
     });
 
-    arr.forEach((item) => {
-      let key = Object.keys(item)[0];
-      let value = item[key];
-
-      if (result[key]) {
-        result[key] += value;
-      } else {
-        result[key] = value;
-      }
-    });
-
-    let finalResult = Object.keys(result).map((key) => ({
-      [key]: result[key],
-    }));
-
-    finalResult.forEach((item) => {
-      let key = Object.keys(item)[0];
-      let value = item[key];
-
+    Object.entries(scores).map(([key, value]) => {
       if (
         key === "관계형" ||
         key === "도전형" ||
@@ -116,9 +90,10 @@ function Test2Page({ userInfo }) {
         scoreMain.push({ [key]: value });
       else scoreSub.push({ [key]: value });
     });
+
     console.log(scoreMain, scoreSub);
     navigator("/result", {
-      state: { scoreMain: scoreMain, scoreSub: scoreSub },
+      state: { state: state, scoreMain: scoreMain, scoreSub: scoreSub },
     });
   };
 
@@ -127,11 +102,7 @@ function Test2Page({ userInfo }) {
     <div className="TestPage">
       <div className="test-header">SEAL Proto 1차</div>
       <div className="progressbar-container">
-        <ProgressBar
-          pageIndex={pageIndex}
-          sumChecked={sumChecked}
-          total={total}
-        />
+        <ProgressBar sumChecked={sumChecked} total={total} />
       </div>
       <div className="question-box">
         {questionsOnPage.map((item) =>

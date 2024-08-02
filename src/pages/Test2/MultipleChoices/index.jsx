@@ -15,7 +15,7 @@ function MultipleChoices({
   const [selectedItem, setSelectedItem] = useState(-1);
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleSelection = (index, name) => {
+  const handleSelection = (index, item) => {
     if (!isChecked) {
       setChecked(checked + 1);
       setSumChecked(sumChecked + 1);
@@ -29,7 +29,9 @@ function MultipleChoices({
           if (id === question.id)
             return {
               ...question,
-              answer: name,
+              type: item.type,
+              tier: item.tier,
+              priority: item.priority,
             };
           else return { ...question };
         })
@@ -45,7 +47,7 @@ function MultipleChoices({
           <button
             key={item.id}
             className={`btn_answer ${selectedItem === index}`}
-            onClick={() => handleSelection(index, item.answer)}
+            onClick={() => handleSelection(index, item)}
           >
             {item.content}
           </button>

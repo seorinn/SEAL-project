@@ -5,6 +5,7 @@ import "./index.css";
 function Question({
   id,
   content,
+  isPos,
   checked,
   setChecked,
   sumChecked,
@@ -30,13 +31,15 @@ function Question({
     setSelectedBtn(buttonId);
     setIsChecked(true);
 
+    const value = isPos ? buttons.length - buttonId : buttonId + 1;
+
     setState(
       state.map((page) =>
         page.map((question) => {
           if (id === question.id)
             return {
               ...question,
-              value: buttons.length - buttonId,
+              value: value,
             };
           else return { ...question };
         })

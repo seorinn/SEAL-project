@@ -14,10 +14,10 @@ function Result2Page({ userInfo }) {
   const location = useLocation();
   const { course, name, company, affiliation, position, phonenumber } =
     userInfo;
-  const { scoreMain, scoreSub } = location.state;
+  const { state, scoreMain, scoreSub } = location.state;
 
-  const [highestType, setHighestType] = useState("");
-  const [highestPersona, setHighestPersona] = useState("");
+  const [mainType, setMainType] = useState("");
+  const [subType, setSubType] = useState("");
   const [step, setStep] = useState(0);
 
   const formattedDate = `${new Date().getFullYear()}.${String(
@@ -25,68 +25,99 @@ function Result2Page({ userInfo }) {
   ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`;
 
   useEffect(() => {
-    setHighestType(findMaxValue(scoreMain));
-    setHighestPersona(findMaxValue(scoreSub));
+    const resultTotal = findHighest(scoreMain);
+    if (resultTotal.length === 1) setMainType(resultTotal[0]);
+    else {
+      const resultAbs = checkAbsTier(resultTotal);
+      console.log(resultAbs);
+      if (resultAbs.length === 1) {
+        setMainType(resultAbs[0]);
+      } else {
+        const resultRel = checkRelTier(resultTotal);
+        console.log(resultRel);
+        if (resultRel.length === 1) {
+          setMainType(resultRel[0]);
+        } else setMainType(checkPriority(resultTotal));
+      }
+    }
   }, []);
 
-  const findMaxValue = (arr) => {
+  useEffect(() => console.log(mainType), [mainType]);
+
+  const findMaxValue = (array) => {
     let max = 0;
-    arr.forEach((item) => {
+    array.forEach((item) => {
       let value = Object.values(item)[0];
-      if (value > max) {
-        max = value;
-      }
+      if (value > max) max = value;
     });
     return max;
   };
 
-  // useEffect(() => {
-  //   setHighestType(findHighest(scoreData));
-  //   let data = [];
-  //   scoreData.map((item) => {
-  //     if (item.type === findHighest(scoreData)) {
-  //       const [type, value] = [
-  //         Object.keys(item.personas),
-  //         Object.values(item.personas),
-  //       ];
-  //       for (var i = 0; i < type.length; i++) {
-  //         if (!type[i].includes("none"))
-  //           data.push({ type: type[i], value: value[i] });
-  //       }
-  //     }
-  //   });
-  //   setHighestPersona(findHighest(data));
-  //   setSubtypes(data);
-  //   fetchData("result-data.xlsx").then((res) => {
-  //     setResults(
-  //       res.filter((item) => item.persona.split(" ")[0] === findHighest(data))
-  //     );
-  //   });
-  // }, [scoreData]);
+  const findHighest = (arr) => {
+    const max = findMaxValue(arr);
+    let array = [];
+    arr.forEach((item) => {
+      let key = Object.keys(item)[0];
+      let value = item[key];
+      if (value === max) array.push(key);
+    });
+    return array;
+  };
 
-  // useEffect(() => {
-  //   if (results.length > 0 && name) {
-  //     generatePDF(false);
-  //   }
-  // }, [results]);
+  const checkAbsTier = (array) => {
+    const targetData = state[0].filter((item) => array.includes(item.type));
+    for (let i = 1; i < 4; i++) {
+      let targetArr = [];
+      const filteredData = targetData.filter((item) => item.tier === i);
+      filteredData.map((question) =>
+        targetArr.push({ [question.type]: question.value })
+      );
+      const result = findHighest(targetArr);
+      if (result.length === 1) return result;
+    }
+    return array;
+  };
+
+  const checkRelTier = (array) => {
+    let targetData = state[2].filter((item) => array.includes(item.type));
+    for (let i = 1; i < 5; i++) {
+      const filteredData = targetData.filter((item) => item.tier === i);
+      const counts = {};
+      let arr = [];
+      filteredData.forEach((item) => {
+        counts[item.type] = (counts[item.type] || 0) + 1;
+      });
+
+      Object.entries(counts).map(([key, value]) => {
+        arr.push({ [key]: value });
+      });
+
+      if (findHighest(arr).length === 1) return findHighest(arr);
+      else if (arr !== findHighest(arr))
+        targetData = state[2].filter((item) =>
+          findHighest(arr).includes(item.type)
+        );
+    }
+    return array;
+  };
+
+  const checkPriority = (array) => {
+    const targetData = state[2].filter((item) => array.includes(item.type));
+    let resultType;
+    let min = 5;
+    targetData.forEach((item) => {
+      console.log(item);
+      if (item.priority < min) {
+        resultType = item.type;
+        min = item.priority;
+      }
+    });
+    console.log(resultType);
+    return resultType;
+  };
 
   const generatePDF = async (isClickedDownload) => {
-    const pages = [
-      <CoverPage />,
-      // <Layout0
-      //   scoreData={scoreData}
-      //   name={name}
-      //   affiliation={affiliation}
-      //   position={position}
-      //   highestType={highestType}
-      //   highestPersona={highestPersona}
-      //   subtypes={subtypes}
-      //   results={results}
-      //   date={formattedDate}
-      // />,
-      <Layout1 />,
-      <Layout2 />,
-    ];
+    const pages = [<CoverPage />, <Layout1 />, <Layout2 />];
     const element = (
       <div className="ResultPage">
         {pages.map((page, index) => (
@@ -132,19 +163,6 @@ function Result2Page({ userInfo }) {
 
   return (
     <div className="ResultPage">
-      {/* {step === 0 && (
-        <Layout0
-          scoreData={scoreData}
-          name={name}
-          affiliation={affiliation}
-          position={position}
-          highestType={highestType}
-          highestPersona={highestPersona}
-          subtypes={subtypes}
-          results={results}
-          date={formattedDate}
-        />
-      )} */}
       {step === 0 && <Layout1 />}
       {step === 2 && <Layout2 />}
       <button className="btnPDF" onClick={() => generatePDF(true)}>
