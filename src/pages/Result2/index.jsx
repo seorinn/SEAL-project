@@ -25,24 +25,29 @@ function Result2Page({ userInfo }) {
   ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`;
 
   useEffect(() => {
-    const resultTotal = findHighest(scoreMain);
-    if (resultTotal.length === 1) setMainType(resultTotal[0]);
-    else {
-      const resultAbs = checkAbsTier(resultTotal);
-      console.log(resultAbs);
-      if (resultAbs.length === 1) {
-        setMainType(resultAbs[0]);
-      } else {
-        const resultRel = checkRelTier(resultTotal);
-        console.log(resultRel);
-        if (resultRel.length === 1) {
-          setMainType(resultRel[0]);
-        } else setMainType(checkPriority(resultTotal));
-      }
-    }
+    setMainType(setType(scoreMain));
+    setSubType(setType(scoreSub));
   }, []);
 
-  useEffect(() => console.log(mainType), [mainType]);
+  useEffect(() => {
+    console.log(mainType, subType);
+  }, [mainType, subType]);
+
+  const setType = (scoreData) => {
+    const resultTotal = findHighest(scoreData);
+    if (resultTotal.length === 1) return resultTotal[0];
+    else {
+      const resultAbs = checkAbsTier(resultTotal);
+      if (resultAbs.length === 1) {
+        return resultAbs[0];
+      } else {
+        const resultRel = checkRelTier(resultTotal);
+        if (resultRel.length === 1) {
+          return resultRel[0];
+        } else return checkPriority(resultTotal);
+      }
+    }
+  };
 
   const findMaxValue = (array) => {
     let max = 0;
@@ -106,13 +111,11 @@ function Result2Page({ userInfo }) {
     let resultType;
     let min = 5;
     targetData.forEach((item) => {
-      console.log(item);
       if (item.priority < min) {
         resultType = item.type;
         min = item.priority;
       }
     });
-    console.log(resultType);
     return resultType;
   };
 

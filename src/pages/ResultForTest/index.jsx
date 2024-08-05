@@ -3,6 +3,7 @@ import CoverPage from "../../components/ResultPages/Cover/CoverPage";
 import InnerCoverPage from "../../components/ResultPages/Cover/InnerCoverPage";
 import Overview from "../../components/ResultPages/Introduction/Overview";
 import Character from "../../components/ResultPages/Introduction/Character";
+import MainInform from "../../components/ResultPages/MainInform";
 import "./index.css";
 
 function ResultForTest() {
@@ -41,6 +42,7 @@ function ResultForTest() {
         {step === 3 && <InnerCoverPage />}
         {step === 4 && <Overview />}
         {step === 5 && <Character />}
+        {step === 6 && <MainInform />}
       </div>
       <div className="page-buttons">
         {step > 0 && (

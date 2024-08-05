@@ -1,0 +1,93 @@
+.MainInform {
+  display: flex;
+  flex-direction: column;
+}
+.MainInform .content-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 0 2.5rem;
+}
+.MainInform .title {
+  font-size: 1.375rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid gray;
+}
+.MainInform .content {
+  font-size: 0.95rem;
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 0.5rem 0;
+  flex: 1;
+}
+.MainInform .content p {
+  line-height: 1.5rem;
+  margin: 0.5rem 0;
+}
+.MainInform .box-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+.MainInform .box-container .top-section {
+  display: flex;
+  justify-content: center;
+  height: 30rem;
+  margin-bottom: 1.5rem;
+}
+.MainInform .top-left-section {
+  display: flex;
+  flex: 0.5;
+  flex-direction: column;
+  margin-right: 1.5rem;
+}
+.MainInform .top-left-section .icon-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 2rem;
+  margin-bottom: 1rem;
+}
+.MainInform .top-left-section .icon-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.MainInform .top-left-section .icon-container div:first-child {
+  margin-right: 1.5rem;
+}
+.MainInform .icon-container img {
+  width: 7rem;
+  height: 7rem;
+  background-color: lightgray;
+  border-radius: 100%;
+}
+.MainInform .text-box {
+  background-color: rgb(214, 231, 245);
+  border-radius: 1.5rem;
+  width: 100%;
+  height: 100%;
+}
+.MainInform .top-right-section {
+  flex: 0.5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.MainInform .mainboxtitle {
+  display: flex;
+  justify-content: start;
+  width: fit-content;
+}
+.MainInform .main-text-box {
+  width: 100%;
+  border: 1px solid rgb(19, 113, 156);
+  border-radius: 1rem;
+  border-top-left-radius: 0;
+  flex: 1;
+}
+.MainInform .bottom-section {
+  display: flex;
+  flex-direction: column;
+}
