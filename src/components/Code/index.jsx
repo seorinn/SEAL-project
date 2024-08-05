@@ -1,6 +1,8 @@
 import { useState } from "react";
-import "./index.css";
 import { getCourseList } from "../../util";
+import logo_real_eng from "../../assets/images/logo_real_eng.png";
+import texture from "../../assets/texture.jpg";
+import "./index.css";
 
 function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
   const [input, setInput] = useState("");
@@ -32,8 +34,8 @@ function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
 
   return (
     <div className="Code">
-      <p>코드를 입력해주세요.</p>
-      {code && `(임시 코드 : ${code})`}
+      <img className="logo" alt="logo_REAL" src={logo_real_eng} />
+      <p>{code && "관리자"} 코드를 입력해주세요.</p>
       <input
         type={code ? "password" : ""}
         onChange={handleInput}
@@ -41,6 +43,7 @@ function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
       />
       <button onClick={onSubmit}>제출</button>
       {isSubmitted && !isValid && <>잘못된 코드입니다.</>}
+      <img className="texture" alt="" src={texture} />
     </div>
   );
 }

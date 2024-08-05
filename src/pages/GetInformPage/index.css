@@ -4,7 +4,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 2rem;
+  position: relative;
+}
+.GetInformPage .title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
 }
 .GetInformPage .input-container {
   margin-bottom: 3rem;
@@ -14,46 +20,20 @@
   display: flex;
   flex-direction: column;
 }
-.GetInformPage .input-container div .inputAndButton {
-  display: flex;
-  flex-direction: row;
-}
-.GetInformPage select,
 .GetInformPage .input-container input {
-  flex: 1;
   outline: none;
-  border: 1px solid gray;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  -moz-appearance: none;
-  appearance: none;
-}
-.GetInformPage .inputAndButton button {
-  min-width: 7rem;
-  outline: none;
-  border: 2px solid hwb(205 49% 11%);
-  border-radius: 0.5rem;
-  margin-left: 0.5rem;
-  background-color: hwb(205 49% 11%);
-  color: white;
-  font-weight: 700;
-  font-size: 0.875rem;
-}
-.GetInformPage .inputAndButton button.true {
-  border: 2px solid hwb(205 49% 11%);
-  background-color: transparent;
-  color: hsl(205, 46%, 59%);
-  cursor: default;
+  border: 1px solid darkgray;
+  border-radius: 1rem;
+  padding: 0.875rem 1rem;
 }
 .GetInformPage .btn-submit {
-  padding: 1rem 5rem;
-  background-color: hsl(205, 46%, 59%);
+  padding: 0.75rem 7rem;
+  background-color: var(--color-s-main);
   outline: none;
   border: none;
-  border-radius: 2rem;
+  border-radius: 10rem;
   color: white;
-  font-size: 1.125rem;
-  /* font-weight: 600; */
+  font-size: 1rem;
   margin-bottom: 2rem;
 }
 .GetInformPage span {
@@ -62,4 +42,10 @@
 }
 .GetInformPage .wrong {
   color: rgb(236, 0, 0);
+}
+.GetInformPage img {
+  position: absolute;
+  width: 7rem;
+  bottom: 2.5rem;
+  right: 5rem;
 }

@@ -1,12 +1,9 @@
 .Question {
-  height: 5rem;
-  margin-bottom: 10rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  /* font-weight: 700; */
+  margin-bottom: 4rem;
+  font-weight: 500;
 }
 .Question .title {
   cursor: default;
@@ -17,11 +14,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70rem;
+  width: 50em;
+  padding-left: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid darkgray;
 }
 .Question .buttons {
   display: flex;
-  width: 40%;
+  width: 55%;
   padding: 0 2rem;
   justify-content: space-between;
   align-items: center;

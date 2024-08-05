@@ -1,42 +1,42 @@
 .TestPage {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .TestPage .test-header {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  height: 15rem;
-  background-color: hsl(205, 46%, 59%);
+  background-color: hsl(160, 16%, 96%);
   padding: 2rem 0;
-  font-size: 2.5rem;
-  /* font-weight: 700; */
-  color: white;
+}
+.TestPage .test-header img {
+  width: 35rem;
+}
+.TestPage .progressbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .TestPage .question-box {
-  padding: 2rem 0;
+  padding: 4rem 0;
 }
 .TestPage .button-box {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.TestPage .button-box button {
-  text-align: center;
-  /* font-weight: 600; */
+.TestPage .btn_submit {
+  /* text-align: center; */
   font-size: 1.25rem;
+  background-color: var(--color-s-main);
   color: white;
-  padding: 1rem 6rem;
-  margin-bottom: 5rem;
+  padding: 0.875rem 12rem;
+  margin-bottom: 10rem;
   border: none;
   outline: none;
-  border-radius: 4rem;
-  background-color: hsl(205, 46%, 59%);
-}
-.TestPage .progressbar-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background-color: hsl(205, 46%, 59%);
+  border-radius: 10rem;
 }

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchData } from "../../util";
+import logo_real_horizon from "../../assets/images/logo_real_horizon.png";
 import ProgressBar from "./ProgressBar";
 import Question from "./Question";
 import "./index.css";
-import { fetchData } from "../../util";
 
 function TestPage({ userInfo }) {
   const navigator = useNavigate();
@@ -106,9 +107,15 @@ function TestPage({ userInfo }) {
   if (!questionsOnPage) return;
   return (
     <div className="TestPage">
-      <div className="test-header">SEAL Proto 1차</div>
-      <div className="progressbar-container">
-        <ProgressBar pageIndex={pageIndex} sumChecked={sumChecked} total={60} />
+      <div className="test-header">
+        <img alt="logo_real_horizon" src={logo_real_horizon} />
+        <div className="progressbar-container">
+          <ProgressBar
+            pageIndex={pageIndex}
+            sumChecked={sumChecked}
+            total={60}
+          />
+        </div>
       </div>
       <div className="question-box">
         {questionsOnPage.map((item) => (
@@ -122,11 +129,9 @@ function TestPage({ userInfo }) {
           />
         ))}
       </div>
-      <div className="button-box">
-        <button onClick={onClickNext}>
-          {pageIndex === state.length - 1 ? "제출하기" : "다음"}
-        </button>
-      </div>
+      <button className="btn_submit" onClick={onClickNext}>
+        {pageIndex === state.length - 1 ? "제출하기" : "다음"}
+      </button>
     </div>
   );
 }
