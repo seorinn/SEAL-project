@@ -16,7 +16,6 @@ function App() {
     affiliation: "",
     position: "",
     phonenumber: "",
-    isChecked: false,
   });
   const [isUser, setIsUser] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -42,7 +41,12 @@ function App() {
             }
           />
           <Route path="/test" element={<TestPage userInfo={userInfo} />} />
-          <Route path="/result" element={<ResultPage userInfo={userInfo} />} />
+          <Route
+            path="/result"
+            element={
+              <ResultPage userInfo={userInfo} setUserInfo={setUserInfo} />
+            }
+          />
           <Route
             path="/admin"
             element={<AdminPage isAdmin={isAdmin} setIsAdmin={setIsAdmin} />}

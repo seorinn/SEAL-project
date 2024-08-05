@@ -89,10 +89,7 @@ function ModifyModal({
                   value={changedData[item.id]}
                   placeholder={data[item.id]}
                   onChange={handleOnChange}
-                  disabled={
-                    // item.id === "phonenumber" ||
-                    item.id === "mainType" || item.id === "subType"
-                  }
+                  disabled={item.id === "mainType" || item.id === "subType"}
                 />
               )}
             </div>

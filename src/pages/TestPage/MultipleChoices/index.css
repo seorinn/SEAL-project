@@ -1,0 +1,43 @@
+.MultipleChoices {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4rem;
+  font-weight: 500;
+}
+.MultipleChoices .title {
+  height: 1.25rem;
+  cursor: default;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+.MultipleChoices .button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.MultipleChoices .button-container .btn_answer {
+  width: 40rem;
+  background-color: transparent;
+  border: 1px solid var(--color-s-main);
+  border-radius: 0.875rem;
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 2px 2px 5px 0 rgb(0 0 0 / 0.25);
+  font-size: 0.875rem;
+}
+
+.MultipleChoices .button-container .btn_answer:nth-child(2) {
+  border: 1px solid var(--color-l-main);
+}
+.MultipleChoices .button-container .btn_answer:nth-child(3) {
+  border: 1px solid var(--color-e-main);
+}
+.MultipleChoices .button-container .btn_answer:nth-child(4) {
+  border: 1px solid var(--color-a-main);
+}
+.MultipleChoices .button-container .btn_answer:hover,
+.MultipleChoices .button-container .btn_answer.true {
+  scale: 1.02;
+}

@@ -1,0 +1,8 @@
+.Bottom {
+  display: flex;
+  justify-content: end;
+  margin: 1rem 2.5rem;
+}
+.Bottom img {
+  margin-left: 1rem;
+}

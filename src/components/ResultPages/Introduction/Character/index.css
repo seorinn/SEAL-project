@@ -1,0 +1,41 @@
+.Character {
+  display: flex;
+  flex-direction: column;
+}
+.Character .background,
+.Character .fourtypes-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 2.5rem;
+}
+.Character .title {
+  font-size: 1.375rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid gray;
+}
+.Character .content {
+  font-size: 0.95rem;
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 0.5rem 0;
+}
+.Character .content p {
+  line-height: 1.5rem;
+  margin: 0.5rem 0;
+}
+.Character .fourtypes-container {
+  flex: 1;
+}
+.Character .fourtypes-container .content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.Character .content .fourtypes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 2rem 1rem;
+  height: 100%;
+}

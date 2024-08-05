@@ -3,6 +3,7 @@
   flex-direction: column;
   padding: 2.5rem 2.5rem;
   margin: auto;
+  font-family: "Pretendard-Regular";
 }
 .AdminPage h2,
 h4 {
@@ -39,6 +40,7 @@ h4 {
   background-color: rgba(255, 255, 255, 0.5);
 }
 .AdminPage button {
+  font-family: "Pretendard-Regular";
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 .AdminPage button:hover {

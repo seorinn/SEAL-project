@@ -3,13 +3,15 @@ import ButtonItem from "./ButtonItem";
 import "./index.css";
 
 function Question({
-  keyId,
-  title,
-  isPositive,
+  id,
+  content,
+  isPos,
   checked,
   setChecked,
-  setState,
+  sumChecked,
+  setSumChecked,
   state,
+  setState,
 }) {
   const buttons = [
     { id: 0, type: "agree" },
@@ -24,26 +26,27 @@ function Question({
   const handleSelection = (buttonId) => {
     if (!isChecked) {
       setChecked(checked + 1);
+      setSumChecked(sumChecked + 1);
     }
     setSelectedBtn(buttonId);
     setIsChecked(true);
 
-    const value = isPositive ? buttons.length - buttonId : buttonId + 1;
+    const value = isPos ? buttons.length - buttonId : buttonId + 1;
 
     setState(
       state.map((page) =>
         page.map((question) => {
-          if (keyId === question.keyId)
+          if (id === question.id)
             return {
               ...question,
-              value: keyId === question.keyId ? value : question.value || 0,
+              value: value,
             };
           else return { ...question };
         })
       )
     );
 
-    const scrollAmount = 15 * 16;
+    const scrollAmount = 14.2 * 16;
     window.scrollTo({
       top: window.pageYOffset + scrollAmount,
       behavior: "smooth",
@@ -52,8 +55,8 @@ function Question({
 
   return (
     <div className={`Question ${isChecked}`}>
-      <div className="title">{title}</div>
-      <div className="button-container" id={`${keyId}`}>
+      <div className="title">{content}</div>
+      <div className="button-container" id={`${id}`}>
         <p className="agree">동의함</p>
         <div className="buttons">
           {buttons.map((item, index) => (

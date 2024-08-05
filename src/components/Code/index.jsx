@@ -41,8 +41,10 @@ function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
         onChange={handleInput}
         onKeyDown={handleKeyDown}
       />
+      {isSubmitted && !isValid && (
+        <div className="wrong-code">잘못된 코드입니다.</div>
+      )}
       <button onClick={onSubmit}>제출</button>
-      {isSubmitted && !isValid && <>잘못된 코드입니다.</>}
       <img className="texture" alt="" src={texture} />
     </div>
   );

@@ -60,12 +60,15 @@ function TableBody({
       {values.map((item, index) => (
         <div
           key={index}
+          id={index}
+          name={index}
           className="body-item"
           style={{ width: widths[index] + "%" }}
         >
           {typeof item !== "string" ? (
             <input
               type="checkbox"
+              name="checkbox"
               checked={userData.isChecked}
               onChange={() =>
                 setListData(
