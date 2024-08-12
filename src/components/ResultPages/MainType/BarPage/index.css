@@ -1,0 +1,47 @@
+.BarPage {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.BarPage .container {
+  padding: 1.5rem;
+  flex: 1;
+}
+.BarPage .content {
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.BarPage .main-title {
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+}
+.BarPage .main-content {
+  margin-bottom: 2rem;
+}
+.BarPage .fourtypes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 1.5rem;
+}
+.BarPage .typeitem {
+  display: flex;
+  margin-bottom: 1.75rem;
+}
+.BarPage .typeitem .icon-container {
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+}
+.BarPage .typeitem img {
+  height: 2rem;
+  margin-right: 0.75rem;
+}
+.BarPage .typeitem .item-name {
+  font-family: NanumSquareNeoBold;
+  margin-bottom: 0.5rem;
+}
+.BarPage .bar-container {
+  display: flex;
+  justify-content: center;
+}

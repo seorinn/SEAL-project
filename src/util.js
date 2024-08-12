@@ -152,6 +152,7 @@ export const getLogoImage = async (coursename) => {
 
 export const fourTypes = [
   {
+    adj: "스마트한",
     img: "",
     name: "분석형",
     nameEng: "Rational Analyst",
@@ -160,6 +161,7 @@ export const fourTypes = [
       "분석형은 데이터를 기반으로 한 논리적 사고와 체계적인 접근을 통해 문제를 해결합니다. 이 유형의 사람들은 사실과 증거를 중시하며, 결정을 내리기 전에 철저히 분석하는 경향이 있습니다.",
   },
   {
+    adj: "친근한",
     img: "",
     name: "관계형",
     nameEng: "Empathetic Communicator",
@@ -168,6 +170,7 @@ export const fourTypes = [
       "관계형은 다른 사람들과의 관계를 중요시하며, 효과적인 소통을 통해 팀워크를 촉진합니다. 이 유형의 사람들은 타인의 감정을 잘 이해하고, 이를 바탕으로 원활한 협력을 이끌어내는 데 능숙합니다.",
   },
   {
+    adj: "열정적인",
     img: "",
     name: "도전형",
     nameEng: "Action-Oriented Achiever",
@@ -176,6 +179,7 @@ export const fourTypes = [
       "도전형은 목표를 설정하고 이를 달성하기 위해 적극적으로 행동합니다. 이 유형의 사람들은 도전을 즐기며, 목표 달성을 위해 필요한 모든 모력을 기울입니다.",
   },
   {
+    adj: "믿음직한",
     img: "",
     name: "안정형",
     nameEng: "Loyal Stabilizer",
@@ -186,18 +190,18 @@ export const fourTypes = [
 ];
 
 export const twelveChar = [
-  { name: "촉진자", nameEng: "Facilitator" },
-  { name: "상담가", nameEng: "Advisor" },
-  { name: "중재자", nameEng: "Mediator" },
-  { name: "비전가", nameEng: "Visionary" },
-  { name: "발명가", nameEng: "Innovator" },
-  { name: "모험가", nameEng: "Adventurer" },
-  { name: "분석가", nameEng: "Analyst" },
-  { name: "전략가", nameEng: "Strategist" },
-  { name: "비평가", nameEng: "Evaluator" },
-  { name: "설계자", nameEng: "Planner" },
-  { name: "학자", nameEng: "Scholor" },
-  { name: "수호자", nameEng: "Guardian" },
+  { adj: "CheerUp,", name: "촉진자", nameEng: "Facilitator" },
+  { adj: "따뜻한", name: "상담가", nameEng: "Advisor" },
+  { adj: "따뜻한", name: "중재자", nameEng: "Mediator" },
+  { adj: "미래를 보는", name: "비전가", nameEng: "Visionary" },
+  { adj: "아이디어 뱅크,", name: "발명가", nameEng: "Innovator" },
+  { adj: "추진력 좋은", name: "모험가", nameEng: "Adventurer" },
+  { adj: "냉철한", name: "분석가", nameEng: "Analyst" },
+  { adj: "치밀한", name: "전략가", nameEng: "Strategist" },
+  { adj: "논리적인", name: "비평가", nameEng: "Evaluator" },
+  { adj: "빈틈없는", name: "설계자", nameEng: "Planner" },
+  { adj: "지식의 보고,", name: "학자", nameEng: "Scholor" },
+  { adj: "든든한", name: "수호자", nameEng: "Guardian" },
 ];
 
 export const getCoworkData = (mainType) => {

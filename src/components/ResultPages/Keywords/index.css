@@ -1,0 +1,11 @@
+.Keywords {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Keywords .section {
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+}

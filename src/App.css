@@ -55,9 +55,12 @@ tab {
 
 .pdfPage {
   /* width: 100%; */
-  width: 210mm;
-  height: 296.625mm;
-  margin: auto;
+  /* width: 210mm; */
+  /* height: 296.625mm; */
+  /* margin: auto; */
+}
+.pdfPage div {
+  animation: none;
 }
 .resultpage {
   width: 210mm;

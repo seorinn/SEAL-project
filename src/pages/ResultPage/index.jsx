@@ -30,10 +30,12 @@ import Weakness from "../../components/ResultPages/SubCharacter/Weakness";
 import Behavior from "../../components/ResultPages/SubCharacter/Behavior";
 import Motivation from "../../components/ResultPages/MainType/Motivation";
 import ScoreGraph from "../../components/ResultPages/SubCharacter/ScoreGraph";
-import BarChart from "../../components/ResultPages/MainType/BarChart";
+import BarPage from "../../components/ResultPages/MainType/BarPage";
 import Keywords from "../../components/ResultPages/MainType/Keywords";
 import TextPage from "../../components/ResultPages/AfterTest/TextPage";
 import SheetPage from "../../components/ResultPages/AfterTest/SheetPage";
+import Summary from "../../components/ResultPages/Summary";
+import KeywordPage from "../../components/ResultPages/MainType/KeywordPage";
 
 function ResultPage({ userInfo, setUserInfo }) {
   const location = useLocation();
@@ -215,24 +217,24 @@ function ResultPage({ userInfo, setUserInfo }) {
   const generatePDF = async (isClickedDownload) => {
     const pages = [
       // <CoverPage userInfo={userInfo} />,
-      // <Introduction />,
-      // <Overview />,
-      // <Character />,
-      // <ReportCover />,
-      // <BarChart mainType={userInfo.mainType} scoreMain={scoreMain} />,
+      <Introduction />,
+      <Overview />,
+      <Character />,
+      <ReportCover />,
+      <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />,
       // <Keywords data={dataMain.keywords} />,
-      // <WorkingStyle data={dataMain.strength} />,
-      // <Weak data={dataMain.weakness} />,
-      // <Justifying data={dataMain.work_style} />,
-      // <Motivation data={dataMain.motivation} />,
-      // <Changes data={dataMain.changes} />,
-      // <Stress data={dataMain.stress} />,
-      // <Cowork data={dataMain.cowork} />,
-      // <SubTable subType={userInfo.subType} />,
-      // <Strength data={dataSub.strength} />,
-      // <Weakness data={dataSub.weakness} />,
-      // <Behavior data={dataSub.behavior} />,
-      // <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />,
+      <WorkingStyle data={dataMain.strength} />,
+      <Weak data={dataMain.weakness} />,
+      <Justifying data={dataMain.work_style} />,
+      <Motivation data={dataMain.motivation} />,
+      <Changes data={dataMain.changes} />,
+      <Stress data={dataMain.stress} />,
+      <Cowork data={dataMain.cowork} />,
+      <SubTable subType={userInfo.subType} />,
+      <Strength data={dataSub.strength} />,
+      <Weakness data={dataSub.weakness} />,
+      <Behavior data={dataSub.behavior} />,
+      <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />,
     ];
     const element = (
       <div className="ResultPage">
@@ -291,18 +293,27 @@ function ResultPage({ userInfo, setUserInfo }) {
         {step === 1 && <CoverPage userInfo={userInfo} />}
         {step === 2 && <RootInfo />}
         {step === 3 && <Introduction />}
-        {/* {step === 3 && <Overview />} */}
-        {step === 4 && <Character />}
+        {step === 4 && <Overview />}
+        {step === 5 && <Character />}
 
-        {step === 5 && <ReportCover />}
-        {step === 6 && (
-          <BarChart mainType={userInfo.mainType} scoreMain={scoreMain} />
+        {step === 6 && <ReportCover />}
+        {step === 7 && (
+          <Summary
+            name={userInfo.name}
+            mainType={userInfo.mainType}
+            subType={userInfo.subType}
+            scoreData={scoreMain}
+            keywordData={dataMain.keywords}
+          />
         )}
-        {step === 7 && <Keywords data={dataMain.keywords} />}
-        {step === 8 && <WorkingStyle data={dataMain.strength} />}
-        {step === 9 && <Weak data={dataMain.weakness} />}
-        {step === 10 && <Justifying data={dataMain.work_style} />}
-        {step === 11 && <Motivation data={dataMain.motivation} />}
+        {step === 8 && (
+          <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />
+        )}
+        {step === 9 && <KeywordPage data={dataMain.keywords} />}
+        {/* {step === 9 && <WorkingStyle data={dataMain.strength} />} */}
+        {step === 10 && <Weak data={dataMain.weakness} />}
+        {step === 11 && <Justifying data={dataMain.work_style} />}
+        {step === 12 && <Motivation data={dataMain.motivation} />}
         {step === 12 && <Changes data={dataMain.changes} />}
         {step === 13 && <Stress data={dataMain.stress} />}
         {step === 14 && <Cowork data={dataMain.cowork} />}
@@ -317,9 +328,9 @@ function ResultPage({ userInfo, setUserInfo }) {
         {step === 20 && <TextPage />}
         {step === 21 && <SheetPage />}
       </div>
-      {/* <button className="btnPDF" onClick={() => generatePDF(true)}>
+      <button className="btnPDF" onClick={() => generatePDF(true)}>
         PDF 저장하기
-      </button> */}
+      </button>
       <div className="page-buttons">
         {step > 1 && (
           <button

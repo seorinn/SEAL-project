@@ -1,0 +1,96 @@
+.KeywordPage {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.KeywordPage .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.KeywordPage .result-text-main {
+  padding: 0 0.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+}
+.KeywordPage .main-title {
+  margin-bottom: 1rem;
+}
+.KeywordPage .main-content {
+  margin-left: 5rem;
+  font-size: 1rem;
+}
+.KeywordPage .main-content b {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 400;
+  background-color: var(--navy700);
+  padding: 0.325rem 2.75rem;
+  margin: 0 0.25rem;
+  border-radius: 0.75rem;
+}
+.KeywordPage .main-info {
+  padding: 0 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+}
+.KeywordPage .top-section {
+  display: flex;
+  align-items: center;
+}
+.KeywordPage .top-section .img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-right: 1.25rem;
+}
+.KeywordPage .top-section img.left {
+  width: 3rem;
+  padding: 1rem 1.125rem;
+  background-color: var(--navy500);
+}
+.KeywordPage .typename {
+  width: fit-content;
+  padding: 0.325rem 1rem;
+  background-color: var(--underline);
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.KeywordPage .typeintro {
+  margin-left: 0.75rem;
+  color: gray;
+}
+
+.KeywordPage .typename b {
+  font-size: 0.75rem;
+}
+.KeywordPage .description {
+  margin-left: 7.5rem;
+  line-height: 1.5;
+}
+.KeywordPage .keyword-section {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.KeywordPage .keyword-section .title {
+  width: 100%;
+  text-align: center;
+  font-family: NanumSquareNeoBold;
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--navy400);
+}
+.KeywordPage .keyword-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

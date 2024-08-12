@@ -1,0 +1,131 @@
+.Summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.Summary .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.Summary .content {
+  flex: 1;
+  padding: 0 3rem;
+  padding-top: 1rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+.Summary .name-container {
+  display: flex;
+  align-items: end;
+  font-weight: bold;
+}
+.Summary .name-container img {
+  width: 4rem;
+  margin-right: 0.75rem;
+}
+.Summary .box .title {
+  font-family: NanumSquareNeoBold;
+  font-size: 1.125rem;
+  margin-top: 1.5rem;
+}
+.Summary .box .title b {
+  font-family: NanumSquareNeo;
+  font-size: 1.325rem;
+  padding: 0 0.5rem;
+}
+.Summary .box .content-items {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.Summary .box .content-items .item-left {
+  width: 18rem;
+  height: 21rem;
+  padding: 0 1rem;
+  position: relative;
+  display: flex;
+  align-items: end;
+}
+.Summary .box:nth-child(3) .content-items .item-left {
+  height: 23rem;
+}
+.Summary .item-left .quarter-container {
+  position: absolute;
+  top: -1rem;
+  scale: 0.75;
+  transform-origin: 50% 50%;
+}
+.Summary .item-left .quarter-container .background {
+  opacity: 0.25;
+}
+.Summary .quarter-container .selected {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.Summary .quarter-container .selected .quarter-selected {
+  width: 100%;
+  height: 100%;
+  background-color: var(--navy700);
+}
+.Summary .quarter-container .selected .quarter-selected.top.left {
+  border-top-left-radius: 100%;
+}
+.Summary .quarter-container .selected .quarter-selected.top.right {
+  border-top-right-radius: 100%;
+}
+.Summary .quarter-container .selected .quarter-selected.bottom.left {
+  border-bottom-left-radius: 100%;
+}
+.Summary .quarter-container .selected .quarter-selected.bottom.right {
+  border-bottom-right-radius: 100%;
+}
+.Summary .item-left .chartable-container {
+  scale: 0.325;
+  transform-origin: top;
+  position: absolute;
+  top: 3rem;
+  left: -7rem;
+}
+.Summary .item-right .component-container {
+  width: 35rem;
+  height: 0;
+  padding: 1rem;
+  scale: 0.42;
+  position: absolute;
+  right: -10.5rem;
+  top: -0.5rem;
+}
+.Summary .box:nth-child(3) .item-right .component-container {
+  width: 45rem;
+  height: 0;
+  padding: 1rem;
+  scale: 0.42;
+  position: absolute;
+  right: -15.25rem;
+  top: 1rem;
+}
+.Summary .box .content-items .item-right {
+  width: 16.5rem;
+  height: 16.5rem;
+  position: relative;
+  border-radius: 1rem;
+  margin-left: 2rem;
+  text-align: center;
+  display: flex;
+  box-shadow: 3px 3px 15px 2px rgb(0 0 0 / 0.15);
+}
+.Summary .component-title {
+  width: 25rem;
+  margin-top: -2rem;
+}
+.Summary .component-title b {
+  margin: 0 0.25rem;
+}

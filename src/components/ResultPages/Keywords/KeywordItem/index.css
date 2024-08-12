@@ -1,0 +1,32 @@
+.KeywordItem {
+  width: 9.25rem;
+  height: 6rem;
+  position: relative;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: NanumSquareNeoBold;
+  font-size: 0.9rem;
+}
+.KeywordItem .item-name {
+  width: 3.5rem;
+  text-align: center;
+  line-height: 1.5;
+  color: gray;
+}
+.KeywordItem .hexagon {
+  width: 5.875rem;
+  height: 5rem;
+  background-color: var(--text-box);
+  clip-path: polygon(25% 0%, 0% 50%, 25% 100%, 75% 100%, 100% 50%, 75% 0%);
+  margin: 1rem;
+  position: absolute;
+  z-index: -1;
+}
+.KeywordItem.true .item-name {
+  color: white;
+}
+.KeywordItem.true .hexagon {
+  background-color: var(--navy600);
+}
