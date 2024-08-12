@@ -40,7 +40,6 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
       return { key, value };
     });
     entries.sort((a, b) => b.value - a.value);
-    console.log(entries);
     setSecondType(entries[1]);
     setIsLargeGap(entries[0].value - entries[1].value > 10);
   }, []);

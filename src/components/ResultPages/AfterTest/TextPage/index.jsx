@@ -31,17 +31,16 @@ function TextPage() {
                 </div>
                 <div className="question">
                   <div className="question-item">
-                    ① <tab />이 자료가 당신의 전형적인 모습을 잘 나타내고
-                    있나요?
+                    <div className="num">①</div> 이 자료가 당신의 전형적인
+                    모습을 잘 나타내고 있나요?
                   </div>
                   <div className="question-item">
-                    ② <tab />
-                    어느 부분에 동의하고, 어느 부분에 동의하지 않나요?
+                    <div className="num">②</div> 어느 부분에 동의하고, 어느
+                    부분에 동의하지 않나요?
                   </div>
                   <div className="question-item">
-                    ③ <tab />
-                    불안할 때와 차분하고 집중력을 유지할 때의 모습은 많이
-                    다른가요?
+                    <div className="num">③</div> 불안할 때와 차분하고 집중력을
+                    유지할 때의 모습은 많이 다른가요?
                   </div>
                 </div>
               </div>
@@ -50,21 +49,21 @@ function TextPage() {
                 <img className="chartable" alt="12캐릭터" src={img_chartable} />
                 <div className="question">
                   <div className="question-item">
-                    ① <tab />
+                    <div className="num">①</div>
                     강한 캐릭터와 약한 캐릭터 결과를 동의하시나요? (아니시라면
                     왜?)
                   </div>
                   <div className="question-item">
-                    ② <tab />
+                    <div className="num">②</div>
                     이런 캐릭터 유형이 주위 사람들이나 나의 일에 어떤 영향을
                     미칠까요?
                   </div>
                   <div className="question-item">
-                    ③ <tab />
+                    <div className="num">③</div>
                     강점을 더 강하게 하시려면 무엇을 어떻게 하셔야 할까요?
                   </div>
                   <div className="question-item">
-                    ④ <tab />
+                    <div className="num">④</div>
                     약점으로 기회를 잃지 않으시려면 무엇을 어떻게 보완하셔야
                     할까요?
                   </div>

@@ -47,6 +47,10 @@
 }
 .TextPage .box .question-item {
   margin-bottom: 1rem;
+  display: flex;
+}
+.TextPage .num {
+  margin-right: 0.5rem;
 }
 .TextPage .box .chartable {
   width: 7.125rem;

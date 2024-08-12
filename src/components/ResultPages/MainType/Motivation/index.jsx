@@ -51,7 +51,12 @@ function Motivation({ data }) {
                           {item.point.split(", ")[1]}
                         </div>
                       </div>
-                      <div className="item-example">{item.text}</div>
+                      <div
+                        className="item-example"
+                        dangerouslySetInnerHTML={{
+                          __html: item.text.replace(/\\n/g, `<br/>`),
+                        }}
+                      ></div>
                     </div>
                   </div>
                 ))}

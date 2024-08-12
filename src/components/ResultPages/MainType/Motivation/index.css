@@ -82,6 +82,7 @@
   border-radius: 1rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   text-align: center;
   font-family: NanumSquareNeoBold;
 }

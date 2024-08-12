@@ -314,7 +314,7 @@ function ResultPage({ userInfo, setUserInfo }) {
         {step === 10 && <Weak data={dataMain.weakness} />}
         {step === 11 && <Justifying data={dataMain.work_style} />}
         {step === 12 && <Motivation data={dataMain.motivation} />}
-        {step === 12 && <Changes data={dataMain.changes} />}
+        {/* {step === 12 && <Changes data={dataMain.changes} />} */}
         {step === 13 && <Stress data={dataMain.stress} />}
         {step === 14 && <Cowork data={dataMain.cowork} />}
 
