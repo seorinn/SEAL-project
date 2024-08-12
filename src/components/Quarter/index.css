@@ -1,0 +1,73 @@
+.Quarter {
+  width: 18rem;
+  height: 18rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.Quarter div {
+  display: flex;
+}
+.Quarter .top-left {
+  background-color: var(--navy700);
+  border-top-left-radius: 100%;
+}
+.Quarter .top-right {
+  left: 0;
+  background-color: var(--navy600);
+  border-top-right-radius: 100%;
+}
+.Quarter .bottom-left {
+  top: 0;
+  background-color: var(--navy400);
+  border-bottom-left-radius: 100%;
+}
+.Quarter .bottom-right {
+  top: 0;
+  left: 0;
+  background-color: var(--navy500);
+  border-bottom-right-radius: 100%;
+}
+.Quarter .top-left,
+.Quarter .top-right {
+  bottom: 0;
+  align-items: end;
+  margin-bottom: 0.125rem;
+}
+.Quarter .top-left,
+.Quarter .bottom-left {
+  right: 0;
+  justify-content: end;
+  margin-right: 0.15rem;
+}
+
+.Quarter .inner {
+  width: 6rem;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 4.5rem;
+  font-weight: bold;
+}
+
+.Quarter .top-left .inner {
+  background-color: var(--navy-r);
+  padding: 1.5rem 0 0 1.5rem;
+  border-top-left-radius: 100%;
+}
+.Quarter .top-right .inner {
+  background-color: var(--navy-e);
+  padding: 1.5rem 1.5rem 0 0;
+  border-top-right-radius: 100%;
+}
+.Quarter .bottom-left .inner {
+  background-color: var(--navy-a);
+  padding: 0 0 1.5rem 1.5rem;
+  border-bottom-left-radius: 100%;
+}
+.Quarter .bottom-right .inner {
+  background-color: var(--navy-l);
+  padding: 0 1.5rem 1.5rem 0;
+  border-bottom-right-radius: 100%;
+}

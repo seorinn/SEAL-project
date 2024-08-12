@@ -1,0 +1,74 @@
+.SheetPage {
+  display: flex;
+  flex-direction: column;
+}
+.SheetPage .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.SheetPage .content {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  line-height: 1.7;
+  flex: 1;
+}
+.SheetPage .top {
+  font-size: 0.9rem;
+}
+.SheetPage .top .saying {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.SheetPage .top .saying b {
+  font-weight: 400;
+  font-style: italic;
+  font-family: "Times New Roman", Times, serif;
+}
+.SheetPage .bottom {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2rem 3rem;
+}
+.SheetPage .bottom .item {
+  padding: 1rem;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}
+.SheetPage .bottom .item.bottom-left,
+.SheetPage .bottom .item.bottom-right {
+  border-top: none;
+}
+.SheetPage .bottom .item.top-left,
+.SheetPage .bottom .item.bottom-left {
+  border-right: none;
+}
+.SheetPage .bottom p {
+  font-style: italic;
+  margin: 0;
+}
+.SheetPage .bottom h1 {
+  margin: -2.25rem 0;
+  font-size: 4.5rem;
+  font-family: "Times New Roman", Times, serif;
+}
+.SheetPage .bottom .item.top-right p,
+.SheetPage .bottom .item.bottom-right p {
+  text-align: end;
+}
+.SheetPage .bottom .item.top-left p,
+.SheetPage .bottom .item.top-right p {
+  flex: 1;
+}
+.SheetPage .bottom .item.bottom-left h1,
+.SheetPage .bottom .item.bottom-right h1 {
+  flex: 1;
+}
+.SheetPage .bottom .item.top-left h1,
+.SheetPage .bottom .item.bottom-left h1 {
+  text-align: end;
+}

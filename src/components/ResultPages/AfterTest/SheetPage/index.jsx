@@ -1,3 +1,4 @@
+import Bottom from "../../Bottom";
 import Header from "../../Header";
 import "./index.css";
 
@@ -11,68 +12,42 @@ function SheetPage() {
         />
         <div className="content">
           <div className="top">
-            <div className="saying"></div>
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명
-          </div>
-          <div className="mid">
-            <div className="main-type">
-              <div className="title">REAL 유형에서</div>
-              <div className="img-container">
-                <div className="quarter" />
-                <div className="question">
-                  <div className="question-item">
-                    ① 이 자료가 당신의 전형적인 모습을 잘 나타내고 있나요?
-                  </div>
-                  <div className="question-item">
-                    ② 어느 부분에 동의하고, 어느 부분에 동의하지 않나요?
-                  </div>
-                  <div className="question-item">
-                    ③ 불안할 때와 차분하고 집중력을 유지할 때의 모습은 많이
-                    다른가요?
-                  </div>
-                </div>
-              </div>
+            <div className="saying">
+              "지식을 행동으로 옮기지 않으면 불충분한 지식이나 다름없다" <br />
+              <b>
+                Knowing is not enough; we must apply. Willing is not enough; we
+                must do{" "}
+              </b>
+              <br />
+              아리스토텔레스(Aristotle) BC 384~322
             </div>
-            <div className="sub-type">
-              <div className="title">12개 캐릭터 유형에서</div>
-              <div className="img-container">
-                <div className="table" />
-                <div className="question">
-                  <div className="question-item">
-                    ① 강한 캐릭터와 약한 캐릭터 결과를 동의하시나요? (아니시라면
-                    왜?)
-                  </div>
-                  <div className="question-item">
-                    ② 이런 캐릭터 유형이 주위 사람들이나 나의 일에 어떤 영향을
-                    미칠까요?
-                  </div>
-                  <div className="question-item">
-                    ③ 강점을 더 강하게 하시려면 무엇을 어떻게 하셔야 할까요?
-                  </div>
-                  <div className="question-item">
-                    ④ 약점으로 기회를 잃지 않으시려면 무엇을 어떻게 보완하셔야
-                    할까요?
-                  </div>
-                </div>
-              </div>
-            </div>
+            비즈니스 수업에서 배운 이론을 실제 사업에 적용하거나, 윤리학에서
+            배운 원칙을 일상 결정에 반영하는 것과 같이 지식을 실천에 옮기는 것의
+            중요성을 강조합니다. 이 사상은 약 2천년 전에 나왔음에도 불구하고,
+            오늘날에도 여전히 중요한 교훈을 제공합니다. <br />
+            <br />
+            진단 결과에서 얻는 시사점을 아래와 같은 방법으로 실천해보세요.
           </div>
           <div className="bottom">
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명
-            설명 설명 설명
+            <div className="item top-left">
+              <p>제거(Eliminate)</p>
+              <h1>E</h1>
+            </div>
+            <div className="item top-right">
+              <p>감소(Reduce)</p>
+              <h1>R</h1>
+            </div>
+            <div className="item bottom-left">
+              <h1>R</h1>
+              <p>증가(Raise)</p>
+            </div>
+            <div className="item bottom-right">
+              <h1>C</h1>
+              <p>창조(Create)</p>
+            </div>
           </div>
         </div>
+        <Bottom pageIndex={0} />
       </div>
     </div>
   );

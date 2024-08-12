@@ -47,12 +47,15 @@
   }
   .Question .button-container {
     width: 100%;
-    padding-left: 1.75rem;
+    padding-left: 0;
     margin-bottom: 1rem;
     font-size: 0.75rem;
   }
   .Question .buttons {
     padding: 0 0.75rem;
+  }
+  .Question p {
+    width: 3rem;
   }
 }
 @media (max-width: 350px) {

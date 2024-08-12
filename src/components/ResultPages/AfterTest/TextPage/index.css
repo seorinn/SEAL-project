@@ -1,0 +1,54 @@
+.TextPage {
+  display: flex;
+  flex-direction: column;
+}
+.TextPage .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.TextPage .content {
+  padding: 1.5rem;
+  line-height: 1.7;
+  flex: 1;
+  font-size: 0.9rem;
+}
+.TextPage .top {
+  margin-bottom: 1rem;
+}
+.TextPage .mid {
+  padding: 0 1rem;
+}
+.TextPage .mid .content-item {
+  margin: 3rem 0;
+}
+.TextPage .mid .content-item .title {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+}
+.TextPage .mid .content-item .box {
+  margin-top: 1.5rem;
+  display: flex;
+}
+.TextPage .mid .content-item .box:nth-child(2) {
+  margin-bottom: 3rem;
+}
+.TextPage .box .quarter-container {
+  width: 0;
+  height: 0;
+  scale: 0.35;
+  transform-origin: 0 0;
+}
+.TextPage .content-item .box:nth-child(2) .question {
+  margin-left: 9rem;
+}
+.TextPage .box .question-item {
+  margin-bottom: 1rem;
+}
+.TextPage .box .chartable {
+  width: 7.125rem;
+  height: 7.125rem;
+  margin-right: 1.875rem;
+}

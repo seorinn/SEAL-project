@@ -32,13 +32,15 @@ import Motivation from "../../components/ResultPages/MainType/Motivation";
 import ScoreGraph from "../../components/ResultPages/SubCharacter/ScoreGraph";
 import BarChart from "../../components/ResultPages/MainType/BarChart";
 import Keywords from "../../components/ResultPages/MainType/Keywords";
+import TextPage from "../../components/ResultPages/AfterTest/TextPage";
+import SheetPage from "../../components/ResultPages/AfterTest/SheetPage";
 
 function ResultPage({ userInfo, setUserInfo }) {
   const location = useLocation();
   const { state, scoreMain, scoreSub } = location.state;
   const [step, setStep] = useState(1);
   const [scale, setScale] = useState(1);
-  const max = 20;
+  const max = 25;
 
   useEffect(
     () =>
@@ -213,24 +215,23 @@ function ResultPage({ userInfo, setUserInfo }) {
   const generatePDF = async (isClickedDownload) => {
     const pages = [
       // <CoverPage userInfo={userInfo} />,
-      <RootInfo />,
-      <Introduction />,
-      <Overview />,
-      <Character />,
-      <ReportCover />,
+      // <Introduction />,
+      // <Overview />,
+      // <Character />,
+      // <ReportCover />,
       // <BarChart mainType={userInfo.mainType} scoreMain={scoreMain} />,
-      // <Keywords mainType={userInfo.mainType} />,
-      // <WorkingStyle mainType={userInfo.mainType} />,
-      // <Weak mainType={userInfo.mainType} />,
-      // <Justifying />,
-      // <Motivation mainType={userInfo.mainType} />,
-      // <Changes />,
-      // <Stress mainType={userInfo.mainType} />,
-      // <Cowork mainType={userInfo.mainType} />,
+      // <Keywords data={dataMain.keywords} />,
+      // <WorkingStyle data={dataMain.strength} />,
+      // <Weak data={dataMain.weakness} />,
+      // <Justifying data={dataMain.work_style} />,
+      // <Motivation data={dataMain.motivation} />,
+      // <Changes data={dataMain.changes} />,
+      // <Stress data={dataMain.stress} />,
+      // <Cowork data={dataMain.cowork} />,
       // <SubTable subType={userInfo.subType} />,
-      // <Strength subType={userInfo.subType} />,
-      // <Weakness subType={userInfo.subType} />,
-      // <Behavior subType={userInfo.subType} />,
+      // <Strength data={dataSub.strength} />,
+      // <Weakness data={dataSub.weakness} />,
+      // <Behavior data={dataSub.behavior} />,
       // <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />,
     ];
     const element = (
@@ -288,9 +289,9 @@ function ResultPage({ userInfo, setUserInfo }) {
         }}
       >
         {step === 1 && <CoverPage userInfo={userInfo} />}
-        {/* {step === 1 && <RootInfo />} */}
-        {step === 2 && <Introduction />}
-        {step === 3 && <Overview />}
+        {step === 2 && <RootInfo />}
+        {step === 3 && <Introduction />}
+        {/* {step === 3 && <Overview />} */}
         {step === 4 && <Character />}
 
         {step === 5 && <ReportCover />}
@@ -313,6 +314,8 @@ function ResultPage({ userInfo, setUserInfo }) {
         {step === 19 && (
           <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />
         )}
+        {step === 20 && <TextPage />}
+        {step === 21 && <SheetPage />}
       </div>
       {/* <button className="btnPDF" onClick={() => generatePDF(true)}>
         PDF 저장하기

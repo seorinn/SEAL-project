@@ -6,31 +6,38 @@
   padding: 1.5rem;
   flex: 1;
 }
-.Introduction .content-box {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: 0.5rem;
-}
-.Introduction .content-box .title {
-  width: 25rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--navy700);
-  margin-bottom: 0.25rem;
-  font-family: NanumSquareNeoBold;
-  font-size: 1.05rem;
-}
 .Introduction .content {
-  padding: 0.5rem 0;
+  line-height: 1.75;
+  position: relative;
+}
+.Introduction .content .text {
   font-size: 0.9rem;
-  line-height: 1.5;
+  padding: 3rem 4rem;
 }
-.Introduction .content p {
-  margin-bottom: 0.25rem;
-  background-color: var(--underline);
-  width: fit-content;
-  padding: 0 0.25rem;
+.Introduction .content .text b {
+  font-style: italic;
+  text-decoration: underline;
 }
-.Introduction .content div {
-  margin-bottom: 1.25rem;
+.Introduction .detail {
+  margin-top: 1rem;
+  display: flex;
+}
+.Introduction .detail .number {
+  margin-right: 0.75rem;
+}
+.Introduction .text-bottom {
+  width: 27rem;
+}
+.Introduction .quarter-container {
+  position: absolute;
+  bottom: 1rem;
+  right: 2rem;
+  z-index: -1;
+  opacity: 0.7;
+  mask-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  filter: grayscale(100%);
 }

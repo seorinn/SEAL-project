@@ -49,6 +49,9 @@ input {
 img {
   user-select: none;
 }
+tab {
+  margin-right: 0.5rem;
+}
 
 .pdfPage {
   /* width: 100%; */
