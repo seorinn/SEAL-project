@@ -1,10 +1,12 @@
 import "./index.css";
 
-function Header() {
+function Header({ reportname, title }) {
   return (
     <div className="resultheader">
-      <img alt="logo_SEAL_header" src="" />
-      <p>Personal Behavior Report</p>
+      <p>{reportname}</p>
+      <div className="title">
+        <span>{title}</span>
+      </div>
     </div>
   );
 }

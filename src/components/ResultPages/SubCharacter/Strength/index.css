@@ -1,0 +1,79 @@
+.Strength {
+  display: flex;
+  flex-direction: column;
+}
+.Strength .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.Strength .top-section {
+  padding: 0 0.5rem;
+  position: relative;
+}
+.Strength .text-section {
+  margin-right: 2rem;
+  font-size: 0.9rem;
+}
+.Strength .text-section .intro {
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+}
+.Strength .img-container {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0.625rem;
+  margin-right: 1rem;
+  border: 11px solid var(--navy700);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Strength .img-container img {
+  width: 1.5rem;
+}
+.Strength .text-section .text-box {
+  background-color: var(--text-box);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 25rem;
+  min-height: 7rem;
+  border-radius: 1rem;
+}
+.Strength .text-section .text-box-item {
+  line-height: 1.5;
+  padding: 0 0.25rem;
+  margin-bottom: 0.325rem;
+}
+.Strength .top-section .table-container {
+  position: absolute;
+  scale: 0.35;
+  top: -9.25rem;
+  right: -8.55rem;
+}
+.Strength .bottom-section {
+  height: 100%;
+  padding: 0 0.5rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+.Strength .bottom-section .text-section {
+  margin: 0;
+}
+.Strength .bottom-section .text-section .strength-item {
+  margin-bottom: 1rem;
+}
+.Strength .strength-item .item-title {
+  font-family: NanumSquareNeoBold;
+  font-weight: 400;
+  margin-bottom: 0.15rem;
+}
+.Strength .strength-item .item-content {
+  color: gray;
+  margin-left: 1.25rem;
+}

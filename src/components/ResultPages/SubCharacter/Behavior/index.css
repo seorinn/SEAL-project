@@ -1,0 +1,45 @@
+.Behavior {
+  display: flex;
+  flex-direction: column;
+}
+.Behavior .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.Behavior .content {
+  padding: 0 0.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+.Behavior .content:nth-child(3) {
+  /*?*/
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.Behavior .behavior-box-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+.Behavior .char {
+  font-family: NanumSquareNeoBold;
+  margin-bottom: 0.875rem;
+}
+.Behavior .char-title {
+  display: flex;
+  align-items: center;
+  font-family: NanumSquareNeoBold;
+  margin-bottom: 0.125rem;
+}
+.Behavior .do {
+  margin-bottom: 2rem;
+}
+.Behavior .do img,
+.Behavior .dont img {
+  width: 1.125rem;
+  margin-right: 0.25rem;
+}

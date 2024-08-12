@@ -26,7 +26,6 @@ function CourseListModal({
   };
 
   useEffect(() => {
-    getCourses();
     document.addEventListener("keydown", handleKeyPress);
   }, [modalIsOpen]);
 

@@ -2,11 +2,19 @@
   width: 100%;
   display: flex;
   justify-content: start;
-  border-bottom: 1px solid rgb(19, 113, 156);
+  border-bottom: 1px solid var(--navy700);
+  margin-bottom: 1rem;
 }
 .BoxTitle div {
-  background-color: rgb(19, 113, 156);
+  background: linear-gradient(
+    to right,
+    var(--navy700),
+    var(--navy700),
+    var(--navy400)
+  );
   color: white;
-  padding: 0.625rem 1.75rem;
+  padding: 1rem 1.5rem;
   border-top-left-radius: 1.5rem;
+  font-size: 1.125rem;
+  min-width: 12.5rem;
 }

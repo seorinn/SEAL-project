@@ -1,0 +1,143 @@
+.CharTable {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.CharTable .circle-outer {
+  width: 35rem;
+  height: 35rem;
+  border-radius: 100%;
+  background-color: var(--table-none);
+  z-index: 1;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.CharTable .top-left {
+  background-color: #030e33;
+}
+.CharTable .top-right {
+  background-color: #2f3958;
+}
+.CharTable .bottom-left {
+  background-color: #8991a1;
+}
+.CharTable .bottom-right {
+  background-color: #5c647d;
+}
+.CharTable .half-container {
+  position: absolute;
+  width: 35.25rem;
+  height: 35.25rem;
+  margin: -0.1rem 0 0 -0.1rem;
+  border-radius: 100%;
+  overflow: hidden;
+}
+.CharTable .half {
+  width: 50rem;
+  height: 17.625rem;
+  background-color: var(--table-none);
+}
+.CharTable .half:nth-child(2) {
+  position: absolute;
+  height: 18rem;
+  margin-top: -3rem;
+  transform: rotate(-30deg);
+  background-color: var(--table-none);
+}
+
+.CharTable .circle-inner {
+  width: 20rem;
+  height: 20rem;
+  border-radius: 100%;
+  background-color: white;
+  position: absolute;
+  z-index: 1;
+}
+.CharTable .lines-container {
+  width: 35rem;
+  height: 35rem;
+  position: absolute;
+}
+.CharTable .line {
+  position: absolute;
+  width: 0.25rem;
+  height: 35rem;
+  background-color: white;
+  z-index: 1;
+}
+.CharTable .item {
+  position: absolute;
+  height: 37rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: NanumSquareNeoBold;
+  color: white;
+}
+.CharTable .item-circle {
+  position: absolute;
+  top: -1rem;
+  width: 3.75rem;
+  height: 4rem;
+  border-radius: 100%;
+  z-index: -1;
+}
+.CharTable .item .item-name {
+  font-size: 0.875rem;
+}
+.CharTable .item .item-nameEng {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+.CharTable .icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: 0.4;
+  transform-origin: top;
+}
+.CharTable img {
+  margin: 3.25rem 0;
+}
+.CharTable .circle-wrapper {
+  position: absolute;
+  height: 39rem;
+  display: flex;
+  justify-content: center;
+}
+.CharTable .circle-back {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 100%;
+  opacity: 0.5;
+  position: absolute;
+  top: -10px;
+}
+.CharTable .area {
+  position: absolute;
+  height: 47.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.CharTable .area-line {
+  width: 1px;
+  height: 2rem;
+  margin-top: 0.25rem;
+  background-color: var(--table-area);
+  z-index: 1;
+}
+.CharTable .area-item {
+  font-family: NanumSquareNeoBold;
+  font-size: 0.9rem;
+  width: 10.5rem;
+  text-align: center;
+  padding: 0.625rem 2.5rem;
+  border-radius: 10rem;
+  background-color: var(--table-area);
+}

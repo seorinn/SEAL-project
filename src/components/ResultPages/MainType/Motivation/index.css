@@ -1,0 +1,85 @@
+.Motivation {
+  display: flex;
+  flex-direction: column;
+}
+.Motivation .container {
+  padding: 1.5rem;
+  flex: 1;
+}
+.Motivation .content {
+  padding: 0 0.5rem;
+}
+.Motivation .box {
+  margin-top: 2rem;
+}
+.Motivation .box-content {
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.Motivation .content-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+.Motivation .text-section {
+  margin-bottom: 2rem;
+}
+.Motivation .item {
+  margin-bottom: 2.5rem;
+}
+.Motivation .item-title {
+  width: 12rem;
+  text-align: center;
+  border: 1px solid var(--text-box);
+  border-left: 1rem solid var(--text-box);
+  border-right: 1rem solid var(--text-box);
+  padding: 0.125rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.Motivation .item-content {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+.Motivation .bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
+}
+.Motivation .item-points {
+  display: flex;
+  flex-direction: column;
+}
+.Motivation .point-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.Motivation .point-title img {
+  width: 1.75rem;
+}
+.Motivation .point-title div {
+  margin: 0 -0.75rem;
+  font-size: 1rem;
+}
+.Motivation .point-item {
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+  margin-bottom: 0.5rem;
+}
+.Motivation .point-item img {
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+.Motivation .item-example {
+  width: 13.5rem;
+  background-color: var(--more-info-box);
+  padding: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}

@@ -1,0 +1,36 @@
+.Introduction {
+  display: flex;
+  flex-direction: column;
+}
+.Introduction .container {
+  padding: 1.5rem;
+  flex: 1;
+}
+.Introduction .content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0.5rem;
+}
+.Introduction .content-box .title {
+  width: 25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--navy700);
+  margin-bottom: 0.25rem;
+  font-family: NanumSquareNeoBold;
+  font-size: 1.05rem;
+}
+.Introduction .content {
+  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.Introduction .content p {
+  margin-bottom: 0.25rem;
+  background-color: var(--underline);
+  width: fit-content;
+  padding: 0 0.25rem;
+}
+.Introduction .content div {
+  margin-bottom: 1.25rem;
+}

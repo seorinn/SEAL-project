@@ -2,40 +2,30 @@
   display: flex;
   flex-direction: column;
 }
-.Character .background,
-.Character .fourtypes-container {
+.Character .container {
   display: flex;
   flex-direction: column;
-  margin: 0 2.5rem;
-}
-.Character .title {
-  font-size: 1.375rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid gray;
+  padding: 1.5rem;
+  flex: 1;
 }
 .Character .content {
-  font-size: 0.95rem;
-  border-bottom: 1px solid gray;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  padding: 0.5rem 0;
-}
-.Character .content p {
-  line-height: 1.5rem;
-  margin: 0.5rem 0;
-}
-.Character .fourtypes-container {
-  flex: 1;
-}
-.Character .fourtypes-container .content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.Character .content .fourtypes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 2rem 1rem;
   height: 100%;
+  padding: 0 0.5rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+}
+.Character .content .text {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+.Character .container .content .characters {
+  margin-bottom: 1rem;
+  flex: 1;
+  scale: 0.9;
+}
+.Character .content .bottom-text {
+  font-size: 0.75rem;
+  line-height: 2;
 }

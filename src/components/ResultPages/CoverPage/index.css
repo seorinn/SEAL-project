@@ -1,0 +1,98 @@
+.CoverPage {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.CoverPage .top-section {
+  padding: 2.5rem;
+  height: 37.5%;
+  background-color: var(--navy700);
+}
+.CoverPage .top-section .logo_root {
+  width: 8rem;
+}
+.CoverPage .bottom-section {
+  padding: 0 5rem;
+  flex: 1;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.CoverPage .bottom-section .user-container {
+  display: flex;
+  flex-direction: column;
+}
+.CoverPage .user-container .title {
+  color: gray;
+  margin-bottom: 0.5rem;
+}
+.CoverPage .user-container .reportfor {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-family: "Times New Roman", Times, serif;
+}
+.CoverPage .user-container .user-info-container {
+  display: flex;
+  align-items: center;
+  margin-left: -0.125rem;
+}
+.CoverPage .user-info-container img {
+  max-width: 8rem;
+  max-height: 4rem;
+  margin-right: 1rem;
+}
+.CoverPage .user-info-container .user-info div {
+  line-height: 1.25;
+}
+.CoverPage .bottom-info {
+  height: 10%;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  line-height: 1.25;
+}
+.CoverPage .bottom-info .title {
+  font-size: 0.8rem;
+  font-family: NanumSquareNeoBold;
+  color: var(--navy700);
+  padding-right: 0.75rem;
+  margin-bottom: 0.125rem;
+}
+.CoverPage .bottom-info .content {
+  font-size: 0.75rem;
+  padding-right: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.CoverPage .bottom-info .line {
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+.CoverPage .bottom-info .copyright {
+  font-size: 0.725rem;
+  height: 1.7rem;
+  padding: 1rem;
+  padding-right: 0.75rem;
+}
+.CoverPage .logo-container {
+  position: absolute;
+  top: -2.3rem;
+  width: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.CoverPage .logo-container div {
+  color: white;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 600;
+  font-size: 1.325rem;
+  height: 1rem;
+  margin-bottom: 3rem;
+}
+.CoverPage .logo_real {
+  width: 16.5rem;
+  border-radius: 100%;
+}

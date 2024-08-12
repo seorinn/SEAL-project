@@ -1,0 +1,20 @@
+.MoreInfoBox {
+  background-color: var(--more-info-box);
+  padding: 0.625rem 1rem;
+  border: 3px solid var(--text-box);
+  border-radius: 1rem;
+  font-size: 0.9rem;
+}
+.MoreInfoBox .box-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.MoreInfoBox .box-title img {
+  width: 1.875rem;
+  margin-right: 0.25rem;
+}
+.MoreInfoBox .box-content {
+  padding: 0 0.5rem;
+  margin-bottom: 1rem;
+}

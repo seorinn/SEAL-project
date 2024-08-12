@@ -20,28 +20,14 @@ function Table({
   handleDownloadExcel,
   sortDataFunc,
   initData,
+  loading,
+  setLoading,
+  courses,
+  getCourses,
 }) {
-  const [courses, setCourses] = useState([]);
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
   const [showAddCourse, setShowAddCourse] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    getCourses();
-  }, []);
-
-  const getCourses = async () => {
-    setLoading(true);
-    try {
-      const courseList = await getCourseList();
-      setCourses(courseList);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSort = (item, ascend) => {
     setShowSortMenu(false);

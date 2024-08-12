@@ -8,7 +8,12 @@ import {
 } from "firebase/storage";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { getUserList, getStoragePath, getFileName } from "../../util";
+import {
+  getUserList,
+  getCourseList,
+  getStoragePath,
+  getFileName,
+} from "../../util";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
@@ -19,6 +24,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   const code = process.env.REACT_APP_ADMIN;
   const [keyword, setKeyword] = useState("");
   const [detailKeyword, setDetailKeyword] = useState("");
+  const [courses, setCourses] = useState([]);
   const [data, setData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
   const [detailData, setDetailData] = useState([]);
@@ -41,6 +47,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
 
   useEffect(() => {
     initData();
+    getCourses();
   }, []);
 
   useEffect(() => {
@@ -58,6 +65,18 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       const userList = await getUserList();
       setData(userList);
       if (!keyword) setSearchedData(userList);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getCourses = async () => {
+    setLoading(true);
+    try {
+      const courseList = await getCourseList();
+      setCourses(courseList);
     } catch (error) {
       console.error(error);
     } finally {
@@ -107,23 +126,31 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     saveAs(blob, "SEAL 진단 사용자 목록.xlsx");
   };
 
-  const sortDataFunc = (sortBy, isAscending) => {
-    if (isAscending)
-      detailKeyword
-        ? detailData.sort((a, b) =>
-            a[sortBy] > b[sortBy] ? 1 : b[sortBy] > a[sortBy] ? -1 : 0
-          )
-        : searchedData.sort((a, b) =>
-            a[sortBy] > b[sortBy] ? 1 : b[sortBy] > a[sortBy] ? -1 : 0
-          );
-    else
-      detailKeyword
-        ? detailData.sort((a, b) =>
-            a[sortBy] < b[sortBy] ? 1 : b[sortBy] < a[sortBy] ? -1 : 0
-          )
-        : searchedData.sort((a, b) =>
-            a[sortBy] < b[sortBy] ? 1 : b[sortBy] < a[sortBy] ? -1 : 0
-          );
+  const sortDataFunc = async (sortBy, isAscending) => {
+    setLoading(true);
+    try {
+      // const compare = (a, b) => {
+      //   if (a[sortBy] > b[sortBy]) return 1;
+      //   if (a[sortBy] < b[sortBy]) return -1;
+      //   return 0;
+      // };
+      // const reverseCompare = (a, b) => {
+      //   if (a[sortBy] < b[sortBy]) return 1;
+      //   if (a[sortBy] > b[sortBy]) return -1;
+      //   return 0;
+      // };
+      // if (detailKeyword)
+      //   setDetailData(detailData.sort(isAscending ? compare : reverseCompare));
+      // else
+      //   setSearchedData(
+      //     searchedData.sort(isAscending ? compare : reverseCompare)
+      //   );
+      alert("수정중");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCheckBox = async (button) => {
@@ -222,6 +249,10 @@ function AdminPage({ isAdmin, setIsAdmin }) {
             handleDownloadExcel={handleDownloadExcel}
             sortDataFunc={sortDataFunc}
             initData={initData}
+            loading={loading}
+            setLoading={setLoading}
+            courses={courses}
+            setCourses={setCourses}
           />
         )}
       </div>

@@ -4,13 +4,30 @@
   --color-a-main: rgb(168, 0, 0);
   --color-l-main: rgba(0, 114, 9, 0.842);
   --font-gray: rgb(100, 100, 100);
+  --underline: #e2e7ea;
+  --navy700: #030e33;
+  --navy600: #2f3958;
+  --navy500: #5c647d;
+  --navy400: #8991a1;
+  --navy300: #b6bcc5;
+  --navy-r: #808699;
+  --navy-e: #979cab;
+  --navy-a: #c4c8d0;
+  --navy-l: #adb1be;
+  --text-box: #e4e6ec;
+  --text-box2: #f2f2f2;
+  --more-info-box: #eff1f5;
+  --table-none: #efefef;
+  --table-area: #d3d3d3;
+  --text-pos: #0070c0;
+  --text-neg: #c00000;
 }
 .App {
   width: 100%;
   min-width: fit-content;
   display: flex;
   justify-content: center;
-  font-family: "Pretendard-Regular";
+  font-family: "NanumSquareNeo";
   /* font-family: omnigothic, sans-serif; */
   color: rgb(80, 80, 80);
 }
@@ -23,16 +40,21 @@ p {
   cursor: default;
 }
 button {
-  font-family: "Pretendard-Regular";
+  font-family: "NanumSquareNeo";
   /* font-family: omnigothic, sans-serif; */
   cursor: pointer;
   user-select: none;
 }
 input {
-  font-family: omnigothic, sans-serif;
+  font-family: "NanumSquareNeo";
 }
+img {
+  user-select: none;
+}
+
 .pdfPage {
-  width: 100%;
+  /* width: 100%; */
+  width: 210mm;
   height: 296.625mm;
   margin: auto;
 }
@@ -41,6 +63,7 @@ input {
   height: 297mm;
   box-shadow: 0 0 50px 0.2px rgb(0 0 0 / 0.075);
   animation: opacity 1s ease forwards;
+  color: black;
 }
 .logo-container {
   display: flex;
@@ -51,7 +74,7 @@ input {
 
 @keyframes opacity {
   0% {
-    opacity: 0.25;
+    /* opacity: 0.25; */
   }
   100% {
     opacity: 1;

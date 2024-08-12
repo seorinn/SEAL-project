@@ -1,19 +1,52 @@
 .TypeItem {
   display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.TypeItem div {
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 10rem;
+}
+.TypeItem .initial {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 100%;
+  margin-bottom: 0.25rem;
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1rem;
 }
 
-.TypeItem img {
-  background-color: aliceblue;
-  width: 10rem;
-  height: 10rem;
-  border-radius: 100%;
-  margin-bottom: 1rem;
+.TypeItem.R .initial {
+  background-color: var(--navy-r);
+}
+.TypeItem.E .initial {
+  background-color: var(--navy-e);
+}
+.TypeItem.A .initial {
+  background-color: var(--navy-a);
+}
+.TypeItem.L .initial {
+  background-color: var(--navy-l);
 }
 
-.TypeItem .name {
-  margin-bottom: 0.25rem;
+.TypeItem .initial div {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 4.5rem;
+  font-weight: bold;
+}
+
+.TypeItem .nameEng {
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+.TypeItem .content {
+  text-align: start;
+  font-size: 0.75rem;
+  margin-right: 1rem;
+  flex: 1;
 }

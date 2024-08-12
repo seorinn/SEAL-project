@@ -1,0 +1,54 @@
+.Weak {
+  display: flex;
+  flex-direction: column;
+}
+.Weak .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.Weak .content {
+  display: flex;
+  flex-direction: column;
+  padding: 0rem 0.5rem;
+  flex: 1;
+  font-size: 0.9rem;
+}
+.Weak .box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  flex: 1;
+}
+.Weak .box-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem;
+  line-height: 1.6;
+  flex: 1;
+}
+.Weak .intro {
+  margin-bottom: 1.5rem;
+}
+.Weak .content-section {
+  display: flex;
+  width: 100%;
+  line-height: 1.6;
+  flex: 1;
+}
+.Weak .text-section {
+  margin-top: 1.5rem;
+  margin-right: 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.Weak .text-item {
+  margin-bottom: 2rem;
+}
+.Weak .case-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-right: 1rem;
+}

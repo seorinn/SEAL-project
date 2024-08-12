@@ -1,13 +1,21 @@
 .resultheader {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 3rem;
-  margin: 2.5rem;
-  margin-bottom: 0;
-  border-bottom: 1px solid gray;
+  flex-direction: column;
+  align-items: end;
 }
 .resultheader p {
-  margin: 0;
-  font-size: 1.125rem;
+  padding-right: 1.5rem;
+  color: var(--navy700);
+  font-weight: 600;
+}
+.resultheader .title {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 0.625rem 0;
+  margin-bottom: 1rem;
+  border-top: 1px solid var(--navy400);
+  border-bottom: 1px solid var(--navy400);
+}
+.resultheader span {
+  padding: 0 0.5rem;
 }

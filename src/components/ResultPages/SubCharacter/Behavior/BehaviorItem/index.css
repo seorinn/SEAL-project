@@ -1,0 +1,30 @@
+.BehaviorItem {
+  width: 22.325rem;
+  display: flex;
+  flex-direction: column;
+}
+.BehaviorItem .item-header {
+  color: white;
+  width: 12rem;
+  padding: 0.5rem 1.25rem;
+  border-top-left-radius: 1.5rem;
+  text-align: center;
+  font-size: 1rem;
+}
+.BehaviorItem .box {
+  background-color: var(--text-box2);
+  padding: 1.25rem;
+  padding-bottom: 0;
+  font-size: 0.9rem;
+  min-height: 17.25rem;
+}
+.BehaviorItem .item {
+  margin-bottom: 1.5rem;
+}
+.BehaviorItem .item-content {
+  font-family: NanumSquareNeoBold;
+  margin-bottom: 0.25rem;
+}
+.BehaviorItem .item-detail {
+  color: gray;
+}

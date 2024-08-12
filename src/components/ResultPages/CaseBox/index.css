@@ -1,0 +1,41 @@
+.CaseBox {
+  width: 14rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: var(--navy300);
+  padding: 2rem 1.25rem;
+  border-radius: 1rem;
+  line-height: 1.5;
+  font-size: 0.875rem;
+  position: relative;
+}
+.CaseBox .item-content {
+  font-weight: bold;
+  width: 8.5rem;
+  padding: 0 3rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+}
+.CaseBox .item-detail {
+  font-size: 0.8rem;
+}
+.CaseBox .icon_search {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 100%;
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  background-color: var(--navy300);
+  border: 5px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.CaseBox .icon_search img {
+  width: 2rem;
+  height: 2rem;
+}

@@ -1,0 +1,47 @@
+.BarChart {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.BarChart .container {
+  padding: 1.5rem;
+  flex: 1;
+}
+.BarChart .content {
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.BarChart .main-title {
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+}
+.BarChart .main-content {
+  margin-bottom: 2rem;
+}
+.BarChart .fourtypes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 1.5rem;
+}
+.BarChart .typeitem {
+  display: flex;
+  margin-bottom: 1.75rem;
+}
+.BarChart .typeitem .icon-container {
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+}
+.BarChart .typeitem img {
+  height: 2rem;
+  margin-right: 0.75rem;
+}
+.BarChart .typeitem .item-name {
+  font-family: NanumSquareNeoBold;
+  margin-bottom: 0.5rem;
+}
+.BarChart .bar-container {
+  display: flex;
+  justify-content: center;
+}

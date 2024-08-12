@@ -1,0 +1,27 @@
+.Justifying {
+  display: flex;
+  flex-direction: column;
+}
+.Justifying .container {
+  padding: 1.5rem;
+  flex: 1;
+}
+.Justifying .content {
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+}
+.Justifying .box {
+  margin-top: 2rem;
+}
+.Justifying .box-content {
+  padding: 0 0.5rem;
+  line-height: 1.6;
+}
+.Justifying .content-section {
+  display: flex;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+.Justifying .text-item {
+  margin-bottom: 1rem;
+}

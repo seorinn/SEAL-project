@@ -1,0 +1,52 @@
+.ScoreGraph {
+  display: flex;
+  flex-direction: column;
+}
+.ScoreGraph .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+}
+.ScoreGraph .content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem;
+  flex: 1;
+}
+.ScoreGraph .score-radar {
+  padding: 0 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+.ScoreGraph .bottom-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ScoreGraph .box {
+  background-color: var(--text-box);
+  width: 19.75rem;
+  height: 9.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.ScoreGraph .box .title {
+  font-family: NanumSquareNeoBold;
+  /* font-size: 1rem; */
+  color: var(--text-pos);
+  margin-bottom: 0.5rem;
+}
+
+.ScoreGraph .box.left .title {
+  color: var(--text-neg);
+}
+.ScoreGraph .box-item {
+  margin-bottom: 0.5rem;
+}

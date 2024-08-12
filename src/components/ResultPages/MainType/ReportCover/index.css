@@ -1,0 +1,99 @@
+.ReportCover {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.ReportCover .top-section {
+  padding: 2.5rem;
+  height: 37.5%;
+  background-color: var(--navy700);
+}
+.ReportCover .top-section .logo_root {
+  width: 8rem;
+}
+.ReportCover .bottom-section {
+  padding: 0 5rem;
+  flex: 1;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.ReportCover .bottom-info {
+  height: 10%;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  line-height: 1.25;
+}
+.ReportCover .bottom-info .title {
+  font-size: 0.8rem;
+  font-family: NanumSquareNeoBold;
+  color: var(--navy700);
+  padding-right: 0.75rem;
+  margin-bottom: 0.125rem;
+}
+.ReportCover .bottom-info .content {
+  font-size: 0.75rem;
+  padding-right: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.ReportCover .bottom-info .line {
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+.ReportCover .bottom-info .copyright {
+  font-size: 0.725rem;
+  height: 1.7rem;
+  padding: 1rem;
+  padding-right: 0.75rem;
+}
+.ReportCover .cover {
+  position: absolute;
+  top: -2.3rem;
+  width: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.ReportCover .cover .logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5rem;
+}
+.ReportCover .cover .report {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 600;
+  font-size: 1.325rem;
+  height: 1rem;
+  margin-bottom: 3rem;
+}
+.ReportCover .logo_real {
+  width: 16.5rem;
+  border-radius: 100%;
+}
+.ReportCover .title-container {
+  padding-top: 6.5rem;
+  font-family: NanumSquareNeoBold;
+}
+.ReportCover .title-container div {
+  font-size: 1.375rem;
+  line-height: 1.25;
+}
+.ReportCover .title-container .title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.ReportCover .title-container .subtitle {
+  color: var(--navy700);
+}
+.ReportCover .subtitle span {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 600;
+  padding: 0 0.5rem;
+}

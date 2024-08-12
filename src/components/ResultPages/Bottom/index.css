@@ -1,8 +1,24 @@
 .Bottom {
   display: flex;
   justify-content: end;
-  margin: 1rem 2.5rem;
+  margin: 0 1.5rem;
+  margin-bottom: 0.75rem;
+  border-top: 1px solid black;
+  position: relative;
 }
 .Bottom img {
-  margin-left: 1rem;
+  padding: 1rem;
+  width: 8rem;
+  height: 1.7rem;
+}
+.Bottom .page-index {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Bottom .page-index div {
+  font-size: 0.875rem;
 }

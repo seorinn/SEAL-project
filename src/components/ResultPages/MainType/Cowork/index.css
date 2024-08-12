@@ -1,0 +1,34 @@
+.Cowork {
+  display: flex;
+  flex-direction: column;
+}
+.Cowork .container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  padding-bottom: 0.5rem;
+  flex: 1;
+}
+.Cowork .container .content-title {
+  font-size: 1.125rem;
+  padding: 0 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+.Cowork .container .content-title img {
+  width: 1.75rem;
+}
+.Cowork .container .content-title div {
+  margin: 0 -0.75rem;
+}
+.Cowork .container .content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.Cowork .content .content-four-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

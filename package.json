@@ -11,6 +11,7 @@
     "@mescius/spread-sheets-resources-ko": "^17.1.0",
     "@mescius/spread-sheets-shapes": "^17.1.0",
     "@mescius/spread-sheets-slicers": "^17.1.0",
+    "@nivo/bar": "^0.87.0",
     "@nivo/core": "^0.87.0",
     "@nivo/radar": "^0.87.0",
     "@testing-library/jest-dom": "^5.17.0",
