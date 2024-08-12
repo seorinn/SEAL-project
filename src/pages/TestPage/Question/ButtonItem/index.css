@@ -1,39 +1,52 @@
 .Question button {
   padding: 1.5rem;
   border-radius: 100%;
-  border: 2px solid rgb(190, 190, 190);
+  border: 2px solid var(--navy700);
   background-color: transparent;
-}
-.Question button:nth-child(3) {
-  padding: 0.5rem;
 }
 .Question button:nth-child(2),
 .Question button:nth-child(4) {
-  padding: 1rem;
+  border: 2px solid var(--navy500);
+  padding: 1.125rem;
 }
-.Question button.agree {
-  border: 2px solid var(--color-s-main);
+.Question button:nth-child(3) {
+  border: 2px solid var(--navy400);
+  padding: 0.875rem;
 }
-.Question button.disagree {
-  border: 2px solid brown;
-}
+
 .Question button:hover {
-  background-color: rgb(190, 190, 190);
+  background-color: var(--navy700);
+  border: 2px solid var(--navy700);
   opacity: 0.75;
+  animation: scale 0.1s ease forwards;
 }
 .Question button.true {
-  background-color: rgb(190, 190, 190);
-  opacity: 1;
+  background-color: var(--navy700);
+  border: 2px solid var(--navy700);
 }
-.Question button.agree:hover {
-  background-color: var(--color-s-main);
+
+@media (max-width: 450px) {
+  .Question button {
+    padding: 0.875rem;
+  }
+  .Question button:nth-child(2),
+  .Question button:nth-child(4) {
+    padding: 0.75rem;
+  }
+  .Question button:nth-child(3) {
+    padding: 0.625rem;
+  }
 }
-.Question button.agree.true {
-  background-color: var(--color-s-main);
-}
-.Question button.disagree:hover {
-  background-color: brown;
-}
-.Question button.disagree.true {
-  background-color: brown;
+
+@media (max-width: 350px) {
+  .Question button {
+    padding: 0.625rem;
+  }
+  .Question button:nth-child(2),
+  .Question button:nth-child(4) {
+    padding: 0.5rem;
+  }
+  .Question button:nth-child(3) {
+    padding: 0.325rem;
+  }
 }

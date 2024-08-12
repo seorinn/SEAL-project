@@ -83,7 +83,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
       <button className="btn-submit" onClick={handleSubmit}>
         진단 시작하기
       </button>
-      <img alt="logo_real_eng" src={logo_real_eng} />
+      {/* <img alt="logo_real_eng" src={logo_real_eng} /> */}
     </div>
   );
 }

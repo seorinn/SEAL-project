@@ -86,7 +86,7 @@ function Header({ setUserInfo, setIsUser }) {
     <div className="Header">
       <div>
         <img alt="logo_root" src={logo_root_header} onClick={goMain} />
-        <button
+        {/* <button
           onClick={() =>
             navigation(`/result`, {
               state: { state: state, scoreMain: scoreMain, scoreSub: scoreSub },
@@ -94,7 +94,7 @@ function Header({ setUserInfo, setIsUser }) {
           }
         >
           결과 예시
-        </button>
+        </button> */}
         <button onClick={() => navigation(`/admin`)}>관리자로 이동</button>
       </div>
     </div>

@@ -10,16 +10,16 @@
 }
 .Header img {
   cursor: pointer;
-  width: 10rem;
+  width: 8rem;
 }
 .Header div {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5rem;
+  padding: 0 3rem;
   font-size: 1.25rem;
   font-weight: 600;
-  height: 5rem;
+  height: 4rem;
 }
 .Header div button {
   outline: none;
@@ -28,4 +28,19 @@
   color: var(--font-gray);
   background-color: transparent;
   padding: 0.325rem 0.625rem;
+  border: none;
+}
+.Header div button:hover {
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .Header div {
+    padding: 0 2rem;
+  }
+  .Header div img {
+    width: 6rem;
+  }
+  .Header div button {
+    font-size: 0.75rem;
+  }
 }

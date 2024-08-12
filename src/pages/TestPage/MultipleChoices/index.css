@@ -1,15 +1,18 @@
 .MultipleChoices {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin-bottom: 4rem;
   font-weight: 500;
+  height: 20rem;
 }
 .MultipleChoices .title {
   height: 1.25rem;
   cursor: default;
   margin-bottom: 2rem;
   font-size: 1.2rem;
+  text-align: center;
 }
 
 .MultipleChoices .button-container {
@@ -20,24 +23,39 @@
 .MultipleChoices .button-container .btn_answer {
   width: 40rem;
   background-color: transparent;
-  border: 1px solid var(--color-s-main);
+  border: 2px solid var(--navy300);
   border-radius: 0.875rem;
-  padding: 1.25rem;
-  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  margin-bottom: 0.875rem;
   box-shadow: 2px 2px 5px 0 rgb(0 0 0 / 0.25);
-  font-size: 0.875rem;
+  font-size: 1rem;
+  color: black;
+}
+.MultipleChoices .button-container .btn_answer:hover {
+  border: 2px solid var(--navy600);
+  animation: scale2 0.25s ease forwards;
+}
+.MultipleChoices .button-container .btn_answer.true {
+  border: 2px solid var(--navy700);
+  background-color: var(--navy700);
+  color: white;
 }
 
-.MultipleChoices .button-container .btn_answer:nth-child(2) {
-  border: 1px solid var(--color-l-main);
-}
-.MultipleChoices .button-container .btn_answer:nth-child(3) {
-  border: 1px solid var(--color-e-main);
-}
-.MultipleChoices .button-container .btn_answer:nth-child(4) {
-  border: 1px solid var(--color-a-main);
-}
-.MultipleChoices .button-container .btn_answer:hover,
-.MultipleChoices .button-container .btn_answer.true {
-  scale: 1.02;
+@media (max-width: 450px) {
+  .MultipleChoices {
+    margin-bottom: 2.75rem;
+    font-weight: 500;
+  }
+  .MultipleChoices .title {
+    width: 75%;
+    height: 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+  }
+  .MultipleChoices .button-container .btn_answer {
+    width: 18rem;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
+  }
 }

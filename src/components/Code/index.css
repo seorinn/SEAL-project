@@ -4,14 +4,23 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   overflow: hidden;
   color: var(--font-gray);
 }
+.Code .logo-background {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 25rem;
+  background-color: var(--navy700);
+  z-index: 0;
+}
 .Code img.logo {
   width: 12rem;
+  margin-top: 19rem;
   margin-bottom: 2rem;
+  z-index: 1;
 }
 .Code p {
   margin-bottom: 2rem;
@@ -31,9 +40,10 @@
 .Code button {
   outline: none;
   border: none;
-  background-color: var(--color-s-main);
+  background-color: var(--navy600);
   color: white;
   padding: 0.375rem 2rem;
+  margin-bottom: 5rem;
   border-radius: 10rem;
   font-size: 1rem;
   font-weight: 300;
@@ -44,4 +54,22 @@
   height: 100%;
   z-index: -1;
   opacity: 0.5;
+}
+
+@media (max-width: 450px) {
+  .Code .logo-background {
+    height: 18rem;
+  }
+  .Code img.logo {
+    margin-top: 12rem;
+    margin-bottom: 0.75rem;
+  }
+  .Code p {
+    margin-bottom: 1.25rem;
+  }
+  .Code input {
+    width: 15rem;
+    padding: 0.625rem 1.5rem;
+    margin-bottom: 1.75rem;
+  }
 }

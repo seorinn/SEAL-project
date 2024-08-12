@@ -7,8 +7,8 @@
   position: relative;
 }
 .GetInformPage .title {
+  font-family: NanumSquareNeoBold;
   font-size: 1.25rem;
-  font-weight: 500;
   margin-top: 3.5rem;
   margin-bottom: 1rem;
 }
@@ -28,13 +28,13 @@
 }
 .GetInformPage .btn-submit {
   padding: 0.75rem 7rem;
-  background-color: var(--color-s-main);
+  background-color: var(--navy600);
   outline: none;
   border: none;
   border-radius: 10rem;
   color: white;
   font-size: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
 }
 .GetInformPage span {
   color: hwb(120 20% 35%);
@@ -48,4 +48,32 @@
   width: 7rem;
   bottom: 2.5rem;
   right: 5rem;
+}
+
+@media (max-width: 450px) {
+  .GetInformPage .title {
+    margin-top: 2.5rem;
+  }
+  .GetInformPage .input-container div {
+    width: 20rem;
+  }
+  .GetInformPage .input-container input {
+    padding: 0.75rem 1rem;
+  }
+  .GetInformPage .input-container p {
+    margin-bottom: 0.75rem;
+  }
+}
+@media (max-width: 350px) {
+  .GetInformPage .input-container div {
+    width: 17.5rem;
+    font-size: 0.875rem;
+  }
+  .GetInformPage .input-container p {
+    margin-bottom: 0.75rem;
+  }
+  .GetInformPage .btn-submit {
+    width: 17.5rem;
+    padding: 0.75rem 0;
+  }
 }

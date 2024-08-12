@@ -24,5 +24,13 @@
   height: 10px;
   border-radius: 1rem;
   z-index: 1;
-  background-color: var(--color-s-main);
+  background-color: var(--navy700);
+}
+
+@media (max-width: 450px) {
+  .ProgressBar {
+    width: 75%;
+    padding: 1rem 0;
+    font-size: 0.75rem;
+  }
 }

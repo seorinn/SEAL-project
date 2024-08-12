@@ -1,24 +1,31 @@
 .Question {
-  height: 10.2rem;
+  height: 12.2rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 4rem;
-  font-weight: 500;
+  margin-bottom: 2rem;
 }
 .Question .title {
   cursor: default;
-  margin-bottom: 3rem;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
   font-size: 1.2rem;
 }
 .Question .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50em;
+  width: 50rem;
   padding-left: 2.5rem;
   padding-bottom: 2.5rem;
   border-bottom: 1px solid darkgray;
+  flex: 1;
+}
+.Question p {
+  min-width: 3rem;
+  text-align: center;
 }
 .Question .buttons {
   display: flex;
@@ -26,7 +33,36 @@
   padding: 0 2rem;
   justify-content: space-between;
   align-items: center;
+  flex: 1;
 }
 .Question.true {
   opacity: 0.3;
+}
+
+@media (max-width: 450px) {
+  .Question .title {
+    max-width: 18rem;
+    margin: 1rem;
+    font-size: 0.875rem;
+  }
+  .Question .button-container {
+    width: 100%;
+    padding-left: 1.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+  }
+  .Question .buttons {
+    padding: 0 0.75rem;
+  }
+}
+@media (max-width: 350px) {
+  .Question .title {
+    max-width: 15rem;
+  }
+  .Question .button-container {
+    max-width: 15rem;
+  }
+  .Question .buttons {
+    padding: 0 0.5rem;
+  }
 }

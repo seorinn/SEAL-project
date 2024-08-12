@@ -28,20 +28,18 @@
   display: flex;
   justify-content: center;
   font-family: "NanumSquareNeo";
-  /* font-family: omnigothic, sans-serif; */
   color: rgb(80, 80, 80);
 }
 .App-Body {
   width: 100%;
-  min-height: calc(100vh - 5rem);
-  margin-top: 5rem;
+  min-height: calc(100vh - 4rem);
+  margin-top: 4rem;
 }
 p {
   cursor: default;
 }
 button {
   font-family: "NanumSquareNeo";
-  /* font-family: omnigothic, sans-serif; */
   cursor: pointer;
   user-select: none;
 }
@@ -74,9 +72,27 @@ img {
 
 @keyframes opacity {
   0% {
-    /* opacity: 0.25; */
+    opacity: 0.2;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes scale {
+  0% {
+    scale: 1;
+  }
+  100% {
+    scale: 1.2;
+  }
+}
+
+@keyframes scale2 {
+  0% {
+    scale: 1;
+  }
+  100% {
+    scale: 1.05;
   }
 }
