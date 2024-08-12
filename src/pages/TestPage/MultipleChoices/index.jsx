@@ -37,7 +37,7 @@ function MultipleChoices({
         })
       )
     );
-    const scrollAmount = 6 * answers.length * 16;
+    const scrollAmount = 24 * 16;
     window.scrollTo({
       top: window.pageYOffset + scrollAmount,
       behavior: "smooth",
