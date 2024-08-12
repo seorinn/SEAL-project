@@ -2,6 +2,7 @@
   width: 100%;
   border-bottom: 1px solid var(--navy700);
   font-size: 1.125rem;
+  font-family: NanumSquareNeoBold;
   padding: 0.5rem 0;
   margin-bottom: 1rem;
 }

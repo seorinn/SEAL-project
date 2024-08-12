@@ -10,6 +10,7 @@
 }
 .resultheader .title {
   width: 100%;
+  font-family: NanumSquareNeoBold;
   font-size: 1.2rem;
   padding: 0.625rem 0;
   margin-bottom: 1rem;

@@ -37,6 +37,7 @@
   border-right: 1rem solid var(--text-box);
   padding: 0.125rem;
   margin-bottom: 0.5rem;
+  font-family: NanumSquareNeoBold;
   font-size: 1rem;
 }
 .Motivation .item-content {
@@ -82,4 +83,5 @@
   display: flex;
   align-items: center;
   text-align: center;
+  font-family: NanumSquareNeoBold;
 }

@@ -10,7 +10,7 @@ function MoreInfoBox({ title, contents }) {
       </div>
       {contents.map((item, index) => (
         <div key={index} className="box-content">
-          {item.content}
+          <b>{item.content}</b>
           <br />
           {item.detail}
         </div>

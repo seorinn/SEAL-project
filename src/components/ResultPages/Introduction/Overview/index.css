@@ -39,5 +39,6 @@
   border-bottom: 1px solid var(--navy400);
 }
 .Overview .header span {
+  font-family: NanumSquareNeoBold;
   padding: 0 0.5rem;
 }

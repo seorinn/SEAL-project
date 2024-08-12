@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
-  font-family: NanumSquareNeoBold;
+  font-size: 1rem;
 }
 .CoworkItem .name img {
   height: 1.75rem;
