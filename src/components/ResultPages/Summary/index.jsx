@@ -13,8 +13,8 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
   const [initial, setInitial] = useState("");
   const [adjMain, setAdjMain] = useState("");
   const [adjSub, setAdjSub] = useState("");
-  const [contentMain, setContentMain] = useState("");
-  const [contentSub, setContentSub] = useState("");
+  const [contentMain, setContentMain] = useState([]);
+  const [contentSub, setContentSub] = useState([]);
   const [keywords, setKeywords] = useState([]);
   const [secondType, setSecondType] = useState({ key: "", value: 0 });
   const [isLargeGap, setIsLargeGap] = useState(false);
@@ -23,14 +23,14 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
     fourTypes.map((item) => {
       if (item.name === mainType) {
         setInitial(item.nameEng.slice(0, 1));
-        setContentMain(item.content);
+        setContentMain(item.content.split("\n"));
         setAdjMain(item.adj);
       }
     });
     twelveChar.map((item) => {
       if (item.name === subType) {
         setAdjSub(item.adj);
-        setContentSub(item.nameEng);
+        setContentSub(item.content.split(", "));
       }
     });
     setKeywords(keywordData[0].content.split(", "));
@@ -97,7 +97,11 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
                     />
                   </div>
                 </div>
-                <div className="text-container">{contentMain}</div>
+                <div className="text-container">
+                  {contentMain.map((item) => (
+                    <div key={item}>{item}</div>
+                  ))}
+                </div>
               </div>
               <div className="item-right">
                 {isLargeGap ? (
@@ -133,7 +137,11 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
                 <div className="chartable-container">
                   <CharTable current={subType} />
                 </div>
-                <div className="text-container">{contentMain}</div>
+                <div className="text-container">
+                  {contentSub.map((item) => (
+                    <div key={item}>{item}</div>
+                  ))}
+                </div>
               </div>
               <div className="item-right">
                 <div className="component-title">

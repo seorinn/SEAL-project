@@ -97,3 +97,17 @@
   font-weight: 600;
   padding: 0 0.5rem;
 }
+.ReportCover .root-logo {
+  margin: 20rem 0 0 30rem;
+}
+
+.ReportCover .root-logo .text {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: bold;
+  color: gray;
+  margin-bottom: 1rem;
+}
+
+.ReportCover .root-logo img {
+  width: 15rem;
+}
