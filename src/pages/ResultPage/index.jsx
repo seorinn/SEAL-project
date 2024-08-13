@@ -42,7 +42,7 @@ function ResultPage({ userInfo, setUserInfo }) {
   const { state, scoreMain, scoreSub } = location.state;
   const [step, setStep] = useState(1);
   const [scale, setScale] = useState(1);
-  const max = 25;
+  const max = 23;
 
   useEffect(
     () =>
