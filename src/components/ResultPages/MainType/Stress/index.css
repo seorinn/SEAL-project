@@ -35,9 +35,13 @@
   padding: 0.5rem;
   border-radius: 100%;
   margin-left: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Stress .maintype-container img {
   width: 2.5rem;
+  height: 2.5rem;
 }
 .Stress .box-content {
   padding: 0 0.5rem;
