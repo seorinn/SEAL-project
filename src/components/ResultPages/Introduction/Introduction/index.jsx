@@ -3,7 +3,7 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import "./index.css";
 
-function Introduction() {
+function Introduction({ step }) {
   return (
     <div className="Introduction resultpage">
       <div className="container">
@@ -58,26 +58,12 @@ function Introduction() {
               개발은 물론, 조직의 건강한 문화 형성에도 기여하고자 합니다.
             </div>
           </div>
-          {/* <div className="quarter">
-            <div className="top-left">
-              <div className="inner">R</div>
-            </div>
-            <div className="top-right">
-              <div className="inner">E</div>
-            </div>
-            <div className="bottom-left">
-              <div className="inner">A</div>
-            </div>
-            <div className="bottom-right">
-              <div className="inner">L</div>
-            </div>
-          </div> */}
           <div className="quarter-container">
             <Quarter />
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

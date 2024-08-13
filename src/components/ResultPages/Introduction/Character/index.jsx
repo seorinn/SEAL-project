@@ -3,7 +3,7 @@ import CharTable from "../../CharTable";
 import Header from "../../Header";
 import "./index.css";
 
-function Character() {
+function Character({ step }) {
   return (
     <div className="Character resultpage">
       <div className="container">
@@ -32,7 +32,7 @@ function Character() {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

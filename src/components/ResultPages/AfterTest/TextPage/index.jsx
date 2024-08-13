@@ -4,7 +4,7 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import "./index.css";
 
-function TextPage() {
+function TextPage({ step }) {
   return (
     <div className="TextPage resultpage">
       <div className="container">
@@ -83,7 +83,7 @@ function TextPage() {
             만들 수 있습니다.
           </div>
         </div>
-        <Bottom pageIndex={0} />
+        <Bottom pageIndex={step - 1} />
       </div>
     </div>
   );

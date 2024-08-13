@@ -5,7 +5,7 @@ import "./index.css";
 import Bottom from "../../Bottom";
 import BarChart from "../BarChart";
 
-function BarPage({ mainType, scoreMain }) {
+function BarPage({ step, mainType, scoreMain }) {
   const [nameEng, setNameEng] = useState("");
   const [intro, setIntro] = useState("");
   const [content, setContent] = useState("");
@@ -54,7 +54,7 @@ function BarPage({ mainType, scoreMain }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

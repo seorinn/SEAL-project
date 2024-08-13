@@ -7,7 +7,7 @@ import SubHeader from "../../SubHeader";
 import BehaviorItem from "./BehaviorItem";
 import "./index.css";
 
-function Behavior({ data }) {
+function Behavior({ step, data }) {
   const [likes, setLikes] = useState([]);
   const [dislikes, setDislikes] = useState([]);
   const [oppositeChar, setOppositeChar] = useState("");
@@ -43,16 +43,8 @@ function Behavior({ data }) {
         <div className="content">
           <SubHeader title="선호하는 말과 행동 / 선호하지 않는 말과 행동" />
           <div className="behavior-box-container">
-            <BehaviorItem
-              title="선호하는 말과 행동"
-              //   contents={likes}
-              contents={likes}
-            />
-            <BehaviorItem
-              title="선호하지 않는 말과 행동"
-              //   contents={dislikes}
-              contents={dislikes}
-            />
+            <BehaviorItem title="선호하는 말과 행동" contents={likes} />
+            <BehaviorItem title="선호하지 않는 말과 행동" contents={dislikes} />
           </div>
         </div>
         <div className="content">
@@ -76,7 +68,7 @@ function Behavior({ data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

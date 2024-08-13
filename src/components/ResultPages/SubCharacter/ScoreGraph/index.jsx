@@ -5,7 +5,7 @@ import Header from "../../Header";
 import ScoreRadar from "../../ScoreRadar";
 import "./index.css";
 
-function ScoreGraph({ subType, scoreSub }) {
+function ScoreGraph({ step, subType, scoreSub }) {
   const [lowestType, setLowestType] = useState("");
   const [hightestContent, setHighestContent] = useState([]);
   const [lowestContent, setLowestContent] = useState([]);
@@ -82,7 +82,7 @@ function ScoreGraph({ subType, scoreSub }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

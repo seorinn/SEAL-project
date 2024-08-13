@@ -4,7 +4,7 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import "./index.css";
 
-function SubTable({ subType }) {
+function SubTable({ step, subType }) {
   return (
     <div className="SubTable resultpage">
       <div className="container">
@@ -43,7 +43,7 @@ function SubTable({ subType }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

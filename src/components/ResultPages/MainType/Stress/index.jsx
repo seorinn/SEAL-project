@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { fetchData } from "../../../../util";
+import { fourTypes, getIconImage, fetchData } from "../../../../util";
 import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
 import "./index.css";
 import SubHeader from "../../SubHeader";
 
-function Stress({ data }) {
+function Stress({ step, data }) {
   const [name, setName] = useState("");
   const [tendency, setTendency] = useState("");
   const [tendencyExample, setTendencyExample] = useState("");
@@ -14,6 +14,7 @@ function Stress({ data }) {
   const [weakness, setWeakness] = useState([]);
   const [control, setControl] = useState([]);
   const [recommand, setRecommand] = useState([]);
+  const [initial, setInitial] = useState("");
 
   useEffect(() => {
     setName(data[0].type);
@@ -25,6 +26,10 @@ function Stress({ data }) {
     setWeakness(data.filter((item) => item.category === "stress_weakness"));
     setControl(data.filter((item) => item.category === "stress_control"));
     setRecommand(data.filter((item) => item.category === "stress_recommand"));
+    fourTypes.map((item) => {
+      if (item.name === data[0].type)
+        setInitial(item.nameEng.slice(0, 1).toLowerCase());
+    });
   }, []);
 
   return (
@@ -34,6 +39,15 @@ function Stress({ data }) {
           reportname="Personal Behavior Report"
           title="1. 나의 REAL 대표 유형"
         />
+        <div className="maintype-container">
+          <div className="text">{name}</div>
+          <div
+            className="img-container"
+            style={{ backgroundColor: `var(--navy-${initial})` }}
+          >
+            <img alt={name} src={getIconImage(name, true)} />
+          </div>
+        </div>
         <div className="box">
           <BoxTitle title="스트레스 반응" />
           {tendency && strength && weakness && control && recommand && (
@@ -84,7 +98,7 @@ function Stress({ data }) {
           )}
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

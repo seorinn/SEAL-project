@@ -9,6 +9,28 @@
 .Justifying .content {
   padding: 0 0.5rem;
   font-size: 0.9rem;
+  position: relative;
+}
+.Justifying .maintype-container {
+  position: absolute;
+  top: -2rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+.Justifying .maintype-container .text {
+  background-color: var(--text-box);
+  padding: 0.25rem 1rem;
+  font-family: NanumSquareNeoBold;
+  border-radius: 1rem;
+}
+.Justifying .maintype-container .img-container {
+  padding: 0.5rem;
+  border-radius: 100%;
+  margin-left: 0.5rem;
+}
+.Justifying .maintype-container img {
+  width: 2.5rem;
 }
 .Justifying .box {
   margin-top: 2rem;

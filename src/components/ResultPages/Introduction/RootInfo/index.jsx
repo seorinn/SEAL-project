@@ -3,7 +3,7 @@ import Header from "../../Header";
 import Bottom from "../../Bottom";
 import "./index.css";
 
-function RootInfo() {
+function RootInfo({ step }) {
   return (
     <div className="RootInfo resultpage">
       <div className="container">
@@ -55,7 +55,7 @@ function RootInfo() {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

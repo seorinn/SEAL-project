@@ -285,9 +285,9 @@ export const getIconImage = (typename, isWhite) => {
     case "분석형":
       return isWhite ? icon_r_white : icon_r;
     case "관계형":
-      return isWhite ? icon_a_white : icon_e;
+      return isWhite ? icon_e_white : icon_e;
     case "도전형":
-      return isWhite ? icon_e_white : icon_a;
+      return isWhite ? icon_a_white : icon_a;
     case "안정형":
       return isWhite ? icon_l_white : icon_l;
     case "촉진자":

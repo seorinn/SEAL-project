@@ -5,7 +5,7 @@ import CircularItem from "./CircularItem";
 import TypeItem from "./TypeItem";
 import "./index.css";
 
-function Overview() {
+function Overview({ step }) {
   return (
     <div className="Overview resultpage">
       <div className="container">
@@ -36,7 +36,7 @@ function Overview() {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

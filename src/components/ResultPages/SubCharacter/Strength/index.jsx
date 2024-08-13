@@ -7,7 +7,7 @@ import MoreInfoBox from "../../MoreInfoBox";
 import CharTable from "../../CharTable";
 import "./index.css";
 
-function Strength({ data }) {
+function Strength({ step, data }) {
   const [content, setContent] = useState([]);
   const [strengths, setStrengths] = useState([]);
   const [cases, setCases] = useState([]);
@@ -62,7 +62,7 @@ function Strength({ data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

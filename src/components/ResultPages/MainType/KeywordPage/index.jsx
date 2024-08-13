@@ -26,7 +26,7 @@ const keywordsList = [
   "목표달성",
 ];
 
-function KeywordPage({ data }) {
+function KeywordPage({ step, data }) {
   const [name, setName] = useState("");
   const [nameEng, setNameEng] = useState("");
   const [intro, setIntro] = useState("");
@@ -77,7 +77,7 @@ function KeywordPage({ data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

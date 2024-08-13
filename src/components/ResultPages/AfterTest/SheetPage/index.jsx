@@ -2,7 +2,7 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import "./index.css";
 
-function SheetPage() {
+function SheetPage({ step }) {
   return (
     <div className="SheetPage resultpage">
       <div className="container">
@@ -47,7 +47,7 @@ function SheetPage() {
             </div>
           </div>
         </div>
-        <Bottom pageIndex={0} />
+        <Bottom pageIndex={step - 1} />
       </div>
     </div>
   );

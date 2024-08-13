@@ -6,7 +6,7 @@ import CaseBox from "../../CaseBox";
 import Header from "../../Header";
 import "./index.css";
 
-function WorkingStyle({ data }) {
+function WorkingStyle({ step, data }) {
   const [name, setName] = useState("");
   const [intro, setIntro] = useState("");
   const [content, setContent] = useState("");
@@ -72,7 +72,7 @@ function WorkingStyle({ data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

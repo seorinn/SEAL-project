@@ -9,8 +9,9 @@ import BarChart from "../MainType/BarChart";
 import CharTable from "../CharTable";
 import Keywords from "../Keywords";
 
-function Summary({ name, mainType, subType, scoreData, keywordData }) {
+function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
   const [initial, setInitial] = useState("");
+  const [secondInitial, setSecondInitial] = useState("");
   const [adjMain, setAdjMain] = useState("");
   const [adjSub, setAdjSub] = useState("");
   const [contentMain, setContentMain] = useState([]);
@@ -40,6 +41,10 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
       return { key, value };
     });
     entries.sort((a, b) => b.value - a.value);
+    fourTypes.map((item) => {
+      if (item.name === entries[1].key)
+        setSecondInitial(item.nameEng.slice(0, 1));
+    });
     setSecondType(entries[1]);
     setIsLargeGap(entries[0].value - entries[1].value > 10);
   }, []);
@@ -116,7 +121,7 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
                   <div className="component-title">
                     그러나
                     <b>
-                      {initial}({secondType.key})
+                      {secondInitial}({secondType.key})
                     </b>
                     도 적지 않아요!
                   </div>
@@ -155,7 +160,7 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={step - 1} />
     </div>
   );
 }

@@ -14,8 +14,10 @@ function ReportCover() {
         <div className="title-container">
           <div className="title">업무 스타일 결과 보고서</div>
           <div className="subtitle">
-            <span>1.</span> 나의<span>REAL</span>대표 유형 <br />
-            <span>2.</span> 나의<span>REAL</span>대표 캐릭터
+            <span>1.</span>
+            <span>REAL</span>대표 유형 <br />
+            <span>2.</span>
+            <span>REAL</span>대표 캐릭터
           </div>
         </div>
       </div>
