@@ -5,27 +5,6 @@ import Bottom from "../../Bottom";
 import Keywords from "../../Keywords";
 import "./index.css";
 
-const keywordsList = [
-  "일관성",
-  "공감",
-  "객관성",
-  "지원",
-  "근면",
-  "신뢰",
-  "신속한 의사결정",
-  "논리",
-  "주도성",
-  "성취욕",
-  "협력",
-  "지속가능",
-  "공정성",
-  "세부사항",
-  "정확성",
-  "혁신",
-  "책임감",
-  "목표달성",
-];
-
 function KeywordPage({ step, data }) {
   const [name, setName] = useState("");
   const [nameEng, setNameEng] = useState("");
