@@ -63,50 +63,58 @@ function ResultPage({ userInfo, setUserInfo }) {
       // && userInfo.phonenumber
     ) {
       console.log(userInfo.mainType, userInfo.subType);
-
-      fetchData("result-sub.xlsx").then((res) => {
-        let array = res.filter((item) => item.type === userInfo.subType);
-        setDataSub({
-          strength: array.filter(
-            (item) =>
-              item.category.includes("strength") || item.category === "content"
-          ),
-          weakness: array.filter((item) => item.category.includes("weakness")),
-          behavior: array.filter(
-            (item) =>
-              item.category.includes("like") ||
-              item.category.includes("opposite")
-          ),
+      try {
+        fetchData("result-sub.xlsx").then((res) => {
+          let array = res.filter((item) => item.type === userInfo.subType);
+          setDataSub({
+            strength: array.filter(
+              (item) =>
+                item.category.includes("strength") ||
+                item.category === "content"
+            ),
+            weakness: array.filter((item) =>
+              item.category.includes("weakness")
+            ),
+            behavior: array.filter(
+              (item) =>
+                item.category.includes("like") ||
+                item.category.includes("opposite")
+            ),
+          });
         });
-      });
 
-      fetchData("result-main.xlsx").then((res) => {
-        let array = res.filter((item) => item.type === userInfo.mainType);
-        setDataMain({
-          keywords: array.filter((item) => item.category === "keywords"),
-          strength: array.filter(
-            (item) =>
-              item.category.includes("strength") &&
-              !item.category.includes("stress")
-          ),
-          weakness: array.filter((item) => item.category.includes("weakness")),
-          work_style: array.filter(
-            (item) =>
-              item.category === "work_style" || item.category === "leadership"
-          ),
-          changes: array.filter(
-            (item) =>
-              item.category === "change_res" || item.category === "conflict"
-          ),
-          motivation: array.filter((item) =>
-            item.category.includes("motivation")
-          ),
-          stress: array.filter((item) => item.category.includes("stress")),
-          cowork: array.filter((item) => item.category === "cowork"),
+        fetchData("result-main.xlsx").then((res) => {
+          let array = res.filter((item) => item.type === userInfo.mainType);
+          setDataMain({
+            keywords: array.filter((item) => item.category === "keywords"),
+            strength: array.filter(
+              (item) =>
+                item.category.includes("strength") &&
+                !item.category.includes("stress")
+            ),
+            weakness: array.filter((item) =>
+              item.category.includes("weakness")
+            ),
+            work_style: array.filter(
+              (item) =>
+                item.category === "work_style" || item.category === "leadership"
+            ),
+            changes: array.filter(
+              (item) =>
+                item.category === "change_res" || item.category === "conflict"
+            ),
+            motivation: array.filter((item) =>
+              item.category.includes("motivation")
+            ),
+            stress: array.filter((item) => item.category.includes("stress")),
+            cowork: array.filter((item) => item.category === "cowork"),
+          });
         });
-      });
-
-      // generatePDF();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        // generatePDF();
+      }
     }
   }, [userInfo]);
 
@@ -214,71 +222,71 @@ function ResultPage({ userInfo, setUserInfo }) {
     return resultType;
   };
 
-  const generatePDF = async (isClickedDownload) => {
-    const pages = [
-      // <CoverPage userInfo={userInfo} />,
-      <Introduction />,
-      <Overview />,
-      <Character />,
-      <ReportCover />,
-      <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />,
-      // <Keywords data={dataMain.keywords} />,
-      <WorkingStyle data={dataMain.strength} />,
-      <Weak data={dataMain.weakness} />,
-      <Justifying data={dataMain.work_style} />,
-      <Motivation data={dataMain.motivation} />,
-      <Changes data={dataMain.changes} />,
-      <Stress data={dataMain.stress} />,
-      <Cowork data={dataMain.cowork} />,
-      <SubTable subType={userInfo.subType} />,
-      <Strength data={dataSub.strength} />,
-      <Weakness data={dataSub.weakness} />,
-      <Behavior data={dataSub.behavior} />,
-      <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />,
-    ];
-    const element = (
-      <div className="ResultPage">
-        {pages.map((page, index) => (
-          <div key={index} className="pdfPage">
-            {page}
-          </div>
-        ))}
-      </div>
-    );
-    const html = ReactDOM.renderToStaticMarkup(element);
-    if (isClickedDownload)
-      html2pdf().from(html).save(getFileName(userInfo.name));
-    else {
-      const storage = getStorage();
-      const pdfRef = ref(storage, getStoragePath(userInfo));
-      const userList = getUserList();
-      (await userList).map((item) => {
-        if (userInfo.phonenumber === item.phonenumber) {
-          const oldRef = ref(storage, getStoragePath(item));
-          deleteObject(oldRef).catch((error) => console.log(error));
-        }
-      });
-      const pdfOptions = {
-        filename: getFileName(userInfo.name),
-        html2canvas: {},
-        jsPDF: {},
-      };
-      const pdfBlob = await new Promise((resolve, reject) => {
-        html2pdf()
-          .from(html)
-          .set(pdfOptions)
-          .outputPdf("blob")
-          .then(resolve)
-          .catch(reject);
-      });
+  // const generatePDF = async (isClickedDownload) => {
+  //   const pages = [
+  //     // <CoverPage userInfo={userInfo} />,
+  //     <Introduction />,
+  //     <Overview />,
+  //     <Character />,
+  //     <ReportCover />,
+  //     <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />,
+  //     // <Keywords data={dataMain.keywords} />,
+  //     <WorkingStyle data={dataMain.strength} />,
+  //     <Weak data={dataMain.weakness} />,
+  //     <Justifying data={dataMain.work_style} />,
+  //     <Motivation data={dataMain.motivation} />,
+  //     <Changes data={dataMain.changes} />,
+  //     <Stress data={dataMain.stress} />,
+  //     <Cowork data={dataMain.cowork} />,
+  //     <SubTable subType={userInfo.subType} />,
+  //     <Strength data={dataSub.strength} />,
+  //     <Weakness data={dataSub.weakness} />,
+  //     <Behavior data={dataSub.behavior} />,
+  //     <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />,
+  //   ];
+  //   const element = (
+  //     <div className="ResultPage">
+  //       {pages.map((page, index) => (
+  //         <div key={index} className="pdfPage">
+  //           {page}
+  //         </div>
+  //       ))}
+  //     </div>
+  //   );
+  //   const html = ReactDOM.renderToStaticMarkup(element);
+  //   if (isClickedDownload)
+  //     html2pdf().from(html).save(getFileName(userInfo.name));
+  //   else {
+  //     const storage = getStorage();
+  //     const pdfRef = ref(storage, getStoragePath(userInfo));
+  //     const userList = getUserList();
+  //     (await userList).map((item) => {
+  //       if (userInfo.phonenumber === item.phonenumber) {
+  //         const oldRef = ref(storage, getStoragePath(item));
+  //         deleteObject(oldRef).catch((error) => console.log(error));
+  //       }
+  //     });
+  //     const pdfOptions = {
+  //       filename: getFileName(userInfo.name),
+  //       html2canvas: {},
+  //       jsPDF: {},
+  //     };
+  //     const pdfBlob = await new Promise((resolve, reject) => {
+  //       html2pdf()
+  //         .from(html)
+  //         .set(pdfOptions)
+  //         .outputPdf("blob")
+  //         .then(resolve)
+  //         .catch(reject);
+  //     });
 
-      uploadBytes(pdfRef, pdfBlob)
-        .then((snapshot) => {
-          console.log("PDF uploaded to storage");
-        })
-        .catch((error) => console.log(error));
-    }
-  };
+  //     uploadBytes(pdfRef, pdfBlob)
+  //       .then((snapshot) => {
+  //         console.log("PDF uploaded to storage");
+  //       })
+  //       .catch((error) => console.log(error));
+  //   }
+  // };
 
   if (dataMain.length === 0 || dataSub.length === 0) return;
   return (
@@ -328,9 +336,9 @@ function ResultPage({ userInfo, setUserInfo }) {
         {step === 20 && <TextPage />}
         {step === 21 && <SheetPage />}
       </div>
-      <button className="btnPDF" onClick={() => generatePDF(true)}>
+      {/* <button className="btnPDF" onClick={() => generatePDF(true)}>
         PDF 저장하기
-      </button>
+      </button> */}
       <div className="page-buttons">
         {step > 1 && (
           <button

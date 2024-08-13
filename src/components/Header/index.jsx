@@ -95,7 +95,7 @@ function Header({ setUserInfo, setIsUser }) {
         >
           결과 예시
         </button> */}
-        <button onClick={() => navigation(`/admin`)}>관리자로 이동</button>
+        {/* <button onClick={() => navigation(`/admin`)}>관리자로 이동</button> */}
       </div>
     </div>
   );
