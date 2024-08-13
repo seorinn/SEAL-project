@@ -9,11 +9,11 @@
 .GetInformPage .title {
   font-family: NanumSquareNeoBold;
   font-size: 1.25rem;
-  margin-top: 3.5rem;
+  margin-top: 1.5rem;
   margin-bottom: 1rem;
 }
 .GetInformPage .input-container {
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 .GetInformPage .input-container div {
   width: 25rem;
@@ -34,7 +34,7 @@
   border-radius: 10rem;
   color: white;
   font-size: 1rem;
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
 }
 .GetInformPage span {
   color: hwb(120 20% 35%);
@@ -62,6 +62,9 @@
   }
   .GetInformPage .input-container p {
     margin-bottom: 0.75rem;
+  }
+  .GetInformPage .btn-submit {
+    margin-bottom: 5rem;
   }
 }
 @media (max-width: 350px) {

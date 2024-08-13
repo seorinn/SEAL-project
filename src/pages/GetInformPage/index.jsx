@@ -14,8 +14,9 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   };
 
   const handleSubmit = () => {
-    const { name, company, affiliation, position, phonenumber } = userInfo;
-    if (name && company && affiliation && position && phonenumber)
+    const { name, company, affiliation, position, email, phonenumber } =
+      userInfo;
+    if (name && company && affiliation && position && email && phonenumber)
       navigation("/test");
     else alert("항목을 모두 입력해주세요");
   };
@@ -66,6 +67,15 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
           <input
             name="position"
             placeholder="직급을 입력해주세요"
+            onChange={handleInput}
+          />
+        </div>
+        <div>
+          <p>이메일</p>
+          <input
+            type="email"
+            name="email"
+            placeholder="이메일을 입력해주세요."
             onChange={handleInput}
           />
         </div>

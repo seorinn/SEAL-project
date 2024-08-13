@@ -117,7 +117,7 @@ export const fetchData = async (filename) => {
 };
 
 // export const getStoragePath = (body) => {
-//   return `userdata/pdfs/${body.company}_${body.affiliation}_${body.position}_${body.name}_${body.phonenumber}_${body.course}_${body.mainType}_${body.subType}.pdf`;
+//   return `userdata/pdfs/${body.company}_${body.affiliation}_${body.position}_${body.name}_${body.email}_${body.phonenumber}_${body.course}_${body.mainType}_${body.subType}.pdf`;
 // };
 
 // export const getStorageCoursePath = (body) => {
