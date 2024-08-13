@@ -303,7 +303,6 @@ function ResultPage({ userInfo, setUserInfo }) {
         {step === 3 && <Introduction />}
         {step === 4 && <Overview />}
         {step === 5 && <Character />}
-
         {step === 6 && <ReportCover />}
         {step === 7 && (
           <Summary
@@ -318,23 +317,22 @@ function ResultPage({ userInfo, setUserInfo }) {
           <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />
         )}
         {step === 9 && <KeywordPage data={dataMain.keywords} />}
-        {/* {step === 9 && <WorkingStyle data={dataMain.strength} />} */}
-        {step === 10 && <Weak data={dataMain.weakness} />}
-        {step === 11 && <Justifying data={dataMain.work_style} />}
-        {step === 12 && <Motivation data={dataMain.motivation} />}
-        {/* {step === 12 && <Changes data={dataMain.changes} />} */}
-        {step === 13 && <Stress data={dataMain.stress} />}
-        {step === 14 && <Cowork data={dataMain.cowork} />}
-
-        {step === 15 && <SubTable subType={userInfo.subType} />}
-        {step === 16 && <Strength data={dataSub.strength} />}
-        {step === 17 && <Weakness data={dataSub.weakness} />}
-        {step === 18 && <Behavior data={dataSub.behavior} />}
-        {step === 19 && (
+        {step === 10 && <WorkingStyle data={dataMain.strength} />}
+        {step === 11 && <Weak data={dataMain.weakness} />}
+        {step === 12 && <Justifying data={dataMain.work_style} />}
+        {step === 13 && <Motivation data={dataMain.motivation} />}
+        {step === 14 && <Changes data={dataMain.changes} />}
+        {step === 15 && <Stress data={dataMain.stress} />}
+        {step === 16 && <Cowork data={dataMain.cowork} />}
+        {step === 17 && <SubTable subType={userInfo.subType} />}
+        {step === 18 && <Strength data={dataSub.strength} />}
+        {step === 19 && <Weakness data={dataSub.weakness} />}
+        {step === 20 && <Behavior data={dataSub.behavior} />}
+        {step === 21 && (
           <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />
         )}
-        {step === 20 && <TextPage />}
-        {step === 21 && <SheetPage />}
+        {step === 22 && <TextPage />}
+        {step === 23 && <SheetPage />}
       </div>
       {/* <button className="btnPDF" onClick={() => generatePDF(true)}>
         PDF 저장하기

@@ -30,7 +30,12 @@ function Changes({ data }) {
                 {changes.map((item) => (
                   <div key={item.content} className="change-item">
                     <div className="title-container">
-                      <div className="item-title">{item.content}</div>
+                      <div
+                        className="item-title"
+                        dangerouslySetInnerHTML={{
+                          __html: item.content.replace(/\\n/g, `<br/>`),
+                        }}
+                      ></div>
                     </div>
                     <div className="item-content">{item.detail}</div>
                   </div>
