@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import logo_real_eng from "../../assets/images/logo_real_eng.png";
 import Code from "../../components/Code";
 import "./index.css";
 
@@ -83,7 +82,6 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
       <button className="btn-submit" onClick={handleSubmit}>
         진단 시작하기
       </button>
-      {/* <img alt="logo_real_eng" src={logo_real_eng} /> */}
     </div>
   );
 }

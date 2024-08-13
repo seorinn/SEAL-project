@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { getCourseList } from "../../util";
-import logo_real_eng from "../../assets/images/logo_real_eng.png";
 import logo_REAL from "../../assets/images/logo_REAL.png";
-import texture from "../../assets/texture.jpg";
 import "./index.css";
 
 function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {

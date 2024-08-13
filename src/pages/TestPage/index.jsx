@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../util";
-import logo_real_horizon from "../../assets/images/logo_real_horizon.png";
-import logo_REAL from "../../assets/images/logo_REAL.png";
 import ProgressBar from "./ProgressBar";
 import MultipleChoices from "./MultipleChoices";
 import Question from "./Question";
@@ -106,8 +104,6 @@ function TestPage({ userInfo }) {
         <div className="logo-text">
           <b>REAL</b> Personality
         </div>
-        {/* <div className="logo-background" /> */}
-        {/* <img alt="logo_real_horizon" src={logo_REAL} /> */}
         <div className="progressbar-container">
           <ProgressBar
             pageIndex={pageIndex}
