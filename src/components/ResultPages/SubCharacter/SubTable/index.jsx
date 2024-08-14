@@ -1,10 +1,19 @@
-import { getIconImage } from "../../../../util";
+import { useEffect, useState } from "react";
+import { getIconImage, getTableImage, twelveChar } from "../../../../util";
 import CharTable from "../../CharTable";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
 import "./index.css";
 
 function SubTable({ step, subType }) {
+  const [nameEng, setNameEng] = useState("");
+
+  useEffect(() => {
+    twelveChar.map((item) => {
+      if (item.name === subType) setNameEng(item.nameEng);
+    });
+  }, []);
+
   return (
     <div className="SubTable resultpage">
       <div className="container">
@@ -19,7 +28,8 @@ function SubTable({ step, subType }) {
           </div>
           <div className="characters">
             <div className="table-container">
-              <CharTable current={subType} />
+              {/* <CharTable current={subType} /> */}
+              <img alt={subType} src={getTableImage(nameEng)} />
             </div>
             <div className="center">
               <div className="icon-container">

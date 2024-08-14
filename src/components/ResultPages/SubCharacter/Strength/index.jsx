@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getIconImage } from "../../../../util";
+import { getIconImage, getTableImage, twelveChar } from "../../../../util";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
 import SubHeader from "../../SubHeader";
@@ -11,6 +11,7 @@ function Strength({ step, data }) {
   const [content, setContent] = useState([]);
   const [strengths, setStrengths] = useState([]);
   const [cases, setCases] = useState([]);
+  const [nameEng, setNameEng] = useState("");
 
   useEffect(() => {
     setContent(
@@ -18,6 +19,9 @@ function Strength({ step, data }) {
     );
     setStrengths(data.filter((item) => item.category === "strength"));
     setCases(data.filter((item) => item.category === "strength_case"));
+    twelveChar.map((item) => {
+      if (item.name === data[0].type) setNameEng(item.nameEng);
+    });
   }, []);
 
   return (
@@ -44,7 +48,8 @@ function Strength({ step, data }) {
             </div>
           </div>
           <div className="table-container">
-            <CharTable current={data[0].type} />
+            {/* <CharTable current={data[0].type} /> */}
+            <img alt={data[0].type} src={getTableImage(nameEng)} />
           </div>
         </div>
         <div className="bottom-section">

@@ -19,14 +19,14 @@ function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
     // if (code) {
     //   setIsValid(code === input);
     // } else {
-    //   const courseList = getCourseList();
-    //   (await courseList).map((item) => {
-    //     if (item.code === input) {
-    //       setUserInfo({ ...userInfo, course: item.name });
-    //       setIsValid(true);
-    //       return;
-    //     }
-    //   });
+    // const courseList = getCourseList();
+    // (await courseList).map((item) => {
+    //   if (item.code === input) {
+    //     setUserInfo({ ...userInfo, course: item.name });
+    //     setIsValid(true);
+    //     return;
+    //   }
+    // });
     // }
 
     setUserInfo({ ...userInfo, course: input });

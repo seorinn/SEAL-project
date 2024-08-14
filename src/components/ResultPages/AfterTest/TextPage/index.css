@@ -36,15 +36,15 @@
 .TextPage .mid .content-item .box:nth-child(2) {
   margin-bottom: 3rem;
 }
-.TextPage .box .quarter-container {
+/* .TextPage .box .quarter-container {
   width: 0;
   height: 0;
   scale: 0.35;
   transform-origin: 0 0;
-}
-.TextPage .content-item .box:nth-child(2) .question {
+} */
+/* .TextPage .content-item .box:nth-child(2) .question {
   margin-left: 9rem;
-}
+} */
 .TextPage .box .question-item {
   margin-bottom: 1rem;
   display: flex;
@@ -52,8 +52,13 @@
 .TextPage .num {
   margin-right: 0.5rem;
 }
-.TextPage .box .chartable {
+.TextPage .box .quarter {
   width: 7.125rem;
   height: 7.125rem;
+  margin-right: 1.875rem;
+}
+.TextPage .box .chartable {
+  width: 7.5rem;
+  height: 7.5rem;
   margin-right: 1.875rem;
 }

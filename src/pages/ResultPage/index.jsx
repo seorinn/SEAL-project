@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/server";
 import { useLocation } from "react-router-dom";
+import { PulseLoader } from "react-spinners";
 import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
 import html2pdf from "html2pdf.js";
 import {
@@ -31,17 +32,20 @@ import Behavior from "../../components/ResultPages/SubCharacter/Behavior";
 import Motivation from "../../components/ResultPages/MainType/Motivation";
 import ScoreGraph from "../../components/ResultPages/SubCharacter/ScoreGraph";
 import BarPage from "../../components/ResultPages/MainType/BarPage";
-import Keywords from "../../components/ResultPages/MainType/Keywords";
 import TextPage from "../../components/ResultPages/AfterTest/TextPage";
 import SheetPage from "../../components/ResultPages/AfterTest/SheetPage";
 import Summary from "../../components/ResultPages/Summary";
 import KeywordPage from "../../components/ResultPages/MainType/KeywordPage";
 
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
 function ResultPage({ userInfo, setUserInfo }) {
   const location = useLocation();
   const { state, scoreMain, scoreSub } = location.state;
+  const [pages, setPages] = useState([]);
   const [step, setStep] = useState(1);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(1.2);
   const max = 23;
 
   useEffect(
@@ -117,6 +121,50 @@ function ResultPage({ userInfo, setUserInfo }) {
       }
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (dataMain && dataSub)
+      setPages([
+        <CoverPage userInfo={userInfo} />,
+        <RootInfo step={step} />,
+        <Introduction step={step} />,
+        <Overview step={step} />,
+        <Character step={step} />,
+        <ReportCover />,
+        <Summary
+          step={step}
+          name={userInfo.name}
+          mainType={userInfo.mainType}
+          subType={userInfo.subType}
+          scoreData={scoreMain}
+          keywordData={dataMain.keywords}
+        />,
+        <BarPage
+          step={step}
+          mainType={userInfo.mainType}
+          scoreMain={scoreMain}
+        />,
+        <KeywordPage step={step} data={dataMain.keywords} />,
+        <WorkingStyle step={step} data={dataMain.strength} />,
+        <Weak step={step} data={dataMain.weakness} />,
+        <Justifying step={step} data={dataMain.work_style} />,
+        <Motivation step={step} data={dataMain.motivation} />,
+        <Changes step={step} data={dataMain.changes} />,
+        <Stress step={step} data={dataMain.stress} />,
+        <Cowork step={step} data={dataMain.cowork} />,
+        <SubTable step={step} subType={userInfo.subType} />,
+        <Strength step={step} data={dataSub.strength} />,
+        <Weakness step={step} data={dataSub.weakness} />,
+        <Behavior step={step} data={dataSub.behavior} />,
+        <ScoreGraph
+          step={step}
+          subType={userInfo.subType}
+          scoreSub={scoreSub}
+        />,
+        <TextPage step={step} />,
+        <SheetPage step={step} />,
+      ]);
+  }, [dataMain, dataSub]);
 
   const setType = (scoreData) => {
     const resultTotal = findHighest(scoreData);
@@ -222,71 +270,143 @@ function ResultPage({ userInfo, setUserInfo }) {
     return resultType;
   };
 
-  // const generatePDF = async (isClickedDownload) => {
-  //   const pages = [
-  //     // <CoverPage userInfo={userInfo} />,
-  //     <Introduction />,
-  //     <Overview />,
-  //     <Character />,
-  //     <ReportCover />,
-  //     <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />,
-  //     // <Keywords data={dataMain.keywords} />,
-  //     <WorkingStyle data={dataMain.strength} />,
-  //     <Weak data={dataMain.weakness} />,
-  //     <Justifying data={dataMain.work_style} />,
-  //     <Motivation data={dataMain.motivation} />,
-  //     <Changes data={dataMain.changes} />,
-  //     <Stress data={dataMain.stress} />,
-  //     <Cowork data={dataMain.cowork} />,
-  //     <SubTable subType={userInfo.subType} />,
-  //     <Strength data={dataSub.strength} />,
-  //     <Weakness data={dataSub.weakness} />,
-  //     <Behavior data={dataSub.behavior} />,
-  //     <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />,
-  //   ];
-  //   const element = (
-  //     <div className="ResultPage">
-  //       {pages.map((page, index) => (
-  //         <div key={index} className="pdfPage">
-  //           {page}
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  //   const html = ReactDOM.renderToStaticMarkup(element);
-  //   if (isClickedDownload)
-  //     html2pdf().from(html).save(getFileName(userInfo.name));
-  //   else {
-  //     const storage = getStorage();
-  //     const pdfRef = ref(storage, getStoragePath(userInfo));
-  //     const userList = getUserList();
-  //     (await userList).map((item) => {
-  //       if (userInfo.phonenumber === item.phonenumber) {
-  //         const oldRef = ref(storage, getStoragePath(item));
-  //         deleteObject(oldRef).catch((error) => console.log(error));
-  //       }
-  //     });
-  //     const pdfOptions = {
-  //       filename: getFileName(userInfo.name),
-  //       html2canvas: {},
-  //       jsPDF: {},
-  //     };
-  //     const pdfBlob = await new Promise((resolve, reject) => {
-  //       html2pdf()
-  //         .from(html)
-  //         .set(pdfOptions)
-  //         .outputPdf("blob")
-  //         .then(resolve)
-  //         .catch(reject);
-  //     });
+  const generatePDF = async (isClickedDownload) => {
+    const element = (
+      <div className="pdfPages">
+        {/* {pages.map((page, index) => (
+          <div
+            key={index}
+            className="pdfPage"
+            style={{ fontFamily: "NanumSquareNeo" }}
+          >
+            {page}
+          </div>
+        ))} */}
+        <CoverPage userInfo={userInfo} />,
+        <RootInfo step={step} />,
+        <Introduction step={step} />,
+        <Overview step={step} />,
+        <Character step={step} />,
+        <ReportCover />,
+        <Summary
+          step={step}
+          name={userInfo.name}
+          mainType={userInfo.mainType}
+          subType={userInfo.subType}
+          scoreData={scoreMain}
+          keywordData={dataMain.keywords}
+        />
+        ,
+        <BarPage
+          step={step}
+          mainType={userInfo.mainType}
+          scoreMain={scoreMain}
+        />
+        ,
+        <KeywordPage step={step} data={dataMain.keywords} />,
+        <WorkingStyle step={step} data={dataMain.strength} />,
+        <Weak step={step} data={dataMain.weakness} />,
+        <Justifying step={step} data={dataMain.work_style} />,
+        <Motivation step={step} data={dataMain.motivation} />,
+        <Changes step={step} data={dataMain.changes} />,
+        <Stress step={step} data={dataMain.stress} />,
+        <Cowork step={step} data={dataMain.cowork} />,
+        <SubTable step={step} subType={userInfo.subType} />,
+        <Strength step={step} data={dataSub.strength} />,
+        <Weakness step={step} data={dataSub.weakness} />,
+        <Behavior step={step} data={dataSub.behavior} />,
+        <ScoreGraph
+          step={step}
+          subType={userInfo.subType}
+          scoreSub={scoreSub}
+        />
+        ,
+        <TextPage step={step} />,
+        <SheetPage step={step} />,
+      </div>
+    );
 
-  //     uploadBytes(pdfRef, pdfBlob)
-  //       .then((snapshot) => {
-  //         console.log("PDF uploaded to storage");
-  //       })
-  //       .catch((error) => console.log(error));
-  //   }
-  // };
+    const html = ReactDOM.renderToStaticMarkup(element);
+    if (isClickedDownload) html2pdf().from(html).save(userInfo.name);
+    // html2pdf().from(html).save(getFileName(userInfo.name));
+    // else {
+    //   const storage = getStorage();
+    //   const pdfRef = ref(storage, getStoragePath(userInfo));
+    //   const userList = getUserList();
+    //   (await userList).map((item) => {
+    //     if (userInfo.phonenumber === item.phonenumber) {
+    //       const oldRef = ref(storage, getStoragePath(item));
+    //       deleteObject(oldRef).catch((error) => console.log(error));
+    //     }
+    //   });
+    //   const pdfOptions = {
+    //     filename: getFileName(userInfo.name),
+    //     html2canvas: {},
+    //     jsPDF: {},
+    //   };
+    //   const pdfBlob = await new Promise((resolve, reject) => {
+    //     html2pdf()
+    //       .from(html)
+    //       .set(pdfOptions)
+    //       .outputPdf("blob")
+    //       .then(resolve)
+    //       .catch(reject);
+    //   });
+
+    //   uploadBytes(pdfRef, pdfBlob)
+    //     .then((snapshot) => {
+    //       console.log("PDF uploaded to storage");
+    //     })
+    //     .catch((error) => console.log(error));
+    // }
+  };
+
+  const pdfRef = useRef(null);
+  const converToPdf = async () => {
+    //1.html을 들고와서 canvas화
+    // const element = document.querySelector("#html");
+
+    // const element = (
+    //   <div className="pdfPages">
+    //     {/* {pages.map((page, index) => (
+    //       <div
+    //         key={index}
+    //         className="pdfPage"
+    //         style={{ fontFamily: "NanumSquareNeo" }}
+    //       >
+    //         {page}
+    //       </div>
+    //     ))} */}
+    //     123465
+    //   </div>
+    // );
+    const element = pdfRef.current;
+    if (element) {
+      const canvas = await html2canvas(element);
+      const imageFile = canvas.toDataURL("image/png");
+      const doc = new jsPDF("p", "mm", "a4");
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const widthRatio = pageWidth / canvas.width;
+      const customHeight = canvas.height * widthRatio;
+      doc.addImage(imageFile, "png", 0, 0, pageWidth, customHeight);
+      let heightLeft = customHeight;
+      let heightAdd = -pageHeight;
+      while (heightLeft >= pageHeight) {
+        doc.addPage();
+        doc.addImage(imageFile, "png", 0, heightAdd, pageWidth, customHeight);
+        heightLeft -= pageHeight;
+        heightAdd -= pageHeight;
+      }
+      doc.save("REAL Personality 진단 결과지" + "_" + userInfo.name + ".pdf");
+    }
+    setDownloadPdf(false);
+  };
+
+  const [downloadPdf, setDownloadPdf] = useState(false);
+  useEffect(() => {
+    if (downloadPdf && scale === 1.2) converToPdf();
+  }, [downloadPdf]);
 
   if (dataMain.length === 0 || dataSub.length === 0) return;
   return (
@@ -295,18 +415,19 @@ function ResultPage({ userInfo, setUserInfo }) {
         className={`page-container`}
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: `${scale > 1 ? "top" : "50% 50%"}`,
+          backgroundColor: "white",
         }}
+        ref={pdfRef}
       >
         {step === 1 && <CoverPage userInfo={userInfo} />}
-        {step === 2 && <RootInfo step={step} />}
-        {step === 3 && <Introduction step={step} />}
-        {step === 4 && <Overview step={step} />}
-        {step === 5 && <Character step={step} />}
-        {step === 6 && <ReportCover />}
-        {step === 7 && (
+        {step === 1 && <RootInfo step={2} />}
+        {step === 1 && <Introduction step={3} />}
+        {step === 1 && <Overview step={4} />}
+        {step === 1 && <Character step={5} />}
+        {step === 1 && <ReportCover />}
+        {step === 1 && (
           <Summary
-            step={step}
+            step={6}
             name={userInfo.name}
             mainType={userInfo.mainType}
             subType={userInfo.subType}
@@ -314,39 +435,47 @@ function ResultPage({ userInfo, setUserInfo }) {
             keywordData={dataMain.keywords}
           />
         )}
-        {step === 8 && (
+        {step === 1 && (
           <BarPage
-            step={step}
+            step={7}
             mainType={userInfo.mainType}
             scoreMain={scoreMain}
           />
         )}
-        {step === 9 && <KeywordPage step={step} data={dataMain.keywords} />}
-        {step === 10 && <WorkingStyle step={step} data={dataMain.strength} />}
-        {step === 11 && <Weak step={step} data={dataMain.weakness} />}
-        {step === 12 && <Justifying step={step} data={dataMain.work_style} />}
-        {step === 13 && <Motivation step={step} data={dataMain.motivation} />}
-        {step === 14 && <Changes step={step} data={dataMain.changes} />}
-        {step === 15 && <Stress step={step} data={dataMain.stress} />}
-        {step === 16 && <Cowork step={step} data={dataMain.cowork} />}
-        {step === 17 && <SubTable step={step} subType={userInfo.subType} />}
-        {step === 18 && <Strength step={step} data={dataSub.strength} />}
-        {step === 19 && <Weakness step={step} data={dataSub.weakness} />}
-        {step === 20 && <Behavior step={step} data={dataSub.behavior} />}
-        {step === 21 && (
+        {step === 1 && <KeywordPage step={8} data={dataMain.keywords} />}
+        {step === 1 && <WorkingStyle step={9} data={dataMain.strength} />}
+        {step === 1 && <Weak step={10} data={dataMain.weakness} />}
+        {step === 1 && <Justifying step={11} data={dataMain.work_style} />}
+        {step === 1 && <Motivation step={12} data={dataMain.motivation} />}
+        {step === 1 && <Changes step={13} data={dataMain.changes} />}
+        {step === 1 && <Stress step={14} data={dataMain.stress} />}
+        {step === 1 && <Cowork step={15} data={dataMain.cowork} />}
+        {step === 1 && <SubTable step={16} subType={userInfo.subType} />}
+        {step === 1 && <Strength step={17} data={dataSub.strength} />}
+        {step === 1 && <Weakness step={18} data={dataSub.weakness} />}
+        {step === 1 && <Behavior step={19} data={dataSub.behavior} />}
+        {step === 1 && (
           <ScoreGraph
-            step={step}
+            step={20}
             subType={userInfo.subType}
             scoreSub={scoreSub}
           />
         )}
-        {step === 22 && <TextPage step={step} />}
-        {step === 23 && <SheetPage step={step} />}
+        {step === 1 && <TextPage step={21} />}
+        {step === 1 && <SheetPage step={22} />}
       </div>
-      {/* <button className="btnPDF" onClick={() => generatePDF(true)}>
+      <button
+        className="btnPDF"
+        onClick={() => {
+          // generatePDF(true)
+          // html2pdf()
+          setScale(1.2);
+          setDownloadPdf(true);
+        }}
+      >
         PDF 저장하기
-      </button> */}
-      <div className="page-buttons">
+      </button>
+      {/* <div className="page-buttons">
         {step > 1 && (
           <button
             className="btn-back"
@@ -362,7 +491,7 @@ function ResultPage({ userInfo, setUserInfo }) {
             ▶
           </button>
         )}
-      </div>
+      </div> */}
       <div className="scale-buttons">
         <button
           className="btn-reduce"
@@ -375,12 +504,20 @@ function ResultPage({ userInfo, setUserInfo }) {
         <button
           className="btn-zoom"
           onClick={() => {
-            scale < 3 && setScale(scale + 0.2);
+            scale < 2 && setScale(scale + 0.2);
           }}
         >
           +
         </button>
       </div>
+      {downloadPdf && (
+        <div className="pdf-loading">
+          <div className="text">
+            <PulseLoader color="var(--navy600)" />
+            다운로드 중입니다
+          </div>
+        </div>
+      )}
     </div>
   );
 }

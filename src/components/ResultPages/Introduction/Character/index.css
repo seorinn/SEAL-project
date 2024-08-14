@@ -21,9 +21,20 @@
   margin-bottom: 1rem;
 }
 .Character .container .content .characters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
   flex: 1;
-  scale: 0.9;
+  /* scale: 0.9; */
+}
+.Character .container .content .characters img {
+  width: 42.5rem;
+  height: 42.5rem;
+}
+.Character .table-container {
+  width: 45rem;
+  height: 45rem;
 }
 .Character .content .bottom-text {
   font-size: 0.75rem;

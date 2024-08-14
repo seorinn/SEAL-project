@@ -1,4 +1,5 @@
 import img_chartable from "../../../../assets/images/chartable.png";
+import img_quarter from "../../../../assets/images/quarter.png";
 import Quarter from "../../../Quarter";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
@@ -26,9 +27,10 @@ function TextPage({ step }) {
             <div className="content-item">
               <div className="title">REAL 유형에서</div>
               <div className="box">
-                <div className="quarter-container">
-                  <Quarter />
-                </div>
+                {/* <div className="quarter-container"> */}
+                {/* <Quarter /> */}
+                <img className="quarter" alt="12캐릭터" src={img_quarter} />
+                {/* </div> */}
                 <div className="question">
                   <div className="question-item">
                     <div className="num">①</div> 이 자료가 당신의 전형적인

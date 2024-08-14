@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
+import { fourTypes, getTableImage, twelveChar } from "../../../util";
+import img_quarter from "../../../assets/images/quarter.png";
 import logo_kia from "../../../assets/images/logo_KIA.jpg";
-import { fourTypes, twelveChar } from "../../../util";
 import Bottom from "../Bottom";
 import Header from "../Header";
 import "./index.css";
 import Quarter from "../../Quarter";
-import BarChart from "../MainType/BarChart";
+import BarChart from "../BarChart";
 import CharTable from "../CharTable";
 import Keywords from "../Keywords";
 
 function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
   const [initial, setInitial] = useState("");
+  const [nameEng, setNameEng] = useState("");
   const [secondInitial, setSecondInitial] = useState("");
   const [adjMain, setAdjMain] = useState("");
   const [adjSub, setAdjSub] = useState("");
@@ -30,6 +32,7 @@ function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
     });
     twelveChar.map((item) => {
       if (item.name === subType) {
+        setNameEng(item.nameEng);
         setAdjSub(item.adj);
         setContentSub(item.content.split(", "));
       }
@@ -73,7 +76,8 @@ function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
               <div className="item-left">
                 <div className="quarter-container">
                   <div className="background">
-                    <Quarter />
+                    {/* <Quarter /> */}
+                    <img alt="real" src={img_quarter} />
                   </div>
                   <div className="selected">
                     <div
@@ -127,7 +131,9 @@ function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
                   </div>
                 )}
                 <div className="component-container">
-                  <BarChart scoreData={scoreData} />
+                  <div className="bar-container">
+                    <BarChart scoreData={scoreData} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -140,7 +146,8 @@ function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
             <div className="content-items">
               <div className="item-left">
                 <div className="chartable-container">
-                  <CharTable current={subType} />
+                  {/* <CharTable current={subType} /> */}
+                  <img alt={subType} src={getTableImage(nameEng)} />
                 </div>
                 <div className="text-container">
                   {contentSub.map((item) => (
@@ -153,7 +160,9 @@ function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
                   대표하는 <b>키워드(강조)</b>입니다!
                 </div>
                 <div className="component-container">
-                  <Keywords keywords={keywords} />
+                  <div className="keywords-container">
+                    <Keywords keywords={keywords} isSummary={true} />
+                  </div>
                 </div>
               </div>
             </div>

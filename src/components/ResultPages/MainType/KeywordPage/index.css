@@ -11,8 +11,8 @@
 }
 .KeywordPage .result-text-main {
   padding: 0 0.5rem;
-  margin-top: 0.75rem;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
 }
 .KeywordPage .main-title {
   margin-bottom: 1rem;
@@ -32,7 +32,7 @@
 }
 .KeywordPage .main-info {
   padding: 0 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
 }
 .KeywordPage .top-section {
@@ -85,7 +85,7 @@
   text-align: center;
   font-family: NanumSquareNeoBold;
   padding-bottom: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   border-bottom: 1px solid var(--navy400);
 }
 .KeywordPage .keyword-container {

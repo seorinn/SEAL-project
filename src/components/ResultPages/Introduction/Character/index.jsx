@@ -1,3 +1,4 @@
+import { getTableImage } from "../../../../util";
 import Bottom from "../../Bottom";
 import CharTable from "../../CharTable";
 import Header from "../../Header";
@@ -20,7 +21,10 @@ function Character({ step }) {
             있습니다.
           </div>
           <div className="characters">
-            <CharTable isAll={true} />
+            {/* <div className="table-container"> */}
+            <img alt="table" src={getTableImage("all")} />
+            {/* // <CharTable isAll={true} /> */}
+            {/* </div> */}
           </div>
           <div className="bottom-text">
             12개 캐릭터는 두 가지 주요 축을 중심으로 분류됩니다.

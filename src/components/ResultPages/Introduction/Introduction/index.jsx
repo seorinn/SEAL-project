@@ -1,3 +1,4 @@
+import img_quarter from "../../../../assets/images/quarter_mask.png";
 import Quarter from "../../../Quarter";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
@@ -59,7 +60,8 @@ function Introduction({ step }) {
             </div>
           </div>
           <div className="quarter-container">
-            <Quarter />
+            {/* <Quarter /> */}
+            <img alt="" src={img_quarter} />
           </div>
         </div>
       </div>

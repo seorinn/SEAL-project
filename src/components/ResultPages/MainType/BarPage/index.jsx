@@ -3,7 +3,7 @@ import { fourTypes, getIconImage } from "../../../../util";
 import Header from "../../Header";
 import "./index.css";
 import Bottom from "../../Bottom";
-import BarChart from "../BarChart";
+import BarChart from "../../BarChart";
 
 function BarPage({ step, mainType, scoreMain }) {
   const [nameEng, setNameEng] = useState("");
