@@ -281,7 +281,7 @@ export const formattedDate = `${new Date().getFullYear()}.${String(
 ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`;
 
 export const getTableImage = (current) => {
-  return `tables/table_${current}.png`;
+  return `tables/table_${current.toLowerCase()}.png`;
 };
 
 export const getIconImage = (typename, isWhite) => {

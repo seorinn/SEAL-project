@@ -1,6 +1,7 @@
 .Strength {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Strength .container {
   display: flex;

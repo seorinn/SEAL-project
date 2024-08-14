@@ -1,6 +1,7 @@
 .Stress {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Stress .container {
   display: flex;

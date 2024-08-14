@@ -1,6 +1,7 @@
 .Justifying {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Justifying .container {
   padding: 1.5rem;

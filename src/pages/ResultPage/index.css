@@ -82,8 +82,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 4rem;
-  justify-content: space-between;
+  text-align: center;
   font-size: 1.25rem;
   font-weight: bold;
+  line-height: 1.5;
+}
+.ResultPage .loader {
+  margin-bottom: 1.5rem;
 }

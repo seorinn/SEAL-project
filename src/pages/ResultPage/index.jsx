@@ -363,23 +363,6 @@ function ResultPage({ userInfo, setUserInfo }) {
 
   const pdfRef = useRef(null);
   const converToPdf = async () => {
-    //1.html을 들고와서 canvas화
-    // const element = document.querySelector("#html");
-
-    // const element = (
-    //   <div className="pdfPages">
-    //     {/* {pages.map((page, index) => (
-    //       <div
-    //         key={index}
-    //         className="pdfPage"
-    //         style={{ fontFamily: "NanumSquareNeo" }}
-    //       >
-    //         {page}
-    //       </div>
-    //     ))} */}
-    //     123465
-    //   </div>
-    // );
     const element = pdfRef.current;
     if (element) {
       const canvas = await html2canvas(element);
@@ -513,8 +496,14 @@ function ResultPage({ userInfo, setUserInfo }) {
       {downloadPdf && (
         <div className="pdf-loading">
           <div className="text">
-            <PulseLoader color="var(--navy600)" />
+            <div className="loader">
+              <PulseLoader color="var(--navy600)" />
+            </div>
             다운로드 중입니다
+            <br />
+            PDF 파일에 문제가 있을 경우
+            <br />
+            다시 한번 다운받아 주세요
           </div>
         </div>
       )}

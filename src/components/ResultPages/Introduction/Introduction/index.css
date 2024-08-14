@@ -1,6 +1,7 @@
 .Introduction {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Introduction .container {
   padding: 1.5rem;
@@ -38,4 +39,5 @@
 }
 .Introduction .quarter-container img {
   width: 17rem;
+  border-radius: 100%;
 }

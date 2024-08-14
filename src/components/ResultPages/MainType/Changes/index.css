@@ -1,6 +1,7 @@
 .Changes {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Changes .container {
   padding: 1.5rem;

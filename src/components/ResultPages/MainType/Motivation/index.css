@@ -1,6 +1,7 @@
 .Motivation {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Motivation .container {
   padding: 1.5rem;

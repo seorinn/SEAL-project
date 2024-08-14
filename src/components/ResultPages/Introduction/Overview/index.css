@@ -1,6 +1,7 @@
 .Overview {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Overview .container {
   display: flex;

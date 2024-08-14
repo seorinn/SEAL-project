@@ -1,6 +1,7 @@
 .Character {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Character .container {
   display: flex;

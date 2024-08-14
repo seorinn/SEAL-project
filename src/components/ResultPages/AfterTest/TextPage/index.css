@@ -1,6 +1,7 @@
 .TextPage {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .TextPage .container {
   display: flex;

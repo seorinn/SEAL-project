@@ -61,7 +61,7 @@ img {
   box-shadow: 0 0 50px 0.2px rgb(0 0 0 / 0.075);
   /* animation: opacity 1s ease forwards; */
   color: black;
-  background-color: white;
+  /* background-color: white; */
 }
 .logo-container {
   display: flex;
