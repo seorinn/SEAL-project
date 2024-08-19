@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { fourTypes, getIconImage, fetchData } from "../../../../util";
+import { fourTypes, getIconImage } from "../../../../util";
 import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
 import "./index.css";
 import SubHeader from "../../SubHeader";
+import Watermark from "../../Watermark";
 
-function Stress({ step, data }) {
+function Stress({ data }) {
   const [name, setName] = useState("");
   const [tendency, setTendency] = useState("");
   const [tendencyExample, setTendencyExample] = useState("");
@@ -98,7 +99,8 @@ function Stress({ step, data }) {
           )}
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={13} />
+      <Watermark />
     </div>
   );
 }

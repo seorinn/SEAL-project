@@ -5,8 +5,9 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import CoworkItem from "./CoworkItem";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Cowork({ step, data }) {
+function Cowork({ data }) {
   const [name, setName] = useState("");
   const [coworkData, setCoworkData] = useState([]);
   const [initial, setInitial] = useState("");
@@ -46,7 +47,8 @@ function Cowork({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={14} />
+      <Watermark />
     </div>
   );
 }

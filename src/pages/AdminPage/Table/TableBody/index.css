@@ -16,7 +16,7 @@
   justify-content: center;
   text-align: center;
 }
-.TableBody .btn-mod {
+.TableBody .item-button-container button {
   white-space: none;
   outline: none;
   border: none;
@@ -27,7 +27,10 @@
   color: hsl(205, 46%, 59%);
   box-shadow: none;
 }
-.TableBody .btn-mod:hover {
+.TableBody .item-button-container .btn-download {
+  color: rgb(184, 0, 0);
+}
+.TableBody .item-button-container button:hover {
   font-weight: 700;
   scale: 1;
 }

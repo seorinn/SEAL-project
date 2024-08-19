@@ -6,8 +6,9 @@ import Header from "../../Header";
 import SubHeader from "../../SubHeader";
 import BehaviorItem from "./BehaviorItem";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Behavior({ step, data }) {
+function Behavior({ data }) {
   const [likes, setLikes] = useState([]);
   const [dislikes, setDislikes] = useState([]);
   const [oppositeChar, setOppositeChar] = useState("");
@@ -68,7 +69,8 @@ function Behavior({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={18} />
+      <Watermark />
     </div>
   );
 }

@@ -1,11 +1,12 @@
 import { fourTypes } from "../../../../util";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
+import Watermark from "../../Watermark";
 import CircularItem from "./CircularItem";
 import TypeItem from "./TypeItem";
 import "./index.css";
 
-function Overview({ step }) {
+function Overview({}) {
   return (
     <div className="Overview resultpage">
       <div className="container">
@@ -36,7 +37,8 @@ function Overview({ step }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={3} />
+      <Watermark />
     </div>
   );
 }

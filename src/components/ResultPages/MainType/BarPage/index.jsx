@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { fourTypes, getIconImage } from "../../../../util";
 import Header from "../../Header";
-import "./index.css";
 import Bottom from "../../Bottom";
 import BarChart from "../../BarChart";
+import "./index.css";
+import Watermark from "../../Watermark";
 
-function BarPage({ step, mainType, scoreMain }) {
+function BarPage({ mainType, scoreMain }) {
   const [nameEng, setNameEng] = useState("");
   const [intro, setIntro] = useState("");
   const [content, setContent] = useState("");
@@ -54,7 +55,8 @@ function BarPage({ step, mainType, scoreMain }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={6} />
+      <Watermark />
     </div>
   );
 }

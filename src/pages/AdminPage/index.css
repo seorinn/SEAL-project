@@ -1,9 +1,10 @@
 .AdminPage {
-  width: 80rem;
+  width: 100rem;
   flex-direction: column;
   padding: 2.5rem 2.5rem;
   margin: auto;
   font-family: "Pretendard-Regular";
+  position: relative;
 }
 .AdminPage h2,
 h4 {
@@ -45,4 +46,47 @@ h4 {
 }
 .AdminPage button:hover {
   scale: 1.03;
+}
+.AdminPage .pdf-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.AdminPage .pdf-modal {
+  /* scale: 1.5; */
+  transform-origin: top;
+}
+.AdminPage .pdf-buttons {
+  position: fixed;
+  top: 5rem;
+  right: 5rem;
+}
+.AdminPage .pdf-container button {
+  background-color: white;
+  padding: 0.5rem 0.875rem;
+  margin: 0.75rem;
+  font-size: 1.25rem;
+  border-radius: 2rem;
+}
+.AdminPage .pdf-container button:first-child {
+  padding: 0.5rem 2rem;
+  border: 2px solid hwb(205 41% 23%);
+}
+.AdminPage .pdf-loading {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 5rem;
+  padding: 3rem 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.25rem;
 }

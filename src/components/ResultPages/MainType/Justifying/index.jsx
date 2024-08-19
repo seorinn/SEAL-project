@@ -4,8 +4,9 @@ import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Justifying({ step, data }) {
+function Justifying({ data }) {
   const [name, setName] = useState("");
   const [workStyle, setWorkStyle] = useState([]);
   const [leadership, setLeadership] = useState([]);
@@ -65,7 +66,8 @@ function Justifying({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={10} />
+      <Watermark />
     </div>
   );
 }

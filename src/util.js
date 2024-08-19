@@ -2,6 +2,7 @@ import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import "./firebase-config";
 import * as XLSX from "xlsx";
 
+import logo_KIA from "../src/assets/images/logo_KIA.png";
 import icon_facilitator from "../src/assets/icons/icon_facilitator.png";
 import icon_advisor from "../src/assets/icons/icon_advisor.png";
 import icon_mediator from "../src/assets/icons/icon_mediator.png";
@@ -49,17 +50,24 @@ export const getUserList = async () => {
           affiliation,
           position,
           name,
+          email,
           phonenumber,
           course,
           mainType,
           subType,
-        ] = itemRef._location.path_.split("/")[2].split(".")[0].split("_");
+        ] = itemRef._location.path_
+          .split("/")[2]
+          .split(".")
+          .slice(0, -1)
+          .join(".")
+          .split("_");
         userlist.push({
           isChecked: false,
           company,
           affiliation,
           position,
           name,
+          email,
           phonenumber,
           course,
           mainType,
@@ -125,7 +133,7 @@ export const getStorageCoursePath = (body) => {
 };
 
 export const getFileName = (name) => {
-  return `SEAL 진단 결과지_${name}.pdf`;
+  return `REAL 진단 결과지_${name}.pdf`;
 };
 
 export const getLogoImage = async (coursename) => {
@@ -281,6 +289,7 @@ export const formattedDate = `${new Date().getFullYear()}.${String(
 ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`;
 
 export const getTableImage = (current) => {
+  // if (current == "all") return `tables/table_all.png`;
   return `tables/table_${current.toLowerCase()}.png`;
 };
 
@@ -322,3 +331,5 @@ export const getIconImage = (typename, isWhite) => {
       return;
   }
 };
+
+export const KIALogo = logo_KIA;

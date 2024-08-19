@@ -4,10 +4,10 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import SubHeader from "../../SubHeader";
 import MoreInfoBox from "../../MoreInfoBox";
-import CharTable from "../../CharTable";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Strength({ step, data }) {
+function Strength({ data }) {
   const [content, setContent] = useState([]);
   const [strengths, setStrengths] = useState([]);
   const [cases, setCases] = useState([]);
@@ -67,7 +67,8 @@ function Strength({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={16} />
+      <Watermark />
     </div>
   );
 }

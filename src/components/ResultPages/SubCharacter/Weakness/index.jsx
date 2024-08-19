@@ -4,8 +4,9 @@ import Header from "../../Header";
 import SubHeader from "../../SubHeader";
 import MoreInfoBox from "../../MoreInfoBox";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Weakness({ step, data }) {
+function Weakness({ data }) {
   const [weaknesses, setWeaknesses] = useState([]);
   const [cases, setCases] = useState([]);
 
@@ -37,7 +38,8 @@ function Weakness({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={17} />
+      <Watermark />
     </div>
   );
 }

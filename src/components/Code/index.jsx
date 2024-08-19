@@ -16,21 +16,18 @@ function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
   };
 
   const onSubmit = async () => {
-    // if (code) {
-    //   setIsValid(code === input);
-    // } else {
-    // const courseList = getCourseList();
-    // (await courseList).map((item) => {
-    //   if (item.code === input) {
-    //     setUserInfo({ ...userInfo, course: item.name });
-    //     setIsValid(true);
-    //     return;
-    //   }
-    // });
-    // }
-
-    setUserInfo({ ...userInfo, course: input });
-    setIsValid(true);
+    if (code) {
+      setIsValid(code === input);
+    } else {
+      const courseList = getCourseList();
+      (await courseList).map((item) => {
+        if (item.code === input.toUpperCase()) {
+          setUserInfo({ ...userInfo, course: item.name });
+          setIsValid(true);
+          return;
+        }
+      });
+    }
 
     setIsSubmitted(true);
   };

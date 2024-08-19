@@ -1,7 +1,6 @@
-import { formattedDate } from "../../../util";
+import { formattedDate, KIALogo } from "../../../util";
 import logo_real from "../../../assets/images/logo_REAL.png";
 import logo_root from "../../../assets/images/logo_root.png";
-import logo_KIA from "../../../assets/images/logo_KIA.jpg";
 import "./index.css";
 
 function CoverPage({ userInfo }) {
@@ -15,7 +14,7 @@ function CoverPage({ userInfo }) {
           <div className="title">성장을 위한 행동유형 진단 결과</div>
           <div className="reportfor">Report for</div>
           <div className="user-info-container">
-            <img alt="logo_com" src={logo_KIA} />
+            <img alt="logo_com" src={KIALogo} />
             <div className="user-info">
               <div>{userInfo.company || "기아자동차"}</div>
               <div>{userInfo.name || "홍길동"}</div>

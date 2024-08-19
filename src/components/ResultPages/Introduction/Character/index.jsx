@@ -1,10 +1,10 @@
 import { getTableImage } from "../../../../util";
 import Bottom from "../../Bottom";
-import CharTable from "../../CharTable";
 import Header from "../../Header";
+import Watermark from "../../Watermark";
 import "./index.css";
 
-function Character({ step }) {
+function Character({}) {
   return (
     <div className="Character resultpage">
       <div className="container">
@@ -36,7 +36,8 @@ function Character({ step }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={4} />
+      <Watermark />
     </div>
   );
 }

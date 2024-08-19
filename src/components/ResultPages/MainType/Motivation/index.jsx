@@ -6,8 +6,9 @@ import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Motivation({ step, data }) {
+function Motivation({ data }) {
   const [name, setName] = useState("");
   const [intro, setIntro] = useState("");
   const [items, setItems] = useState([]);
@@ -80,7 +81,8 @@ function Motivation({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={11} />
+      <Watermark />
     </div>
   );
 }

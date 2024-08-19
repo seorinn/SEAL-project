@@ -5,8 +5,9 @@ import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Weak({ step, data }) {
+function Weak({ data }) {
   const [name, setName] = useState("");
   const [intro, setIntro] = useState("");
   const [texts, setTexts] = useState([]);
@@ -62,7 +63,8 @@ function Weak({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={9} />
+      <Watermark />
     </div>
   );
 }

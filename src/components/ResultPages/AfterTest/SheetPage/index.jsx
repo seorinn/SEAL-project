@@ -1,8 +1,9 @@
 import Bottom from "../../Bottom";
 import Header from "../../Header";
+import Watermark from "../../Watermark";
 import "./index.css";
 
-function SheetPage({ step }) {
+function SheetPage({}) {
   return (
     <div className="SheetPage resultpage">
       <div className="container">
@@ -47,8 +48,9 @@ function SheetPage({ step }) {
             </div>
           </div>
         </div>
-        <Bottom pageIndex={step - 1} />
+        <Bottom pageIndex={21} />
       </div>
+      <Watermark />
     </div>
   );
 }

@@ -48,10 +48,10 @@ function App() {
               <ResultPage userInfo={userInfo} setUserInfo={setUserInfo} />
             }
           />
-          {/* <Route
+          <Route
             path="/admin"
             element={<AdminPage isAdmin={isAdmin} setIsAdmin={setIsAdmin} />}
-          /> */}
+          />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </div>

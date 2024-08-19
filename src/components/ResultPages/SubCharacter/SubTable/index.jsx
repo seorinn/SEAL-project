@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { getIconImage, getTableImage, twelveChar } from "../../../../util";
-import CharTable from "../../CharTable";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function SubTable({ step, subType }) {
+function SubTable({ subType }) {
   const [nameEng, setNameEng] = useState("");
 
   useEffect(() => {
@@ -53,7 +53,8 @@ function SubTable({ step, subType }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={15} />
+      <Watermark />
     </div>
   );
 }

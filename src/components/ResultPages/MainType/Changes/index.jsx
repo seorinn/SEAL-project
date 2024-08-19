@@ -4,8 +4,9 @@ import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function Changes({ step, data }) {
+function Changes({ data }) {
   const [name, setName] = useState("");
   const [changes, setChanges] = useState([]);
   const [conflict, setConflict] = useState([]);
@@ -74,7 +75,8 @@ function Changes({ step, data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={12} />
+      <Watermark />
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import img_chartable from "../../../../assets/images/chartable.png";
 import img_quarter from "../../../../assets/images/quarter.png";
-import Quarter from "../../../Quarter";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
+import Watermark from "../../Watermark";
 import "./index.css";
 
-function TextPage({ step }) {
+function TextPage({}) {
   return (
     <div className="TextPage resultpage">
       <div className="container">
@@ -17,10 +17,10 @@ function TextPage({ step }) {
           <div className="top">
             진단 결과를 다시 한 번 꼼꼼히 검토해 보세요. 그리고 이 결과에서 볼
             수 있는 강점과 개발 필요점들이 당신의 일상생활 에서 어떻게 나타나고
-            있는지 생각해 보세요. 이 진단은 ‘내가 직접한 작성한’ 설문
-            결과입니다. 따라서 이 진단 결과 점수는 당신이 지금 이 순간 스스로를
-            어떻게 바라보고 있는지를 보여줍니다. 가족이나 친구, 동료 등 당신을
-            잘 알고 있는 사람들과 이 결과에 대해 이야기 나눠 보세요.
+            있는지 생각해 보세요. 이 진단은 ‘내가 직접 작성한’ 설문 결과입니다.
+            따라서 이 진단 결과 점수는 당신이 지금 이 순간 스스로를 어떻게
+            바라보고 있는지를 보여줍니다. 가족이나 친구, 동료 등 당신을 잘 알고
+            있는 사람들과 이 결과에 대해 이야기 나눠 보세요.
           </div>
           <div className="mid">
             다음 질문을 서로 주고 받아보세요!
@@ -85,8 +85,9 @@ function TextPage({ step }) {
             만들 수 있습니다.
           </div>
         </div>
-        <Bottom pageIndex={step - 1} />
+        <Bottom pageIndex={20} />
       </div>
+      <Watermark />
     </div>
   );
 }

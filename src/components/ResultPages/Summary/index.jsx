@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import { fourTypes, getTableImage, twelveChar } from "../../../util";
+import { fourTypes, getTableImage, KIALogo, twelveChar } from "../../../util";
 import img_quarter from "../../../assets/images/quarter.png";
-import logo_kia from "../../../assets/images/logo_KIA.jpg";
 import Bottom from "../Bottom";
 import Header from "../Header";
-import "./index.css";
-import Quarter from "../../Quarter";
 import BarChart from "../BarChart";
-import CharTable from "../CharTable";
 import Keywords from "../Keywords";
+import "./index.css";
+import Watermark from "../Watermark";
 
-function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
+function Summary({ name, mainType, subType, scoreData, keywordData }) {
   const [initial, setInitial] = useState("");
   const [nameEng, setNameEng] = useState("");
   const [secondInitial, setSecondInitial] = useState("");
@@ -61,7 +59,7 @@ function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
         />
         <div className="content">
           <div className="name-container">
-            <img alt="" src={logo_kia} />
+            <img alt="" src={KIALogo} />
             {name} 님의 REAL Personality ™ 진단 주요 결과입니다.
           </div>
           <div className="box">
@@ -169,7 +167,8 @@ function Summary({ step, name, mainType, subType, scoreData, keywordData }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={step - 1} />
+      <Bottom pageIndex={5} />
+      <Watermark />
     </div>
   );
 }
