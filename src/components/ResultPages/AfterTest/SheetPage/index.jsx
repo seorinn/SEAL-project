@@ -48,8 +48,8 @@ function SheetPage({}) {
             </div>
           </div>
         </div>
-        <Bottom pageIndex={21} />
       </div>
+      <Bottom pageIndex={21} />
       <Watermark />
     </div>
   );

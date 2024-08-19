@@ -85,8 +85,8 @@ function TextPage({}) {
             만들 수 있습니다.
           </div>
         </div>
-        <Bottom pageIndex={20} />
       </div>
+      <Bottom pageIndex={20} />
       <Watermark />
     </div>
   );

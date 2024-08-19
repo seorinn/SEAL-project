@@ -13,9 +13,10 @@
   margin-bottom: 1rem;
 }
 .GetInformPage .input-container {
+  padding: 0 1rem;
   margin-bottom: 2.5rem;
 }
-.GetInformPage .input-container div {
+.GetInformPage .input-container .informbox {
   width: 25rem;
   display: flex;
   flex-direction: column;
@@ -34,7 +35,7 @@
   border-radius: 10rem;
   color: white;
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 5rem;
 }
 .GetInformPage span {
   color: hwb(120 20% 35%);
@@ -49,12 +50,30 @@
   bottom: 2.5rem;
   right: 5rem;
 }
+.GetInformPage .agreement {
+  width: 25rem;
+  margin: 1.5rem 0;
+  font-size: 0.8rem;
+  color: gray;
+  display: flex;
+  flex-direction: column;
+}
+.GetInformPage .agree-text {
+  line-height: 1.875;
+}
+.GetInformPage .agree-check {
+  display: flex;
+  flex-direction: row;
+}
+.GetInformPage .agree-check span {
+  color: gray;
+}
 
 @media (max-width: 450px) {
   .GetInformPage .title {
     margin-top: 2.5rem;
   }
-  .GetInformPage .input-container div {
+  .GetInformPage .input-container .informbox {
     width: 20rem;
   }
   .GetInformPage .input-container input {
@@ -63,12 +82,12 @@
   .GetInformPage .input-container p {
     margin-bottom: 0.75rem;
   }
-  .GetInformPage .btn-submit {
-    margin-bottom: 5rem;
+  .GetInformPage .agreement {
+    width: 20rem;
   }
 }
 @media (max-width: 350px) {
-  .GetInformPage .input-container div {
+  .GetInformPage .input-container .informbox {
     width: 17.5rem;
     font-size: 0.875rem;
   }
@@ -78,5 +97,8 @@
   .GetInformPage .btn-submit {
     width: 17.5rem;
     padding: 0.75rem 0;
+  }
+  .GetInformPage .agreement {
+    width: 17.5rem;
   }
 }

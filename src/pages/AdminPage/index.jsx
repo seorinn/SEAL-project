@@ -21,8 +21,8 @@ import {
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
-import "./index.css";
 import PdfModal from "./PdfModal";
+import "./index.css";
 
 function AdminPage({ isAdmin, setIsAdmin }) {
   const storage = getStorage();
@@ -324,8 +324,9 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       <h4>[관리자 페이지]</h4>
       <h2
         onClick={async () => {
-          setData(await getUserList());
-          setKeyword("");
+          // setData(await getUserList());
+          // setKeyword("");
+          initData();
         }}
       >
         진단 결과 목록
