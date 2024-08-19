@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { fourTypes, getTableImage, KIALogo, twelveChar } from "../../../util";
+import {
+  fourTypes,
+  getTableImage,
+  twelveChar,
+  getLogoImage,
+} from "../../../util";
 import img_quarter from "../../../assets/images/quarter.png";
 import Bottom from "../Bottom";
 import Header from "../Header";
@@ -8,7 +13,8 @@ import Keywords from "../Keywords";
 import "./index.css";
 import Watermark from "../Watermark";
 
-function Summary({ name, mainType, subType, scoreData, keywordData }) {
+function Summary({ name, course, mainType, subType, scoreData, keywordData }) {
+  const [image, setImage] = useState("");
   const [initial, setInitial] = useState("");
   const [nameEng, setNameEng] = useState("");
   const [secondInitial, setSecondInitial] = useState("");
@@ -19,6 +25,10 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
   const [keywords, setKeywords] = useState([]);
   const [secondType, setSecondType] = useState({ key: "", value: 0 });
   const [isLargeGap, setIsLargeGap] = useState(false);
+
+  useEffect(() => {
+    getLogoImage(course).then((res) => setImage(res));
+  }, [course]);
 
   useEffect(() => {
     fourTypes.map((item) => {
@@ -59,7 +69,7 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
         />
         <div className="content">
           <div className="name-container">
-            <img alt="" src={KIALogo} />
+            <img alt="" src={image} />
             {name} 님의 REAL Personality ™ 진단 주요 결과입니다.
           </div>
           <div className="box">

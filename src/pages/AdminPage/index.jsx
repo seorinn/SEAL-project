@@ -85,6 +85,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
         const newItem = insertAt(item, "code", matchedCode, 8);
         return {
           ...newItem,
+          email: newItem.email.replace(/&/g, `_`),
         };
       });
       setData(formattedList);
@@ -153,23 +154,23 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   const sortDataFunc = async (sortBy, isAscending) => {
     setLoading(true);
     try {
-      // const compare = (a, b) => {
-      //   if (a[sortBy] > b[sortBy]) return 1;
-      //   if (a[sortBy] < b[sortBy]) return -1;
-      //   return 0;
-      // };
-      // const reverseCompare = (a, b) => {
-      //   if (a[sortBy] < b[sortBy]) return 1;
-      //   if (a[sortBy] > b[sortBy]) return -1;
-      //   return 0;
-      // };
-      // if (detailKeyword)
-      //   setDetailData(detailData.sort(isAscending ? compare : reverseCompare));
-      // else
-      //   setSearchedData(
-      //     searchedData.sort(isAscending ? compare : reverseCompare)
-      //   );
-      alert("수정중");
+      const compare = (a, b) => {
+        if (a[sortBy] > b[sortBy]) return 1;
+        if (a[sortBy] < b[sortBy]) return -1;
+        return 0;
+      };
+      const reverseCompare = (a, b) => {
+        if (a[sortBy] < b[sortBy]) return 1;
+        if (a[sortBy] > b[sortBy]) return -1;
+        return 0;
+      };
+      if (detailKeyword)
+        setDetailData(detailData.sort(isAscending ? compare : reverseCompare));
+      else
+        setSearchedData(
+          searchedData.sort(isAscending ? compare : reverseCompare)
+        );
+      // alert("수정중");
     } catch (error) {
       console.log(error);
     } finally {
@@ -194,7 +195,10 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       )
         return;
       for (let i = 0; i < targetData.length; i++) {
-        const user = targetData[i];
+        const user = {
+          ...targetData[i],
+          email: targetData[i].email.replace(/_/g, `&`),
+        };
         if (user.isChecked) {
           const pathReference = ref(storage, getStoragePath(user));
           try {
@@ -361,7 +365,6 @@ function AdminPage({ isAdmin, setIsAdmin }) {
             handleDownloadExcel={handleDownloadExcel}
             sortDataFunc={sortDataFunc}
             initData={initData}
-            loading={loading}
             setLoading={setLoading}
             courses={courses}
             getCourses={getCourses}

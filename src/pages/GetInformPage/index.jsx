@@ -11,7 +11,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
     const { name, value } = e.target;
     setUserInfo({
       ...userInfo,
-      [name]: value,
+      [name]: name === "email" ? value.replace(/_/g, `&`) : value,
     });
   };
 
@@ -26,9 +26,19 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
       email &&
       phonenumber &&
       isChecked
-    )
-      navigation("/test");
-    else if (!isChecked) alert("개인정보 수집 및 이용에 동의해주세요.");
+    ) {
+      if (
+        [name, company, affiliation, position, email, phonenumber]
+          .join(" ")
+          .includes("_")
+      )
+        alert("이메일 외 항목에 사용 불가능한 문자( _ )가 포함되어 있습니다.");
+      else if (!phonenumber.startsWith("010") || phonenumber.length !== 11)
+        alert("잘못된 전화번호입니다.");
+      else if (!email.includes("@") || !email.includes("."))
+        alert("잘못된 형식의 이메일입니다.");
+      else navigation("/test");
+    } else if (!isChecked) alert("개인정보 수집 및 이용에 동의해주세요.");
     else alert("항목을 모두 입력해주세요");
   };
 

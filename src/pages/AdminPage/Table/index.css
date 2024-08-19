@@ -56,7 +56,9 @@
   border-radius: 0%;
 }
 .Table .menu-sort .btn_sort_item:hover {
-  background-color: #eceff1;
+  background-color: #f1f1f1;
+  font-weight: bold;
+  scale: none;
 }
 .Table .menu-sort .btn_sort_item:first-child {
   border: none;

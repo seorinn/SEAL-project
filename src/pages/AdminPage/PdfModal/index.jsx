@@ -38,6 +38,7 @@ const PdfModal = ({ data }) => {
       <ReportCover />
       <Summary
         name={user.name}
+        course={user.course}
         mainType={user.mainType}
         subType={user.subType}
         scoreData={scoreMain}

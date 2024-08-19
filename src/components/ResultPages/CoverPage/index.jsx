@@ -1,9 +1,16 @@
-import { formattedDate, KIALogo } from "../../../util";
+import { formattedDate, getLogoImage } from "../../../util";
 import logo_real from "../../../assets/images/logo_REAL.png";
 import logo_root from "../../../assets/images/logo_root.png";
 import "./index.css";
+import { useEffect, useState } from "react";
 
 function CoverPage({ userInfo }) {
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    getLogoImage(userInfo.course).then((res) => setImage(res));
+  }, [userInfo]);
+
   return (
     <div className="CoverPage resultpage">
       <div className="top-section">
@@ -14,7 +21,7 @@ function CoverPage({ userInfo }) {
           <div className="title">성장을 위한 행동유형 진단 결과</div>
           <div className="reportfor">Report for</div>
           <div className="user-info-container">
-            <img alt="logo_com" src={KIALogo} />
+            <img alt="logo_com" src={image} />
             <div className="user-info">
               <div>{userInfo.company || "기아자동차"}</div>
               <div>{userInfo.name || "홍길동"}</div>

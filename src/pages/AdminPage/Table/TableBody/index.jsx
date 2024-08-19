@@ -18,7 +18,6 @@ function TableBody({
   headers,
   courses,
   initData,
-  loading,
   setLoading,
   handlePdfOpen,
 }) {
@@ -111,7 +110,6 @@ function TableBody({
         handleModifyUserInfo={handleModifyUserInfo}
         headers={headers}
         courses={courses}
-        loading={loading}
       />
     </div>
   );

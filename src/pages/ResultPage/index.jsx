@@ -42,9 +42,6 @@ import SheetPage from "../../components/ResultPages/AfterTest/SheetPage";
 import Summary from "../../components/ResultPages/Summary";
 import KeywordPage from "../../components/ResultPages/MainType/KeywordPage";
 
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-
 function ResultPage({ userInfo, setUserInfo }) {
   const pdfRef = useRef(null);
   const location = useLocation();
@@ -306,6 +303,7 @@ function ResultPage({ userInfo, setUserInfo }) {
         <ReportCover />
         <Summary
           name={userInfo.name}
+          course={userInfo.course}
           mainType={userInfo.mainType}
           subType={userInfo.subType}
           scoreData={scoreMain}

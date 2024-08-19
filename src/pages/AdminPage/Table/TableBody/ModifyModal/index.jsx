@@ -9,7 +9,6 @@ function ModifyModal({
   handleModifyUserInfo,
   headers,
   courses,
-  loading,
 }) {
   const [changedData, setChangedData] = useState({});
   const modalRef = useRef();
@@ -45,6 +44,8 @@ function ModifyModal({
       position: data.position,
       name: data.name,
       course: data.course,
+      code: data.code,
+      email: data.email,
       phonenumber: data.phonenumber,
       mainType: data.mainType,
       subType: data.subType,
@@ -59,11 +60,6 @@ function ModifyModal({
       ref={modalRef}
       onClick={(e) => modalOutsideClick(e)}
     >
-      {loading && (
-        <div className="loading">
-          <PulseLoader color="hsla(194, 56%, 63%, 1)" />
-        </div>
-      )}
       <div className="modal-container">
         <div className="title">고객 정보 수정</div>
         <div className="user-info">
@@ -89,7 +85,11 @@ function ModifyModal({
                   value={changedData[item.id]}
                   placeholder={data[item.id]}
                   onChange={handleOnChange}
-                  disabled={item.id === "mainType" || item.id === "subType"}
+                  disabled={
+                    item.id === "code" ||
+                    item.id === "mainType" ||
+                    item.id === "subType"
+                  }
                 />
               )}
             </div>

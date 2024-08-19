@@ -20,7 +20,6 @@ function Table({
   handleDownloadExcel,
   sortDataFunc,
   initData,
-  loading,
   setLoading,
   courses,
   getCourses,
@@ -109,7 +108,6 @@ function Table({
           headers={headers}
           courses={courses}
           initData={initData}
-          loading={loading}
           setLoading={setLoading}
           handlePdfOpen={handlePdfOpen}
         />
