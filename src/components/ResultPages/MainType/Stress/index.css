@@ -1,15 +1,48 @@
 .Stress {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Stress .container {
+  display: flex;
+  flex-direction: column;
   padding: 1.5rem;
   padding-bottom: 0;
   flex: 1;
+  position: relative;
 }
 .Stress .box {
+  display: flex;
+  flex-direction: column;
   padding: 0 0.5rem;
   font-size: 0.9rem;
+  margin-top: 0.75rem;
+  flex: 1;
+}
+.Stress .maintype-container {
+  position: absolute;
+  top: 8.25rem;
+  right: 3rem;
+  display: flex;
+  align-items: center;
+}
+.Stress .maintype-container .text {
+  background-color: var(--text-box);
+  padding: 0.25rem 1rem;
+  font-family: NanumSquareNeoBold;
+  border-radius: 1rem;
+}
+.Stress .maintype-container .img-container {
+  padding: 0.5rem;
+  border-radius: 100%;
+  margin-left: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Stress .maintype-container img {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 .Stress .box-content {
   padding: 0 0.5rem;

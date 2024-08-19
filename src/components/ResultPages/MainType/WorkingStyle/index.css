@@ -1,6 +1,7 @@
 .WorkingStyle {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .WorkingStyle .container {
   display: flex;

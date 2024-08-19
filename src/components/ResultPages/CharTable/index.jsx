@@ -1,7 +1,8 @@
 import { getIconImage, twelveChar } from "../../../util";
 import "./index.css";
 
-function CharTable({ isAll, current }) {
+function CharTable({ isAll }) {
+  const current = "중재자";
   const lines = Array.from({ length: 12 }, (_, index) => index * 30);
   const circles = Array.from({ length: 12 }, (_, index) => index * 30 - 75);
   const items = Array.from({ length: 12 }, (_, index) => ({

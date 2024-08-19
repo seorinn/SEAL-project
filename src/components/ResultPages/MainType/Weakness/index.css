@@ -1,6 +1,7 @@
 .Weak {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Weak .container {
   display: flex;
@@ -14,6 +15,32 @@
   padding: 0rem 0.5rem;
   flex: 1;
   font-size: 0.9rem;
+  position: relative;
+}
+.Weak .maintype-container {
+  position: absolute;
+  top: 0rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+.Weak .maintype-container .text {
+  background-color: var(--text-box);
+  padding: 0.25rem 1rem;
+  font-family: NanumSquareNeoBold;
+  border-radius: 1rem;
+}
+.Weak .maintype-container .img-container {
+  padding: 0.5rem;
+  border-radius: 100%;
+  margin-left: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Weak .maintype-container img {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 .Weak .box {
   display: flex;

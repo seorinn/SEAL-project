@@ -20,6 +20,7 @@ function TableBody({
   initData,
   loading,
   setLoading,
+  handlePdfOpen,
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [values] = [Object.values(userData)];
@@ -89,13 +90,20 @@ function TableBody({
           )}
         </div>
       ))}
-      <button
-        className="btn-mod"
-        onClick={() => setModalIsOpen(true)}
+      <div
+        className="item-button-container"
         style={{ width: widths[widths.length - 1] + "%" }}
       >
-        수정
-      </button>
+        <button className="btn-mod" onClick={() => setModalIsOpen(true)}>
+          수정
+        </button>
+        <button
+          className="btn-download"
+          onClick={() => handlePdfOpen(userData)}
+        >
+          결과지
+        </button>
+      </div>
       <ModifyModal
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}

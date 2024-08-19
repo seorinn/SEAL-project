@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/server";
 import { useLocation } from "react-router-dom";
-import { getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
-import html2pdf from "html2pdf.js";
+import { PulseLoader } from "react-spinners";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  deleteObject,
+  getDownloadURL,
+} from "firebase/storage";
 import {
   fetchData,
   getUserList,
@@ -31,18 +37,19 @@ import Behavior from "../../components/ResultPages/SubCharacter/Behavior";
 import Motivation from "../../components/ResultPages/MainType/Motivation";
 import ScoreGraph from "../../components/ResultPages/SubCharacter/ScoreGraph";
 import BarPage from "../../components/ResultPages/MainType/BarPage";
-import Keywords from "../../components/ResultPages/MainType/Keywords";
 import TextPage from "../../components/ResultPages/AfterTest/TextPage";
 import SheetPage from "../../components/ResultPages/AfterTest/SheetPage";
 import Summary from "../../components/ResultPages/Summary";
 import KeywordPage from "../../components/ResultPages/MainType/KeywordPage";
 
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
 function ResultPage({ userInfo, setUserInfo }) {
+  const pdfRef = useRef(null);
   const location = useLocation();
   const { state, scoreMain, scoreSub } = location.state;
-  const [step, setStep] = useState(1);
   const [scale, setScale] = useState(1);
-  const max = 25;
 
   useEffect(
     () =>
@@ -57,58 +64,64 @@ function ResultPage({ userInfo, setUserInfo }) {
   const [dataSub, setDataSub] = useState([]);
 
   useEffect(() => {
-    if (
-      userInfo.mainType &&
-      userInfo.subType
-      // && userInfo.phonenumber
-    ) {
+    if (userInfo.mainType && userInfo.subType && userInfo.phonenumber) {
       console.log(userInfo.mainType, userInfo.subType);
-
-      fetchData("result-sub.xlsx").then((res) => {
-        let array = res.filter((item) => item.type === userInfo.subType);
-        setDataSub({
-          strength: array.filter(
-            (item) =>
-              item.category.includes("strength") || item.category === "content"
-          ),
-          weakness: array.filter((item) => item.category.includes("weakness")),
-          behavior: array.filter(
-            (item) =>
-              item.category.includes("like") ||
-              item.category.includes("opposite")
-          ),
+      try {
+        fetchData("result-sub.xlsx").then((res) => {
+          let array = res.filter((item) => item.type === userInfo.subType);
+          setDataSub({
+            strength: array.filter(
+              (item) =>
+                item.category.includes("strength") ||
+                item.category === "content"
+            ),
+            weakness: array.filter((item) =>
+              item.category.includes("weakness")
+            ),
+            behavior: array.filter(
+              (item) =>
+                item.category.includes("like") ||
+                item.category.includes("opposite")
+            ),
+          });
         });
-      });
 
-      fetchData("result-main.xlsx").then((res) => {
-        let array = res.filter((item) => item.type === userInfo.mainType);
-        setDataMain({
-          keywords: array.filter((item) => item.category === "keywords"),
-          strength: array.filter(
-            (item) =>
-              item.category.includes("strength") &&
-              !item.category.includes("stress")
-          ),
-          weakness: array.filter((item) => item.category.includes("weakness")),
-          work_style: array.filter(
-            (item) =>
-              item.category === "work_style" || item.category === "leadership"
-          ),
-          changes: array.filter(
-            (item) =>
-              item.category === "change_res" || item.category === "conflict"
-          ),
-          motivation: array.filter((item) =>
-            item.category.includes("motivation")
-          ),
-          stress: array.filter((item) => item.category.includes("stress")),
-          cowork: array.filter((item) => item.category === "cowork"),
+        fetchData("result-main.xlsx").then((res) => {
+          let array = res.filter((item) => item.type === userInfo.mainType);
+          setDataMain({
+            keywords: array.filter((item) => item.category === "keywords"),
+            strength: array.filter(
+              (item) =>
+                item.category.includes("strength") &&
+                !item.category.includes("stress")
+            ),
+            weakness: array.filter((item) =>
+              item.category.includes("weakness")
+            ),
+            work_style: array.filter(
+              (item) =>
+                item.category === "work_style" || item.category === "leadership"
+            ),
+            changes: array.filter(
+              (item) =>
+                item.category === "change_res" || item.category === "conflict"
+            ),
+            motivation: array.filter((item) =>
+              item.category.includes("motivation")
+            ),
+            stress: array.filter((item) => item.category.includes("stress")),
+            cowork: array.filter((item) => item.category === "cowork"),
+          });
         });
-      });
-
-      // generatePDF();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (dataMain.strength && dataSub.strength) saveToStorage();
+  }, [dataMain, dataSub]);
 
   const setType = (scoreData) => {
     const resultTotal = findHighest(scoreData);
@@ -214,71 +227,65 @@ function ResultPage({ userInfo, setUserInfo }) {
     return resultType;
   };
 
-  const generatePDF = async (isClickedDownload) => {
-    const pages = [
-      // <CoverPage userInfo={userInfo} />,
-      <Introduction />,
-      <Overview />,
-      <Character />,
-      <ReportCover />,
-      <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />,
-      // <Keywords data={dataMain.keywords} />,
-      <WorkingStyle data={dataMain.strength} />,
-      <Weak data={dataMain.weakness} />,
-      <Justifying data={dataMain.work_style} />,
-      <Motivation data={dataMain.motivation} />,
-      <Changes data={dataMain.changes} />,
-      <Stress data={dataMain.stress} />,
-      <Cowork data={dataMain.cowork} />,
-      <SubTable subType={userInfo.subType} />,
-      <Strength data={dataSub.strength} />,
-      <Weakness data={dataSub.weakness} />,
-      <Behavior data={dataSub.behavior} />,
-      <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />,
-    ];
-    const element = (
-      <div className="ResultPage">
-        {pages.map((page, index) => (
-          <div key={index} className="pdfPage">
-            {page}
-          </div>
-        ))}
-      </div>
-    );
-    const html = ReactDOM.renderToStaticMarkup(element);
-    if (isClickedDownload)
-      html2pdf().from(html).save(getFileName(userInfo.name));
-    else {
-      const storage = getStorage();
-      const pdfRef = ref(storage, getStoragePath(userInfo));
-      const userList = getUserList();
-      (await userList).map((item) => {
-        if (userInfo.phonenumber === item.phonenumber) {
-          const oldRef = ref(storage, getStoragePath(item));
-          deleteObject(oldRef).catch((error) => console.log(error));
-        }
-      });
-      const pdfOptions = {
-        filename: getFileName(userInfo.name),
-        html2canvas: {},
-        jsPDF: {},
-      };
-      const pdfBlob = await new Promise((resolve, reject) => {
-        html2pdf()
-          .from(html)
-          .set(pdfOptions)
-          .outputPdf("blob")
-          .then(resolve)
-          .catch(reject);
-      });
+  const saveToStorage = async () => {
+    const storage = getStorage();
+    const userList = getUserList();
+    console.log(scoreMain, scoreSub, dataMain, dataSub);
+    const combinedData = {
+      scoreMain: scoreMain,
+      scoreSub: scoreSub,
+      dataMain: dataMain,
+      dataSub: dataSub,
+    };
+    (await userList).map((item) => {
+      if (userInfo.phonenumber === item.phonenumber) {
+        const oldRef = ref(storage, getStoragePath(item));
+        deleteObject(oldRef).catch((error) => console.log(error));
+      }
+    });
+    const fileContent = JSON.stringify(combinedData, null, 2);
+    const blob = new Blob([fileContent], { type: "application/json" });
 
-      uploadBytes(pdfRef, pdfBlob)
-        .then((snapshot) => {
-          console.log("PDF uploaded to storage");
-        })
-        .catch((error) => console.log(error));
-    }
+    const storageRef = ref(storage, getStoragePath(userInfo));
+
+    uploadBytes(storageRef, blob)
+      .then((snapshot) => getDownloadURL(snapshot.ref))
+      .then((downloadURL) => {
+        console.log("File uploaded successfully:", downloadURL);
+      })
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+      });
   };
+
+  // const converToPdf = async () => {
+  //   const element = pdfRef.current;
+  //   if (element) {
+  //     const canvas = await html2canvas(element);
+  //     const imageFile = canvas.toDataURL("image/png");
+  //     const doc = new jsPDF("p", "mm", "a4");
+  //     const pageWidth = doc.internal.pageSize.getWidth();
+  //     const pageHeight = doc.internal.pageSize.getHeight();
+  //     const widthRatio = pageWidth / canvas.width;
+  //     const customHeight = canvas.height * widthRatio;
+  //     doc.addImage(imageFile, "png", 0, 0, pageWidth, customHeight);
+  //     let heightLeft = customHeight;
+  //     let heightAdd = -pageHeight;
+  //     while (heightLeft >= pageHeight) {
+  //       doc.addPage();
+  //       doc.addImage(imageFile, "png", 0, heightAdd, pageWidth, customHeight);
+  //       heightLeft -= pageHeight;
+  //       heightAdd -= pageHeight;
+  //     }
+  //     doc.save("REAL Personality 진단 결과지" + "_" + userInfo.name + ".pdf");
+  //   }
+  //   setDownloadPdf(false);
+  // };
+
+  // const [downloadPdf, setDownloadPdf] = useState(false);
+  // useEffect(() => {
+  //   if (downloadPdf && scale === 1.2) converToPdf();
+  // }, [downloadPdf]);
 
   if (dataMain.length === 0 || dataSub.length === 0) return;
   return (
@@ -287,68 +294,50 @@ function ResultPage({ userInfo, setUserInfo }) {
         className={`page-container`}
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: `${scale > 1 ? "top" : "50% 50%"}`,
+          backgroundColor: "white",
+        }}
+        ref={pdfRef}
+      >
+        <CoverPage userInfo={userInfo} />
+        <RootInfo />
+        <Introduction />
+        <Overview />
+        <Character />
+        <ReportCover />
+        <Summary
+          name={userInfo.name}
+          mainType={userInfo.mainType}
+          subType={userInfo.subType}
+          scoreData={scoreMain}
+          keywordData={dataMain.keywords}
+        />
+        <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />{" "}
+        <KeywordPage data={dataMain.keywords} />
+        <WorkingStyle data={dataMain.strength} />
+        <Weak data={dataMain.weakness} />
+        <Justifying data={dataMain.work_style} />
+        <Motivation data={dataMain.motivation} />
+        <Changes data={dataMain.changes} />
+        <Stress data={dataMain.stress} />
+        <Cowork data={dataMain.cowork} />
+        <SubTable subType={userInfo.subType} />
+        <Strength data={dataSub.strength} />
+        <Weakness data={dataSub.weakness} />
+        <Behavior data={dataSub.behavior} />
+        <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />
+        <TextPage />
+        <SheetPage />
+      </div>
+      {/* <button
+        className="btnPDF"
+        onClick={() => {
+          setScale(1.2);
+          setDownloadPdf(true);
         }}
       >
-        {step === 1 && <CoverPage userInfo={userInfo} />}
-        {step === 2 && <RootInfo />}
-        {step === 3 && <Introduction />}
-        {step === 4 && <Overview />}
-        {step === 5 && <Character />}
-
-        {step === 6 && <ReportCover />}
-        {step === 7 && (
-          <Summary
-            name={userInfo.name}
-            mainType={userInfo.mainType}
-            subType={userInfo.subType}
-            scoreData={scoreMain}
-            keywordData={dataMain.keywords}
-          />
-        )}
-        {step === 8 && (
-          <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />
-        )}
-        {step === 9 && <KeywordPage data={dataMain.keywords} />}
-        {/* {step === 9 && <WorkingStyle data={dataMain.strength} />} */}
-        {step === 10 && <Weak data={dataMain.weakness} />}
-        {step === 11 && <Justifying data={dataMain.work_style} />}
-        {step === 12 && <Motivation data={dataMain.motivation} />}
-        {/* {step === 12 && <Changes data={dataMain.changes} />} */}
-        {step === 13 && <Stress data={dataMain.stress} />}
-        {step === 14 && <Cowork data={dataMain.cowork} />}
-
-        {step === 15 && <SubTable subType={userInfo.subType} />}
-        {step === 16 && <Strength data={dataSub.strength} />}
-        {step === 17 && <Weakness data={dataSub.weakness} />}
-        {step === 18 && <Behavior data={dataSub.behavior} />}
-        {step === 19 && (
-          <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />
-        )}
-        {step === 20 && <TextPage />}
-        {step === 21 && <SheetPage />}
-      </div>
-      <button className="btnPDF" onClick={() => generatePDF(true)}>
         PDF 저장하기
-      </button>
-      <div className="page-buttons">
-        {step > 1 && (
-          <button
-            className="btn-back"
-            onClick={() => {
-              setStep(step - 1);
-            }}
-          >
-            ◀
-          </button>
-        )}
-        {step < max && (
-          <button className="btn-next" onClick={() => setStep(step + 1)}>
-            ▶
-          </button>
-        )}
-      </div>
-      <div className="scale-buttons">
+      </button> */}
+      {/* <div className="scale-buttons">
         <button
           className="btn-reduce"
           onClick={() => {
@@ -360,12 +349,22 @@ function ResultPage({ userInfo, setUserInfo }) {
         <button
           className="btn-zoom"
           onClick={() => {
-            scale < 3 && setScale(scale + 0.2);
+            scale < 2 && setScale(scale + 0.2);
           }}
         >
           +
         </button>
-      </div>
+      </div> */}
+      {/* {downloadPdf && (
+        <div className="pdf-loading">
+          <div className="text">
+            <div className="loader">
+              <PulseLoader color="var(--navy600)" />
+            </div>
+            다운로드 중입니다
+          </div>
+        </div>
+      )} */}
     </div>
   );
 }

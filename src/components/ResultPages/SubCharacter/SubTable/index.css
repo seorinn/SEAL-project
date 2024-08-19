@@ -1,6 +1,7 @@
 .SubTable {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .SubTable .container {
   display: flex;
@@ -29,9 +30,16 @@
   flex: 1;
 }
 .SubTable .characters .table-container {
-  /* width: 95%; */
-  scale: 0.9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex: 1;
 }
+.SubTable .characters .table-container img {
+  width: 41rem;
+}
+
 .SubTable .characters .center {
   position: absolute;
   display: flex;

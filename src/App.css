@@ -1,8 +1,4 @@
 :root {
-  --color-s-main: rgb(0, 94, 131);
-  --color-e-main: rgb(231, 158, 0);
-  --color-a-main: rgb(168, 0, 0);
-  --color-l-main: rgba(0, 114, 9, 0.842);
   --font-gray: rgb(100, 100, 100);
   --underline: #e2e7ea;
   --navy700: #030e33;
@@ -55,6 +51,7 @@ img {
   /* width: 210mm; */
   /* height: 296.625mm; */
   /* margin: auto; */
+  font-size: 1rem;
 }
 .pdfPage div {
   animation: none;
@@ -63,8 +60,9 @@ img {
   width: 210mm;
   height: 297mm;
   box-shadow: 0 0 50px 0.2px rgb(0 0 0 / 0.075);
-  animation: opacity 1s ease forwards;
+  /* animation: opacity 1s ease forwards; */
   color: black;
+  /* background-color: white; */
 }
 .logo-container {
   display: flex;
@@ -73,14 +71,14 @@ img {
   text-align: center;
 }
 
-@keyframes opacity {
+/* @keyframes opacity {
   0% {
     opacity: 0.2;
   }
   100% {
     opacity: 1;
   }
-}
+} */
 
 @keyframes scale {
   0% {

@@ -47,9 +47,18 @@ function AddCourseModal({ modalIsOpen, setModalIsOpen, setShowCourses }) {
     if (course.name === "" || course.code === "" || !course.image) {
       alert("코스 명, 코드, 이미지를 모두 등록해주세요");
       return;
+    } else if (course.name.includes("_") || course.code.includes("_")) {
+      alert(`"_"를 제외한 이름을 사용해주세요`);
+      return;
     }
     const storage = getStorage();
-    const pathReference = ref(storage, getStorageCoursePath(course));
+    const pathReference = ref(
+      storage,
+      getStorageCoursePath({
+        name: course.name,
+        code: course.code.toUpperCase(),
+      })
+    );
     const courseList = getCourseList();
     const courseExists = (await courseList).some(
       (item) => course.name === item.name || course.code === item.code

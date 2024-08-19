@@ -24,6 +24,7 @@ function Table({
   setLoading,
   courses,
   getCourses,
+  handlePdfOpen,
 }) {
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
@@ -83,9 +84,9 @@ function Table({
           </button>
         </div>
         <div className="buttons">
-          <button className="btn_pdf" onClick={() => handleCheckBox("pdf")}>
+          {/* <button className="btn_pdf" onClick={() => handleCheckBox("pdf")}>
             PDF 다운로드
-          </button>
+          </button> */}
           <button className="btn_excel" onClick={handleDownloadExcel}>
             전체 Excel 다운로드
           </button>
@@ -110,6 +111,7 @@ function Table({
           initData={initData}
           loading={loading}
           setLoading={setLoading}
+          handlePdfOpen={handlePdfOpen}
         />
       ))}
       <CourseListModal
@@ -124,6 +126,7 @@ function Table({
         modalIsOpen={showAddCourse}
         setModalIsOpen={setShowAddCourse}
         setShowCourses={setShowCourses}
+        getCourses={getCourses}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 .Strength {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Strength .container {
   display: flex;
@@ -9,11 +10,13 @@
   flex: 1;
 }
 .Strength .top-section {
-  padding: 0 0.5rem;
-  position: relative;
+  /* position: relative; */
+  display: flex;
+  justify-content: center;
 }
 .Strength .text-section {
-  margin-right: 2rem;
+  margin-right: 2.5rem;
+  margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 .Strength .text-section .intro {
@@ -39,7 +42,6 @@
 .Strength .text-section .text-box {
   background-color: var(--text-box);
   padding: 1rem;
-  margin-bottom: 1rem;
   width: 25rem;
   min-height: 7rem;
   border-radius: 1rem;
@@ -50,10 +52,17 @@
   margin-bottom: 0.325rem;
 }
 .Strength .top-section .table-container {
-  position: absolute;
+  /* position: absolute;
   scale: 0.35;
   top: -9.25rem;
-  right: -8.55rem;
+  right: -8.55rem; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Strength .top-section .table-container img {
+  width: 14rem;
+  height: 14rem;
 }
 .Strength .bottom-section {
   height: 100%;

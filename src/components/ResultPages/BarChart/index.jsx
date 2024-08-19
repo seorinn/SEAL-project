@@ -4,7 +4,7 @@ function BarChart({ mainType, scoreData }) {
   const data = scoreData.map((item) => ({
     maintype: Object.keys(item)[0],
     score:
-      (Object.values(item)[0] * 55) / 36 +
+      (Object.values(item)[0] * 100) / 36 +
       (Object.keys(item)[0] === mainType ? 5 : 0),
   }));
 
@@ -42,7 +42,8 @@ function BarChart({ mainType, scoreData }) {
               key={item.maintype}
               className="bar-item"
               style={{
-                height: `${item.score * 0.5}rem`,
+                height: `${item.score}%`,
+                // height: `100%`,
                 backgroundColor: setColor(item.maintype),
               }}
             ></div>

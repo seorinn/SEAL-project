@@ -1,14 +1,40 @@
 .Changes {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Changes .container {
   padding: 1.5rem;
-  /* flex: 1; */
 }
 .Changes .content {
   padding: 0 0.5rem;
   font-size: 0.9rem;
+  position: relative;
+}
+.Changes .maintype-container {
+  position: absolute;
+  top: -2rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+.Changes .maintype-container .text {
+  background-color: var(--text-box);
+  padding: 0.25rem 1rem;
+  font-family: NanumSquareNeoBold;
+  border-radius: 1rem;
+}
+.Changes .maintype-container .img-container {
+  padding: 0.5rem;
+  border-radius: 100%;
+  margin-left: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Changes .maintype-container img {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 .Changes .box {
   margin-top: 2rem;
@@ -45,6 +71,4 @@
   background-color: var(--text-box);
   margin-right: 1rem;
   font-family: NanumSquareNeoBold;
-}
-.Changes .item.change .item-title {
 }

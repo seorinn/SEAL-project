@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Code from "../../components/Code";
 import "./index.css";
 
 function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   const navigation = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -14,9 +16,19 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
   };
 
   const handleSubmit = () => {
-    const { name, company, affiliation, position, phonenumber } = userInfo;
-    if (name && company && affiliation && position && phonenumber)
+    const { name, company, affiliation, position, email, phonenumber } =
+      userInfo;
+    if (
+      name &&
+      company &&
+      affiliation &&
+      position &&
+      email &&
+      phonenumber &&
+      isChecked
+    )
       navigation("/test");
+    else if (!isChecked) alert("개인정보 수집 및 이용에 동의해주세요.");
     else alert("항목을 모두 입력해주세요");
   };
 
@@ -33,11 +45,11 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
     <div className="GetInformPage">
       <div className="title">REAL 진단 테스트</div>
       <div className="input-container">
-        <div>
+        <div className="informbox">
           <p>참여 과정</p>
           <input value={userInfo.course} disabled />
         </div>
-        <div>
+        <div className="informbox">
           <p>이름</p>
           <input
             name="name"
@@ -45,7 +57,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
             onChange={handleInput}
           />
         </div>
-        <div>
+        <div className="informbox">
           <p>회사명</p>
           <input
             name="company"
@@ -53,7 +65,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
             onChange={handleInput}
           />
         </div>
-        <div>
+        <div className="informbox">
           <p>소속</p>
           <input
             name="affiliation"
@@ -61,7 +73,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
             onChange={handleInput}
           />
         </div>
-        <div>
+        <div className="informbox">
           <p>직급</p>
           <input
             name="position"
@@ -69,7 +81,16 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
             onChange={handleInput}
           />
         </div>
-        <div>
+        <div className="informbox">
+          <p>이메일</p>
+          <input
+            type="email"
+            name="email"
+            placeholder="이메일을 입력해주세요."
+            onChange={handleInput}
+          />
+        </div>
+        <div className="informbox">
           <p>전화번호</p>
           <input
             type="tel"
@@ -77,6 +98,25 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
             placeholder="'-' 없이 입력해주세요."
             onChange={handleInput}
           />
+        </div>
+        <div className="agreement">
+          <div className="agree-text">
+            <b>개인정보 수집 및 이용 동의</b>
+            진단 참여를 위해 개인정보 수집과 이용에 대한 동의가 필요합니다.
+            <br />
+            • 수집 항목 : 이름, 이메일, 전화번호, 진단결과
+            <br />
+            • 목적: 진단결과 분석 및 통계처리 (회사,국가,대륙 단위 등)
+            <br />
+            • 보유 기간: 2년
+            <br />
+            개인정보 수집에 동의하십니까?
+            <br />
+          </div>
+          <div className="agree-check">
+            <input type="checkbox" onChange={() => setIsChecked(!isChecked)} />
+            <span>동의함</span>
+          </div>
         </div>
       </div>
       <button className="btn-submit" onClick={handleSubmit}>

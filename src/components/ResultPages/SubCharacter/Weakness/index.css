@@ -1,6 +1,7 @@
 .Weakness {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .Weakness .container {
   display: flex;

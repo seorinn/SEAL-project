@@ -4,6 +4,7 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import ScoreRadar from "../../ScoreRadar";
 import "./index.css";
+import Watermark from "../../Watermark";
 
 function ScoreGraph({ subType, scoreSub }) {
   const [lowestType, setLowestType] = useState("");
@@ -82,7 +83,8 @@ function ScoreGraph({ subType, scoreSub }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={19} />
+      <Watermark />
     </div>
   );
 }

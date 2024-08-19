@@ -1,0 +1,10 @@
+.Watermark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 9;
+}
+.Watermark img {
+  opacity: 0.075;
+}

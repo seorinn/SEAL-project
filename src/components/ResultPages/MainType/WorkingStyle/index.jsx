@@ -5,6 +5,7 @@ import BoxTitle from "../../BoxTitle";
 import CaseBox from "../../CaseBox";
 import Header from "../../Header";
 import "./index.css";
+import Watermark from "../../Watermark";
 
 function WorkingStyle({ data }) {
   const [name, setName] = useState("");
@@ -72,7 +73,8 @@ function WorkingStyle({ data }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={8} />
+      <Watermark />
     </div>
   );
 }

@@ -136,21 +136,37 @@ function CourseItem({ name, code, setLoading, getCourses, setIsChanged }) {
     });
   };
 
-  const handleDeleteCourse = () => {
-    if (window.confirm(`"${name}" 과정을 삭제하시겠습니까?`)) {
-      setLoading(true);
-      deleteObject(pathReference)
-        .then(() => {
-          setLoading(false);
-          setIsChanged(true);
-          getCourses();
-          alert("삭제되었습니다");
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-        });
-    }
+  const handleDeleteCourse = async () => {
+    const userList = await getUserList();
+    if (
+      window.confirm(
+        `"${name}" 과정을 삭제하시겠습니까? 해당 과정에 등록된 데이터는 모두 삭제됩니다.`
+      )
+    )
+      try {
+        setLoading(true);
+
+        deleteObject(pathReference)
+          .then(() => {
+            userList.map((item) => {
+              if (item.course === name) {
+                const userDataRefenrence = ref(storage, getStoragePath(item));
+                deleteObject(userDataRefenrence);
+              }
+            });
+          })
+          .catch((error) => {
+            setLoading(false);
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+        setIsChanged(true);
+        getCourses();
+        alert("삭제되었습니다");
+      }
   };
 
   return (

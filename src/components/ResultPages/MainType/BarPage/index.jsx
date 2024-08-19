@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { fourTypes, getIconImage } from "../../../../util";
 import Header from "../../Header";
-import "./index.css";
 import Bottom from "../../Bottom";
-import BarChart from "../BarChart";
+import BarChart from "../../BarChart";
+import "./index.css";
+import Watermark from "../../Watermark";
 
 function BarPage({ mainType, scoreMain }) {
   const [nameEng, setNameEng] = useState("");
@@ -54,7 +55,8 @@ function BarPage({ mainType, scoreMain }) {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={6} />
+      <Watermark />
     </div>
   );
 }

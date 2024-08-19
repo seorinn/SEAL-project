@@ -1,6 +1,7 @@
 .ScoreGraph {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .ScoreGraph .container {
   display: flex;

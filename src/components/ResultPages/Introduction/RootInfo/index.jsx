@@ -2,8 +2,9 @@ import logo_gray from "../../../../assets/images/logo_root_gray.png";
 import Header from "../../Header";
 import Bottom from "../../Bottom";
 import "./index.css";
+import Watermark from "../../Watermark";
 
-function RootInfo() {
+function RootInfo({}) {
   return (
     <div className="RootInfo resultpage">
       <div className="container">
@@ -19,13 +20,13 @@ function RootInfo() {
             23년간 수많은 도전과 성공, 실패를 통해 탄탄한 기반을 다졌습니다.
             <br />
             <br />이 기간 동안 우리는 20만 명이 넘는 사람들을 만나며 2만 회
-            이상의 교육을 실시했습니다. 전혀 예상하지 못했던 펜데믹 속에서도,
+            이상의 교육을 실시했습니다. 전혀 예상하지 못했던 팬데믹 속에서도,
             우리는 온라인과 미디어, 디지털 기반의 콘텐츠와 운영 시스템을
             구축하며 어떻게 위기를 기회로 전환하는지 배웠습니다.
             <br />
             <br />
             루트컨설팅은 창업 초기부터 글로벌 시야를 넓히기 위해 다양한 나라의
-            전문가들과 협업을 모색했습니다. 미국, 영국, 싱가폴, 호주, 중국 등
+            전문가들과 협업을 모색했습니다. 미국, 영국, 싱가포르, 호주, 중국 등
             다양한 국가의 파트너들과 함께 새로운 콘텐츠와 진단 도구, 매체를
             도입하거나 공동으로 개발하면서 세계적인 교육 트렌드에 발맞춘
             방법론을 개발해 왔습니다. 이러한 국제적인 협업은 우리가 창업 20년을
@@ -55,7 +56,8 @@ function RootInfo() {
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={1} />
+      <Watermark />
     </div>
   );
 }

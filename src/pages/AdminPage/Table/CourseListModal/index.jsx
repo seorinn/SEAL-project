@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
-import "./index.css";
+import { getCourseList } from "../../../../util";
 import CourseItem from "./CourseItem";
+import "./index.css";
 
 function CourseListModal({
   modalIsOpen,
   setModalIsOpen,
   setShowAddCourse,
   initData,
-  courses,
   getCourses,
 }) {
   const modalRef = useRef();
   const [isChanged, setIsChanged] = useState(false);
+  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const closeModal = () => setModalIsOpen(false);
@@ -26,6 +27,18 @@ function CourseListModal({
   };
 
   useEffect(() => {
+    const getCourseListFunc = async () => {
+      setLoading(true);
+      try {
+        const courseList = await getCourseList();
+        setCourses(courseList);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getCourseListFunc();
     document.addEventListener("keydown", handleKeyPress);
   }, [modalIsOpen]);
 

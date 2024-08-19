@@ -1,7 +1,3 @@
-import icon_r from "../../../../../assets/icons/icon_rational.png";
-import icon_e from "../../../../../assets/icons/icon_empathetic.png";
-import icon_a from "../../../../../assets/icons/icon_action.png";
-import icon_l from "../../../../../assets/icons/icon_loyal.png";
 import "./index.css";
 import { getIconImage } from "../../../../../util";
 

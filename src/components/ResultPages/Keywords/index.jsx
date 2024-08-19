@@ -8,7 +8,7 @@ const keywordsList = [
   "지원",
   "근면",
   "신뢰",
-  "신속한 의사결정",
+  "빠른 의사결정",
   "논리",
   "주도성",
   "성취욕",
@@ -22,32 +22,57 @@ const keywordsList = [
   "목표달성",
 ];
 
-function Keywords({ keywords }) {
+function Keywords({ keywords, isSummary }) {
   return (
     <div className="Keywords">
       <div className="section">
         {keywordsList.slice(0, 4).map((item) => (
-          <KeywordItem key={item} name={item} isOn={keywords.includes(item)} />
+          <KeywordItem
+            key={item}
+            isSummary={isSummary}
+            name={item}
+            isOn={keywords.includes(item)}
+          />
         ))}
       </div>
-      <div className="section" style={{ width: "55%" }}>
+      <div className="section" style={{ width: "75%" }}>
         {keywordsList.slice(4, 7).map((item) => (
-          <KeywordItem key={item} name={item} isOn={keywords.includes(item)} />
+          <KeywordItem
+            key={item}
+            isSummary={isSummary}
+            name={item}
+            isOn={keywords.includes(item)}
+          />
         ))}
       </div>
       <div className="section">
         {keywordsList.slice(7, 11).map((item) => (
-          <KeywordItem key={item} name={item} isOn={keywords.includes(item)} />
+          <KeywordItem
+            key={item}
+            isSummary={isSummary}
+            name={item}
+            isOn={keywords.includes(item)}
+          />
         ))}
       </div>
-      <div className="section" style={{ width: "55%" }}>
+      <div className="section" style={{ width: "75%" }}>
         {keywordsList.slice(11, 14).map((item) => (
-          <KeywordItem key={item} name={item} isOn={keywords.includes(item)} />
+          <KeywordItem
+            key={item}
+            isSummary={isSummary}
+            name={item}
+            isOn={keywords.includes(item)}
+          />
         ))}
       </div>
       <div className="section">
         {keywordsList.slice(14, keywordsList.length).map((item) => (
-          <KeywordItem key={item} name={item} isOn={keywords.includes(item)} />
+          <KeywordItem
+            key={item}
+            isSummary={isSummary}
+            name={item}
+            isOn={keywords.includes(item)}
+          />
         ))}
       </div>
     </div>

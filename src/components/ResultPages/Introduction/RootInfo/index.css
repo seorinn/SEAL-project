@@ -1,6 +1,7 @@
 .RootInfo {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .RootInfo .container {
   padding: 1.5rem;

@@ -6,7 +6,7 @@
   width: 100%;
   height: fit-content;
   border-bottom: 1px solid darkgray;
-  z-index: 2;
+  z-index: 10;
 }
 .Header img {
   cursor: pointer;

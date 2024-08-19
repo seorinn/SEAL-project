@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import {
   getStorage,
   ref,
   getDownloadURL,
   deleteObject,
+  getMetadata,
+  uploadBytes,
 } from "firebase/storage";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import {
   getUserList,
   getCourseList,
@@ -17,10 +21,12 @@ import {
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
+import PdfModal from "./PdfModal";
 import "./index.css";
 
 function AdminPage({ isAdmin, setIsAdmin }) {
   const storage = getStorage();
+  const pdfRef = useRef();
   const code = process.env.REACT_APP_ADMIN;
   const [keyword, setKeyword] = useState("");
   const [detailKeyword, setDetailKeyword] = useState("");
@@ -35,13 +41,15 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     { id: "affiliation", name: "소속" },
     { id: "position", name: "직급" },
     { id: "name", name: "이름" },
+    { id: "email", name: "이메일" },
     { id: "phonenumber", name: "전화번호" },
     { id: "course", name: "과정명" },
+    { id: "code", name: "코드" },
     { id: "mainType", name: "Main type" },
     { id: "subType", name: "Sub type" },
     "buttons",
   ];
-  const widths = [5, 11, 11, 10, 8, 16, 12, 10, 11, 4];
+  const widths = [4, 10, 10, 9, 8, 20, 15, 15, 5, 8, 8, 10];
   const [sortBy, setSortBy] = useState(headers[1]);
   const [loading, setLoading] = useState(true);
 
@@ -60,11 +68,27 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   }, [keyword]);
 
   const initData = async () => {
+    const insertAt = (obj, key, value, index) => {
+      const entries = Object.entries(obj);
+      entries.splice(index, 0, [key, value]);
+      return Object.fromEntries(entries);
+    };
+
     setLoading(true);
     try {
       const userList = await getUserList();
-      setData(userList);
-      if (!keyword) setSearchedData(userList);
+      const courseList = await getCourseList();
+      const formattedList = userList.map((item) => {
+        const matchedCode = courseList.filter(
+          (course) => item.course === course.name
+        )[0].code;
+        const newItem = insertAt(item, "code", matchedCode, 8);
+        return {
+          ...newItem,
+        };
+      });
+      setData(formattedList);
+      if (!keyword) setSearchedData(formattedList);
     } catch (error) {
       console.error(error);
     } finally {
@@ -174,19 +198,18 @@ function AdminPage({ isAdmin, setIsAdmin }) {
         if (user.isChecked) {
           const pathReference = ref(storage, getStoragePath(user));
           try {
+            setLoading(true);
             if (button === "pdf") {
-              const url = await getDownloadURL(pathReference);
-              const response = await fetch(url);
-              const blob = await response.blob();
-
-              const link = document.createElement("a");
-              link.href = window.URL.createObjectURL(blob);
-              link.setAttribute("download", getFileName(user.name));
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
+              //               const url = await getDownloadURL(pathReference);
+              //               const response = await fetch(url);
+              //               const blob = await response.blob();
+              //               const link = document.createElement("a");
+              //               link.href = window.URL.createObjectURL(blob);
+              //               link.setAttribute("download", getFileName(user.name));
+              //               document.body.appendChild(link);
+              //               link.click();
+              //               document.body.removeChild(link);
             } else if (button === "del") {
-              setLoading(true);
               deleteObject(pathReference)
                 .then(() => {
                   initData();
@@ -206,6 +229,94 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     }
   };
 
+  const handlePdfOpen = (user) => {
+    const storageRef = ref(storage, getStoragePath(user));
+
+    getDownloadURL(storageRef)
+      .then((url) => fetch(url))
+      .then((response) => response.json())
+      .then((data) => {
+        setPdfData({ user: user, ...data });
+        setShowPdfModal(true);
+      })
+      .catch((error) => {
+        console.error("Error downloading file:", error);
+      });
+  };
+
+  const onClickDownloadPdf = async () => {
+    const storageRef = ref(storage, getStoragePath(pdfData.user));
+    const metadata = await getMetadata(storageRef);
+    const contentType = metadata.contentType;
+    const doc = new jsPDF("p", "mm", "a4");
+    setPdfLoading(true);
+    if (contentType === "application/json")
+      try {
+        const element = pdfRef.current;
+        if (element) {
+          const canvas = await html2canvas(element, {
+            scale: 1.25,
+            useCORS: true,
+          });
+          const imageFile = canvas.toDataURL("image/png");
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const widthRatio = pageWidth / canvas.width;
+          const customHeight = canvas.height * widthRatio;
+          doc.addImage(imageFile, "png", 0, 0, pageWidth, customHeight);
+          let heightLeft = customHeight;
+          let heightAdd = -pageHeight;
+          while (heightLeft >= pageHeight) {
+            doc.addPage();
+            doc.addImage(
+              imageFile,
+              "png",
+              0,
+              heightAdd,
+              pageWidth,
+              customHeight
+            );
+            heightLeft -= pageHeight;
+            heightAdd -= pageHeight;
+          }
+          doc.save(
+            "REAL Personality 진단 결과지" + "_" + pdfData.user.name + ".pdf"
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setPdfLoading(false);
+        // const pdfBlob = doc.output("blob");
+        // await uploadBytes(storageRef, pdfBlob).then(() =>
+        //   console.log("PDF uploaded successfully!")
+        // );
+      }
+    // else {
+    //   const url = await getDownloadURL(storageRef);
+    //   const response = await fetch(url);
+    //   const blob = await response.blob();
+
+    //   const link = document.createElement("a");
+    //   link.href = window.URL.createObjectURL(blob);
+    //   link.setAttribute("download", getFileName(pdfData.user.name));
+    //   document.body.appendChild(link);
+    //   link.click();
+    //   document.body.removeChild(link);
+    //   setPdfLoading(false);
+    // }
+  };
+
+  const [pdfData, setPdfData] = useState({
+    user: [],
+    scoreMain: [],
+    scoreSub: [],
+    dataMain: [],
+    dataSub: [],
+  });
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
+
   if (!isAdmin)
     return <Code code={code} isValid={isAdmin} setIsValid={setIsAdmin} />;
   return (
@@ -213,8 +324,9 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       <h4>[관리자 페이지]</h4>
       <h2
         onClick={async () => {
-          setData(await getUserList());
-          setKeyword("");
+          // setData(await getUserList());
+          // setKeyword("");
+          initData();
         }}
       >
         진단 결과 목록
@@ -252,10 +364,28 @@ function AdminPage({ isAdmin, setIsAdmin }) {
             loading={loading}
             setLoading={setLoading}
             courses={courses}
-            setCourses={setCourses}
+            getCourses={getCourses}
+            handlePdfOpen={handlePdfOpen}
           />
         )}
       </div>
+      {showPdfModal && (
+        <div className="pdf-container">
+          <div className="pdf-modal" ref={pdfRef}>
+            <PdfModal data={pdfData} />
+          </div>
+          <div className="pdf-buttons">
+            <button onClick={onClickDownloadPdf}>다운로드</button>
+            <button onClick={() => setShowPdfModal(false)}>×</button>
+          </div>
+          {pdfLoading && (
+            <div className="pdf-loading">
+              <PulseLoader color="var(--navy700)" />
+              다운로드 중입니다.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

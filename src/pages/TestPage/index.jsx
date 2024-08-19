@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../util";
+import img_testheader from "../../assets/images/test-header.png";
 import ProgressBar from "./ProgressBar";
 import MultipleChoices from "./MultipleChoices";
 import Question from "./Question";
@@ -15,7 +16,7 @@ function TestPage({ userInfo }) {
   const [sumChecked, setSumChecked] = useState(0);
   const [total, setTotal] = useState(0);
 
-  // if (!userInfo.isChecked) navigator("/");
+  if (!userInfo.name) navigator("/");
 
   useEffect(() => {
     fetchData("newquestion-data.xlsx").then((res) => {
@@ -102,7 +103,8 @@ function TestPage({ userInfo }) {
     <div className="TestPage">
       <div className="test-header">
         <div className="logo-text">
-          <b>REAL</b> Personality
+          {/* <b>REAL</b> Personality */}
+          <img alt="REAL Personality" src={img_testheader} />
         </div>
         <div className="progressbar-container">
           <ProgressBar

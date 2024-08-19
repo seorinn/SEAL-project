@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-import logo_kia from "../../../assets/images/logo_KIA.jpg";
-import { fourTypes, twelveChar } from "../../../util";
+import { fourTypes, getTableImage, KIALogo, twelveChar } from "../../../util";
+import img_quarter from "../../../assets/images/quarter.png";
 import Bottom from "../Bottom";
 import Header from "../Header";
-import "./index.css";
-import Quarter from "../../Quarter";
-import BarChart from "../MainType/BarChart";
-import CharTable from "../CharTable";
+import BarChart from "../BarChart";
 import Keywords from "../Keywords";
+import "./index.css";
+import Watermark from "../Watermark";
 
 function Summary({ name, mainType, subType, scoreData, keywordData }) {
   const [initial, setInitial] = useState("");
+  const [nameEng, setNameEng] = useState("");
+  const [secondInitial, setSecondInitial] = useState("");
   const [adjMain, setAdjMain] = useState("");
   const [adjSub, setAdjSub] = useState("");
-  const [contentMain, setContentMain] = useState("");
-  const [contentSub, setContentSub] = useState("");
+  const [contentMain, setContentMain] = useState([]);
+  const [contentSub, setContentSub] = useState([]);
   const [keywords, setKeywords] = useState([]);
   const [secondType, setSecondType] = useState({ key: "", value: 0 });
   const [isLargeGap, setIsLargeGap] = useState(false);
@@ -23,14 +24,15 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
     fourTypes.map((item) => {
       if (item.name === mainType) {
         setInitial(item.nameEng.slice(0, 1));
-        setContentMain(item.content);
+        setContentMain(item.content.split("\n"));
         setAdjMain(item.adj);
       }
     });
     twelveChar.map((item) => {
       if (item.name === subType) {
+        setNameEng(item.nameEng);
         setAdjSub(item.adj);
-        setContentSub(item.nameEng);
+        setContentSub(item.content.split(", "));
       }
     });
     setKeywords(keywordData[0].content.split(", "));
@@ -40,6 +42,10 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
       return { key, value };
     });
     entries.sort((a, b) => b.value - a.value);
+    fourTypes.map((item) => {
+      if (item.name === entries[1].key)
+        setSecondInitial(item.nameEng.slice(0, 1));
+    });
     setSecondType(entries[1]);
     setIsLargeGap(entries[0].value - entries[1].value > 10);
   }, []);
@@ -53,7 +59,7 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
         />
         <div className="content">
           <div className="name-container">
-            <img alt="" src={logo_kia} />
+            <img alt="" src={KIALogo} />
             {name} 님의 REAL Personality ™ 진단 주요 결과입니다.
           </div>
           <div className="box">
@@ -68,7 +74,8 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
               <div className="item-left">
                 <div className="quarter-container">
                   <div className="background">
-                    <Quarter />
+                    {/* <Quarter /> */}
+                    <img alt="real" src={img_quarter} />
                   </div>
                   <div className="selected">
                     <div
@@ -97,7 +104,11 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
                     />
                   </div>
                 </div>
-                <div className="text-container">{contentMain}</div>
+                <div className="text-container">
+                  {contentMain.map((item) => (
+                    <div key={item}>{item}</div>
+                  ))}
+                </div>
               </div>
               <div className="item-right">
                 {isLargeGap ? (
@@ -112,13 +123,15 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
                   <div className="component-title">
                     그러나
                     <b>
-                      {initial}({secondType.key})
+                      {secondInitial}({secondType.key})
                     </b>
                     도 적지 않아요!
                   </div>
                 )}
                 <div className="component-container">
-                  <BarChart scoreData={scoreData} />
+                  <div className="bar-container">
+                    <BarChart scoreData={scoreData} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -131,23 +144,31 @@ function Summary({ name, mainType, subType, scoreData, keywordData }) {
             <div className="content-items">
               <div className="item-left">
                 <div className="chartable-container">
-                  <CharTable current={subType} />
+                  {/* <CharTable current={subType} /> */}
+                  <img alt={subType} src={getTableImage(nameEng)} />
                 </div>
-                <div className="text-container">{contentMain}</div>
+                <div className="text-container">
+                  {contentSub.map((item) => (
+                    <div key={item}>{item}</div>
+                  ))}
+                </div>
               </div>
               <div className="item-right">
                 <div className="component-title">
                   대표하는 <b>키워드(강조)</b>입니다!
                 </div>
                 <div className="component-container">
-                  <Keywords keywords={keywords} />
+                  <div className="keywords-container">
+                    <Keywords keywords={keywords} isSummary={true} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Bottom pageIndex={0} />
+      <Bottom pageIndex={5} />
+      <Watermark />
     </div>
   );
 }

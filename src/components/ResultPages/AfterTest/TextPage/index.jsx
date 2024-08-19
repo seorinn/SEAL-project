@@ -1,10 +1,11 @@
 import img_chartable from "../../../../assets/images/chartable.png";
-import Quarter from "../../../Quarter";
+import img_quarter from "../../../../assets/images/quarter.png";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
+import Watermark from "../../Watermark";
 import "./index.css";
 
-function TextPage() {
+function TextPage({}) {
   return (
     <div className="TextPage resultpage">
       <div className="container">
@@ -16,19 +17,20 @@ function TextPage() {
           <div className="top">
             진단 결과를 다시 한 번 꼼꼼히 검토해 보세요. 그리고 이 결과에서 볼
             수 있는 강점과 개발 필요점들이 당신의 일상생활 에서 어떻게 나타나고
-            있는지 생각해 보세요. 이 진단은 ‘내가 직접한 작성한’ 설문
-            결과입니다. 따라서 이 진단 결과 점수는 당신이 지금 이 순간 스스로를
-            어떻게 바라보고 있는지를 보여줍니다. 가족이나 친구, 동료 등 당신을
-            잘 알고 있는 사람들과 이 결과에 대해 이야기 나눠 보세요.
+            있는지 생각해 보세요. 이 진단은 ‘내가 직접 작성한’ 설문 결과입니다.
+            따라서 이 진단 결과 점수는 당신이 지금 이 순간 스스로를 어떻게
+            바라보고 있는지를 보여줍니다. 가족이나 친구, 동료 등 당신을 잘 알고
+            있는 사람들과 이 결과에 대해 이야기 나눠 보세요.
           </div>
           <div className="mid">
             다음 질문을 서로 주고 받아보세요!
             <div className="content-item">
               <div className="title">REAL 유형에서</div>
               <div className="box">
-                <div className="quarter-container">
-                  <Quarter />
-                </div>
+                {/* <div className="quarter-container"> */}
+                {/* <Quarter /> */}
+                <img className="quarter" alt="12캐릭터" src={img_quarter} />
+                {/* </div> */}
                 <div className="question">
                   <div className="question-item">
                     <div className="num">①</div> 이 자료가 당신의 전형적인
@@ -83,8 +85,9 @@ function TextPage() {
             만들 수 있습니다.
           </div>
         </div>
-        <Bottom pageIndex={0} />
       </div>
+      <Bottom pageIndex={20} />
+      <Watermark />
     </div>
   );
 }

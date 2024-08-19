@@ -15,6 +15,7 @@ function App() {
     company: "",
     affiliation: "",
     position: "",
+    email: "",
     phonenumber: "",
   });
   const [isUser, setIsUser] = useState(false);
