@@ -1,10 +1,10 @@
-import { KIALogo } from "../../../util";
+import { WatermarkImage } from "../../../util";
 import "./index.css";
 
 function Watermark() {
   return (
     <div className="Watermark resultpage">
-      <img alt="" src={KIALogo} />
+      <img alt="" src={WatermarkImage} />
     </div>
   );
 }

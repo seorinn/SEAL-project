@@ -27,10 +27,7 @@ function TextPage({}) {
             <div className="content-item">
               <div className="title">REAL 유형에서</div>
               <div className="box">
-                {/* <div className="quarter-container"> */}
-                {/* <Quarter /> */}
                 <img className="quarter" alt="12캐릭터" src={img_quarter} />
-                {/* </div> */}
                 <div className="question">
                   <div className="question-item">
                     <div className="num">①</div> 이 자료가 당신의 전형적인

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { UserStateContext } from "../../../../App";
 import { fourTypes, getIconImage } from "../../../../util";
 import Header from "../../Header";
 import Bottom from "../../Bottom";
@@ -6,20 +7,8 @@ import BarChart from "../../BarChart";
 import "./index.css";
 import Watermark from "../../Watermark";
 
-function BarPage({ mainType, scoreMain }) {
-  const [nameEng, setNameEng] = useState("");
-  const [intro, setIntro] = useState("");
-  const [content, setContent] = useState("");
-
-  useEffect(() => {
-    fourTypes.map((item) => {
-      if (item.name === mainType) {
-        setNameEng(item.nameEng);
-        setIntro(item.intro);
-        setContent(item.content);
-      }
-    });
-  }, []);
+function BarPage() {
+  const userData = useContext(UserStateContext);
 
   return (
     <div className="BarPage resultpage">
@@ -27,7 +16,7 @@ function BarPage({ mainType, scoreMain }) {
         <Header reportname="Work Style Report" title="1. 나의 REAL 대표 유형" />
         <div className="content">
           <div className="main-title">
-            나의 대표 유형은 <b>{mainType}</b> 입니다.
+            나의 대표 유형은 <b>{userData.mainType}</b> 입니다.
           </div>
           <div className="main-content">
             이 그래프는 네 가지 주요 업무 스타일 유형 중에서 본인의 특성이 가장
@@ -51,7 +40,7 @@ function BarPage({ mainType, scoreMain }) {
             ))}
           </div>
           <div className="bar-container">
-            <BarChart mainType={mainType} scoreData={scoreMain} />
+            <BarChart />
           </div>
         </div>
       </div>

@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserStateContext } from "../../../../App";
 import { fetchData } from "../../../../util";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
 import ScoreRadar from "../../ScoreRadar";
-import "./index.css";
 import Watermark from "../../Watermark";
+import "./index.css";
 
-function ScoreGraph({ subType, scoreSub }) {
+function ScoreGraph() {
+  const userData = useContext(UserStateContext);
   const [lowestType, setLowestType] = useState("");
   const [hightestContent, setHighestContent] = useState([]);
   const [lowestContent, setLowestContent] = useState([]);
@@ -19,7 +21,8 @@ function ScoreGraph({ subType, scoreSub }) {
         setHighestContent(
           res
             .filter(
-              (item) => item.type === subType && item.category === "content"
+              (item) =>
+                item.type === userData.subType && item.category === "content"
             )[0]
             .content.split(", ")
         );
@@ -36,7 +39,7 @@ function ScoreGraph({ subType, scoreSub }) {
   const findLowest = () => {
     let min = 16;
     let lowest;
-    scoreSub.forEach((item) => {
+    userData.scoreSub.forEach((item) => {
       let key = Object.keys(item)[0];
       let value = item[key];
       if (value < min) {
@@ -52,16 +55,15 @@ function ScoreGraph({ subType, scoreSub }) {
       <div className="container">
         <Header
           reportname="Personal Behavior Report"
-          title={`당신은 매우 강한 특성을 가진 ${subType} 유형입니다.`}
+          title={`당신은 매우 강한 특성을 가진 ${userData.subType} 유형입니다.`}
         />
         <div className="content">
-          {/* <div className="top-section">유형설명</div> */}
           <div className="score-radar">
-            <ScoreRadar scoreData={scoreSub} subType={subType} />
+            <ScoreRadar />
           </div>
           <div className="bottom-section">
             <div className="left box">
-              <div className="title">▶ 강한 캐릭터: {subType}</div>
+              <div className="title">▶ 강한 캐릭터: {userData.subType}</div>
               <div className="box-content">
                 {hightestContent.map((item) => (
                   <div key={item} className="box-item">

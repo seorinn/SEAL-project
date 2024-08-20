@@ -2,7 +2,7 @@ import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import "./firebase-config";
 import * as XLSX from "xlsx";
 
-import logo_KIA from "../src/assets/images/logo_KIA.png";
+import logo_watermark from "../src/assets/images/logo_watermark.png";
 import icon_facilitator from "../src/assets/icons/icon_facilitator.png";
 import icon_advisor from "../src/assets/icons/icon_advisor.png";
 import icon_mediator from "../src/assets/icons/icon_mediator.png";
@@ -289,7 +289,6 @@ export const formattedDate = `${new Date().getFullYear()}.${String(
 ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`;
 
 export const getTableImage = (current) => {
-  // if (current == "all") return `tables/table_all.png`;
   return `tables/table_${current.toLowerCase()}.png`;
 };
 
@@ -332,4 +331,4 @@ export const getIconImage = (typename, isWhite) => {
   }
 };
 
-export const KIALogo = logo_KIA;
+export const WatermarkImage = logo_watermark;

@@ -37,15 +37,6 @@
 .TextPage .mid .content-item .box:nth-child(2) {
   margin-bottom: 3rem;
 }
-/* .TextPage .box .quarter-container {
-  width: 0;
-  height: 0;
-  scale: 0.35;
-  transform-origin: 0 0;
-} */
-/* .TextPage .content-item .box:nth-child(2) .question {
-  margin-left: 9rem;
-} */
 .TextPage .box .question-item {
   margin-bottom: 1rem;
   display: flex;

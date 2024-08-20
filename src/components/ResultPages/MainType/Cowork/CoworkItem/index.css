@@ -91,7 +91,6 @@
 .CoworkItem.R .inner {
   background-color: var(--navy-r);
   padding: 0.5rem 0 0 0.5rem;
-  /* padding: 0.125rem; */
 }
 .CoworkItem.E .inner {
   background-color: var(--navy-e);

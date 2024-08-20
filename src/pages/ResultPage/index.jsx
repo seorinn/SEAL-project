@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import ReactDOM from "react-dom/server";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
-import { PulseLoader } from "react-spinners";
 import {
   getStorage,
   ref,
@@ -9,6 +7,8 @@ import {
   deleteObject,
   getDownloadURL,
 } from "firebase/storage";
+import { UserStateContext } from "../../App";
+import { UserDispatchContext } from "../../App";
 import {
   fetchData,
   getUserList,
@@ -19,8 +19,6 @@ import {
 import CoverPage from "../../components/ResultPages/CoverPage";
 import Overview from "../../components/ResultPages/Introduction/Overview";
 import Character from "../../components/ResultPages/Introduction/Character";
-
-import "./index.css";
 import RootInfo from "../../components/ResultPages/Introduction/RootInfo";
 import Introduction from "../../components/ResultPages/Introduction/Introduction";
 import ReportCover from "../../components/ResultPages/MainType/ReportCover";
@@ -41,31 +39,33 @@ import TextPage from "../../components/ResultPages/AfterTest/TextPage";
 import SheetPage from "../../components/ResultPages/AfterTest/SheetPage";
 import Summary from "../../components/ResultPages/Summary";
 import KeywordPage from "../../components/ResultPages/MainType/KeywordPage";
+import "./index.css";
 
-function ResultPage({ userInfo, setUserInfo }) {
+function ResultPage() {
+  const userData = useContext(UserStateContext);
+  const dispatch = useContext(UserDispatchContext);
   const pdfRef = useRef(null);
-  const location = useLocation();
-  const { state, scoreMain, scoreSub } = location.state;
-  const [scale, setScale] = useState(1);
+  const { name, state, scoreMain, scoreSub } = userData;
 
-  useEffect(
-    () =>
-      setUserInfo({
-        ...userInfo,
-        mainType: setType(scoreMain),
-        subType: setType(scoreSub),
-      }),
-    []
-  );
   const [dataMain, setDataMain] = useState([]);
   const [dataSub, setDataSub] = useState([]);
 
   useEffect(() => {
-    if (userInfo.mainType && userInfo.subType && userInfo.phonenumber) {
-      console.log(userInfo.mainType, userInfo.subType);
+    dispatch({
+      type: "update",
+      payload: {
+        mainType: setType(scoreMain),
+        subType: setType(scoreSub),
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    if (userData.mainType && userData.subType && name) {
+      console.log(userData.mainType, userData.subType);
       try {
         fetchData("result-sub.xlsx").then((res) => {
-          let array = res.filter((item) => item.type === userInfo.subType);
+          let array = res.filter((item) => item.type === userData.subType);
           setDataSub({
             strength: array.filter(
               (item) =>
@@ -84,7 +84,7 @@ function ResultPage({ userInfo, setUserInfo }) {
         });
 
         fetchData("result-main.xlsx").then((res) => {
-          let array = res.filter((item) => item.type === userInfo.mainType);
+          let array = res.filter((item) => item.type === userData.mainType);
           setDataMain({
             keywords: array.filter((item) => item.category === "keywords"),
             strength: array.filter(
@@ -114,7 +114,7 @@ function ResultPage({ userInfo, setUserInfo }) {
         console.log(error);
       }
     }
-  }, [userInfo]);
+  }, [userData]);
 
   useEffect(() => {
     if (dataMain.strength && dataSub.strength) saveToStorage();
@@ -226,24 +226,16 @@ function ResultPage({ userInfo, setUserInfo }) {
 
   const saveToStorage = async () => {
     const storage = getStorage();
-    const userList = getUserList();
-    console.log(scoreMain, scoreSub, dataMain, dataSub);
     const combinedData = {
       scoreMain: scoreMain,
       scoreSub: scoreSub,
       dataMain: dataMain,
       dataSub: dataSub,
     };
-    (await userList).map((item) => {
-      if (userInfo.phonenumber === item.phonenumber) {
-        const oldRef = ref(storage, getStoragePath(item));
-        deleteObject(oldRef).catch((error) => console.log(error));
-      }
-    });
     const fileContent = JSON.stringify(combinedData, null, 2);
     const blob = new Blob([fileContent], { type: "application/json" });
 
-    const storageRef = ref(storage, getStoragePath(userInfo));
+    const storageRef = ref(storage, getStoragePath(userData));
 
     uploadBytes(storageRef, blob)
       .then((snapshot) => getDownloadURL(snapshot.ref))
@@ -255,61 +247,24 @@ function ResultPage({ userInfo, setUserInfo }) {
       });
   };
 
-  // const converToPdf = async () => {
-  //   const element = pdfRef.current;
-  //   if (element) {
-  //     const canvas = await html2canvas(element);
-  //     const imageFile = canvas.toDataURL("image/png");
-  //     const doc = new jsPDF("p", "mm", "a4");
-  //     const pageWidth = doc.internal.pageSize.getWidth();
-  //     const pageHeight = doc.internal.pageSize.getHeight();
-  //     const widthRatio = pageWidth / canvas.width;
-  //     const customHeight = canvas.height * widthRatio;
-  //     doc.addImage(imageFile, "png", 0, 0, pageWidth, customHeight);
-  //     let heightLeft = customHeight;
-  //     let heightAdd = -pageHeight;
-  //     while (heightLeft >= pageHeight) {
-  //       doc.addPage();
-  //       doc.addImage(imageFile, "png", 0, heightAdd, pageWidth, customHeight);
-  //       heightLeft -= pageHeight;
-  //       heightAdd -= pageHeight;
-  //     }
-  //     doc.save("REAL Personality 진단 결과지" + "_" + userInfo.name + ".pdf");
-  //   }
-  //   setDownloadPdf(false);
-  // };
-
-  // const [downloadPdf, setDownloadPdf] = useState(false);
-  // useEffect(() => {
-  //   if (downloadPdf && scale === 1.2) converToPdf();
-  // }, [downloadPdf]);
-
   if (dataMain.length === 0 || dataSub.length === 0) return;
   return (
     <div className="ResultPage">
       <div
         className={`page-container`}
         style={{
-          transform: `scale(${scale})`,
           backgroundColor: "white",
         }}
         ref={pdfRef}
       >
-        <CoverPage userInfo={userInfo} />
+        <CoverPage />
         <RootInfo />
         <Introduction />
         <Overview />
         <Character />
         <ReportCover />
-        <Summary
-          name={userInfo.name}
-          course={userInfo.course}
-          mainType={userInfo.mainType}
-          subType={userInfo.subType}
-          scoreData={scoreMain}
-          keywordData={dataMain.keywords}
-        />
-        <BarPage mainType={userInfo.mainType} scoreMain={scoreMain} />{" "}
+        <Summary keywordData={dataMain.keywords} />
+        <BarPage />
         <KeywordPage data={dataMain.keywords} />
         <WorkingStyle data={dataMain.strength} />
         <Weak data={dataMain.weakness} />
@@ -318,51 +273,14 @@ function ResultPage({ userInfo, setUserInfo }) {
         <Changes data={dataMain.changes} />
         <Stress data={dataMain.stress} />
         <Cowork data={dataMain.cowork} />
-        <SubTable subType={userInfo.subType} />
+        <SubTable />
         <Strength data={dataSub.strength} />
         <Weakness data={dataSub.weakness} />
         <Behavior data={dataSub.behavior} />
-        <ScoreGraph subType={userInfo.subType} scoreSub={scoreSub} />
+        <ScoreGraph />
         <TextPage />
         <SheetPage />
       </div>
-      {/* <button
-        className="btnPDF"
-        onClick={() => {
-          setScale(1.2);
-          setDownloadPdf(true);
-        }}
-      >
-        PDF 저장하기
-      </button> */}
-      {/* <div className="scale-buttons">
-        <button
-          className="btn-reduce"
-          onClick={() => {
-            scale > 0.5 && setScale(scale - 0.2);
-          }}
-        >
-          -
-        </button>
-        <button
-          className="btn-zoom"
-          onClick={() => {
-            scale < 2 && setScale(scale + 0.2);
-          }}
-        >
-          +
-        </button>
-      </div> */}
-      {/* {downloadPdf && (
-        <div className="pdf-loading">
-          <div className="text">
-            <div className="loader">
-              <PulseLoader color="var(--navy600)" />
-            </div>
-            다운로드 중입니다
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

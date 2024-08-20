@@ -59,7 +59,6 @@ h4 {
   background-color: rgba(255, 255, 255, 0.6);
 }
 .AdminPage .pdf-modal {
-  /* scale: 1.5; */
   transform-origin: top;
 }
 .AdminPage .pdf-buttons {

@@ -40,7 +40,6 @@
 }
 .ScoreGraph .box .title {
   font-family: NanumSquareNeoBold;
-  /* font-size: 1rem; */
   color: var(--text-pos);
   margin-bottom: 0.5rem;
 }

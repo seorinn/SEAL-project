@@ -1,63 +1,78 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserStateContext, UserDispatchContext } from "../../App";
 import Code from "../../components/Code";
 import "./index.css";
 
-function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
+function GetInformPage() {
+  const dispatch = useContext(UserDispatchContext);
+  const userData = useContext(UserStateContext);
   const navigation = useNavigate();
+
+  const [isUser, setIsUser] = useState(false);
+  const [userInput, setUserInput] = useState();
   const [isChecked, setIsChecked] = useState(false);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setUserInfo({
-      ...userInfo,
+    setUserInput({
+      ...userInput,
       [name]: name === "email" ? value.replace(/_/g, `&`) : value,
     });
   };
 
   const handleSubmit = () => {
-    const { name, company, affiliation, position, email, phonenumber } =
-      userInfo;
+    let { name, company, affiliation, position, email, phonenumber } =
+      userInput;
+    if (!email || email == "") email = "null";
+    if (!phonenumber || phonenumber == "") phonenumber = "null";
+
+    if (!(name && company && affiliation && position)) {
+      alert("항목을 모두 입력해주세요");
+      return;
+    } else if (!isChecked) {
+      alert("개인정보 수집 및 이용에 동의해주세요.");
+      return;
+    }
+
     if (
-      name &&
-      company &&
-      affiliation &&
-      position &&
-      email &&
-      phonenumber &&
-      isChecked
-    ) {
-      if (
-        [name, company, affiliation, position, email, phonenumber]
-          .join(" ")
-          .includes("_")
-      )
-        alert("이메일 외 항목에 사용 불가능한 문자( _ )가 포함되어 있습니다.");
-      else if (!phonenumber.startsWith("010") || phonenumber.length !== 11)
-        alert("잘못된 전화번호입니다.");
-      else if (!email.includes("@") || !email.includes("."))
-        alert("잘못된 형식의 이메일입니다.");
-      else navigation("/test");
-    } else if (!isChecked) alert("개인정보 수집 및 이용에 동의해주세요.");
-    else alert("항목을 모두 입력해주세요");
+      [name, company, affiliation, position, phonenumber]
+        .join(" ")
+        .includes("_")
+    )
+      alert("이메일 외 항목에 사용 불가능한 문자( _ )가 포함되어 있습니다.");
+    else if (
+      phonenumber !== "null" &&
+      (!phonenumber.startsWith("010") || phonenumber.length !== 11)
+    )
+      alert("잘못된 전화번호입니다.");
+    else if (email !== "null" && (!email.includes("@") || !email.includes(".")))
+      alert("잘못된 형식의 이메일입니다.");
+    else {
+      dispatch({
+        type: "update",
+        payload: {
+          name: name,
+          company: company,
+          affiliation: affiliation,
+          position: position,
+          email: email,
+          phonenumber: phonenumber,
+        },
+      });
+      navigation("/test");
+    }
   };
 
-  if (!isUser)
-    return (
-      <Code
-        isValid={isUser}
-        setIsValid={setIsUser}
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
-      />
-    );
+  if (!isUser || !userData)
+    return <Code isValid={isUser} setIsValid={setIsUser} />;
   return (
     <div className="GetInformPage">
       <div className="title">REAL 진단 테스트</div>
       <div className="input-container">
         <div className="informbox">
           <p>참여 과정</p>
-          <input value={userInfo.course} disabled />
+          <input value={userData.course} disabled />
         </div>
         <div className="informbox">
           <p>이름</p>
@@ -92,7 +107,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
           />
         </div>
         <div className="informbox">
-          <p>이메일</p>
+          <p>이메일(선택)</p>
           <input
             type="email"
             name="email"
@@ -101,7 +116,7 @@ function GetInformPage({ userInfo, setUserInfo, isUser, setIsUser }) {
           />
         </div>
         <div className="informbox">
-          <p>전화번호</p>
+          <p>전화번호(선택)</p>
           <input
             type="tel"
             name="phonenumber"

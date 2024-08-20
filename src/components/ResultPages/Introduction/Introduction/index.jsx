@@ -60,7 +60,6 @@ function Introduction({}) {
             </div>
           </div>
           <div className="quarter-container">
-            {/* <Quarter /> */}
             <img alt="" src={img_quarter} />
           </div>
         </div>

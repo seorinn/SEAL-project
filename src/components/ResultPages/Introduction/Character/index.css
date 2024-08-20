@@ -27,7 +27,6 @@
   align-items: center;
   margin-bottom: 1rem;
   flex: 1;
-  /* scale: 0.9; */
 }
 .Character .container .content .characters img {
   width: 49rem;

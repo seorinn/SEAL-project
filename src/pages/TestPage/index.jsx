@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserStateContext, UserDispatchContext } from "../../App";
 import { fetchData } from "../../util";
-import img_testheader from "../../assets/images/test-header.png";
 import ProgressBar from "./ProgressBar";
 import MultipleChoices from "./MultipleChoices";
 import Question from "./Question";
 import "./index.css";
 
-function TestPage({ userInfo }) {
+function TestPage() {
+  const userData = useContext(UserStateContext);
+  const dispatch = useContext(UserDispatchContext);
   const navigator = useNavigate();
+
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -16,7 +19,7 @@ function TestPage({ userInfo }) {
   const [sumChecked, setSumChecked] = useState(0);
   const [total, setTotal] = useState(0);
 
-  if (!userInfo.name) navigator("/");
+  if (!userData) navigator("/");
 
   useEffect(() => {
     fetchData("newquestion-data.xlsx").then((res) => {
@@ -82,19 +85,15 @@ function TestPage({ userInfo }) {
     });
 
     Object.entries(scores).map(([key, value]) => {
-      if (
-        key === "관계형" ||
-        key === "도전형" ||
-        key === "안정형" ||
-        key === "분석형"
-      )
-        scoreMain.push({ [key]: value });
+      if (key.includes("형")) scoreMain.push({ [key]: value });
       else scoreSub.push({ [key]: value });
     });
 
     console.log(scoreMain, scoreSub);
-    navigator("/result", {
-      state: { state: state, scoreMain: scoreMain, scoreSub: scoreSub },
+    navigator("/result");
+    dispatch({
+      type: "update",
+      payload: { state: state, scoreMain: scoreMain, scoreSub: scoreSub },
     });
   };
 
@@ -103,15 +102,10 @@ function TestPage({ userInfo }) {
     <div className="TestPage">
       <div className="test-header">
         <div className="logo-text">
-          {/* <b>REAL</b> Personality */}
-          <img alt="REAL Personality" src={img_testheader} />
+          <b>REAL</b> Personality
         </div>
         <div className="progressbar-container">
-          <ProgressBar
-            pageIndex={pageIndex}
-            sumChecked={sumChecked}
-            total={60}
-          />
+          <ProgressBar sumChecked={sumChecked} total={total} />
         </div>
       </div>
       <div className="question-box">

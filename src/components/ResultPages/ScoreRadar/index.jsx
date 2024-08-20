@@ -1,13 +1,15 @@
 import * as React from "react";
 import { ResponsiveRadar } from "@nivo/radar";
-
+import { UserStateContext } from "../../../App";
 import "./index.css";
-function ScoreRadar({ scoreData, subType }) {
-  const data = scoreData.map((item) => ({
+
+function ScoreRadar() {
+  const userData = React.useContext(UserStateContext);
+  const data = userData.scoreSub.map((item) => ({
     subtype: Object.keys(item)[0],
     score:
       (Object.values(item)[0] * 14.5) / 11 +
-      (Object.keys(item)[0] === subType ? 0.5 : 0),
+      (Object.keys(item)[0] === userData.subType ? 0.5 : 0),
   }));
 
   return (

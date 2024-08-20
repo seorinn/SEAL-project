@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import {
   getStorage,
@@ -6,12 +6,12 @@ import {
   getDownloadURL,
   deleteObject,
   getMetadata,
-  uploadBytes,
 } from "firebase/storage";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { UserStateContext, UserDispatchContext } from "../../App";
 import {
   getUserList,
   getCourseList,
@@ -24,10 +24,13 @@ import Table from "./Table";
 import PdfModal from "./PdfModal";
 import "./index.css";
 
-function AdminPage({ isAdmin, setIsAdmin }) {
+function AdminPage() {
+  const dispatch = useContext(UserDispatchContext);
+  const userData = useContext(UserStateContext);
   const storage = getStorage();
   const pdfRef = useRef();
   const code = process.env.REACT_APP_ADMIN;
+
   const [keyword, setKeyword] = useState("");
   const [detailKeyword, setDetailKeyword] = useState("");
   const [courses, setCourses] = useState([]);
@@ -51,6 +54,8 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   ];
   const widths = [4, 10, 10, 9, 8, 20, 15, 15, 5, 8, 8, 10];
   const [sortBy, setSortBy] = useState(headers[1]);
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -170,7 +175,6 @@ function AdminPage({ isAdmin, setIsAdmin }) {
         setSearchedData(
           searchedData.sort(isAscending ? compare : reverseCompare)
         );
-      // alert("수정중");
     } catch (error) {
       console.log(error);
     } finally {
@@ -178,51 +182,33 @@ function AdminPage({ isAdmin, setIsAdmin }) {
     }
   };
 
-  const handleCheckBox = async (button) => {
+  const handleCheckBox = async () => {
     const targetData = detailKeyword ? detailData : searchedData;
     let count = 0;
     for (let i = 0; i < targetData.length; i++) {
       const user = targetData[i];
       if (user.isChecked) count++;
     }
-    if (count === 0)
-      alert(`${button === "del" ? "삭제할" : "다운받을"} 항목을 체크해주세요.`);
+    if (count === 0) alert(`삭제할 항목을 체크해주세요.`);
     else {
-      if (
-        !window.confirm(
-          `${count}개 항목 ${button === "del" ? "삭제" : "다운로드"}`
-        )
-      )
-        return;
+      if (!window.confirm(`${count}개 항목 삭제`)) return;
       for (let i = 0; i < targetData.length; i++) {
         const user = {
           ...targetData[i],
           email: targetData[i].email.replace(/_/g, `&`),
         };
         if (user.isChecked) {
+          setLoading(true);
           const pathReference = ref(storage, getStoragePath(user));
           try {
-            setLoading(true);
-            if (button === "pdf") {
-              //               const url = await getDownloadURL(pathReference);
-              //               const response = await fetch(url);
-              //               const blob = await response.blob();
-              //               const link = document.createElement("a");
-              //               link.href = window.URL.createObjectURL(blob);
-              //               link.setAttribute("download", getFileName(user.name));
-              //               document.body.appendChild(link);
-              //               link.click();
-              //               document.body.removeChild(link);
-            } else if (button === "del") {
-              deleteObject(pathReference)
-                .then(() => {
-                  initData();
-                  alert("삭제되었습니다");
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            }
+            deleteObject(pathReference)
+              .then(() => {
+                initData();
+                alert("삭제되었습니다");
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           } catch (error) {
             console.log(error);
           } finally {
@@ -240,7 +226,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       .then((url) => fetch(url))
       .then((response) => response.json())
       .then((data) => {
-        setPdfData({ user: user, ...data });
+        dispatch({ type: "set", payload: { ...user, ...data, isAdmin: true } });
         setShowPdfModal(true);
       })
       .catch((error) => {
@@ -249,7 +235,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
   };
 
   const onClickDownloadPdf = async () => {
-    const storageRef = ref(storage, getStoragePath(pdfData.user));
+    const storageRef = ref(storage, getStoragePath(userData));
     const metadata = await getMetadata(storageRef);
     const contentType = metadata.contentType;
     const doc = new jsPDF("p", "mm", "a4");
@@ -283,58 +269,20 @@ function AdminPage({ isAdmin, setIsAdmin }) {
             heightLeft -= pageHeight;
             heightAdd -= pageHeight;
           }
-          doc.save(
-            "REAL Personality 진단 결과지" + "_" + pdfData.user.name + ".pdf"
-          );
+          doc.save(getFileName(userData.name));
         }
       } catch (error) {
         console.log(error);
       } finally {
         setPdfLoading(false);
-        // const pdfBlob = doc.output("blob");
-        // await uploadBytes(storageRef, pdfBlob).then(() =>
-        //   console.log("PDF uploaded successfully!")
-        // );
       }
-    // else {
-    //   const url = await getDownloadURL(storageRef);
-    //   const response = await fetch(url);
-    //   const blob = await response.blob();
-
-    //   const link = document.createElement("a");
-    //   link.href = window.URL.createObjectURL(blob);
-    //   link.setAttribute("download", getFileName(pdfData.user.name));
-    //   document.body.appendChild(link);
-    //   link.click();
-    //   document.body.removeChild(link);
-    //   setPdfLoading(false);
-    // }
   };
 
-  const [pdfData, setPdfData] = useState({
-    user: [],
-    scoreMain: [],
-    scoreSub: [],
-    dataMain: [],
-    dataSub: [],
-  });
-  const [showPdfModal, setShowPdfModal] = useState(false);
-  const [pdfLoading, setPdfLoading] = useState(false);
-
-  if (!isAdmin)
-    return <Code code={code} isValid={isAdmin} setIsValid={setIsAdmin} />;
+  if (!userData.isAdmin) return <Code code={code} />;
   return (
     <div className="AdminPage">
       <h4>[관리자 페이지]</h4>
-      <h2
-        onClick={async () => {
-          // setData(await getUserList());
-          // setKeyword("");
-          initData();
-        }}
-      >
-        진단 결과 목록
-      </h2>
+      <h2 onClick={() => initData()}>진단 결과 목록</h2>
       <div className="search-container">
         <Search setKeyword={setKeyword} />
       </div>
@@ -375,7 +323,7 @@ function AdminPage({ isAdmin, setIsAdmin }) {
       {showPdfModal && (
         <div className="pdf-container">
           <div className="pdf-modal" ref={pdfRef}>
-            <PdfModal data={pdfData} />
+            <PdfModal />
           </div>
           <div className="pdf-buttons">
             <button onClick={onClickDownloadPdf}>다운로드</button>

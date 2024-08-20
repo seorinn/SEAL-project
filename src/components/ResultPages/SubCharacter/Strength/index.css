@@ -10,7 +10,6 @@
   flex: 1;
 }
 .Strength .top-section {
-  /* position: relative; */
   display: flex;
   justify-content: center;
 }
@@ -52,10 +51,6 @@
   margin-bottom: 0.325rem;
 }
 .Strength .top-section .table-container {
-  /* position: absolute;
-  scale: 0.35;
-  top: -9.25rem;
-  right: -8.55rem; */
   display: flex;
   align-items: center;
   justify-content: center;

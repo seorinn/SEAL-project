@@ -7,13 +7,11 @@ const Bar = styled.div`
   background-color: ${(props) => props.color};
 `;
 
-function ProgressBar({ pageIndex, sumChecked, total }) {
+function ProgressBar({ sumChecked, total }) {
   const [progressRate, setProgressRate] = useState(0);
   useEffect(() => {
-    setProgressRate(
-      Math.round(((pageIndex * 6 + sumChecked) / total) * 100 * 10) / 10
-    );
-  }, [pageIndex, sumChecked, total]);
+    setProgressRate(Math.round((sumChecked / total) * 100 * 10) / 10);
+  }, [sumChecked, total]);
 
   return (
     <div className="ProgressBar">

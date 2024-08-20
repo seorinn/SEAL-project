@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { getCourseList } from "../../../util";
+import { useState } from "react";
 import icon_polygon from "../../../assets/icons/icon_polygon.png";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
@@ -78,14 +77,11 @@ function Table({
               {isAscending ? "오름차순" : "내림차순"}
             </button>
           </div>
-          <button className="btn_delete" onClick={() => handleCheckBox("del")}>
+          <button className="btn_delete" onClick={() => handleCheckBox()}>
             삭제
           </button>
         </div>
         <div className="buttons">
-          {/* <button className="btn_pdf" onClick={() => handleCheckBox("pdf")}>
-            PDF 다운로드
-          </button> */}
           <button className="btn_excel" onClick={handleDownloadExcel}>
             전체 Excel 다운로드
           </button>
@@ -100,7 +96,7 @@ function Table({
       <TableHead data={data} setData={setData} keys={headers} widths={widths} />
       {data.map((item) => (
         <TableBody
-          key={item.phonenumber}
+          key={`${item.company}_${item.affiliation}_${item.position}_${item.name}_${item.course}`}
           userData={item}
           listData={data}
           setListData={setData}

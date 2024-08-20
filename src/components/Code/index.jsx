@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserDispatchContext } from "../../App";
 import { getCourseList } from "../../util";
 import logo_REAL from "../../assets/images/logo_REAL.png";
 import "./index.css";
 
-function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
+function Code({ code, isValid, setIsValid }) {
+  const dispatch = useContext(UserDispatchContext);
   const [input, setInput] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -17,12 +19,13 @@ function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
 
   const onSubmit = async () => {
     if (code) {
-      setIsValid(code === input);
+      if (code === input)
+        dispatch({ type: "update", payload: { isAdmin: true } });
     } else {
       const courseList = getCourseList();
       (await courseList).map((item) => {
         if (item.code === input.toUpperCase()) {
-          setUserInfo({ ...userInfo, course: item.name });
+          dispatch({ type: "update", payload: { course: item.name } });
           setIsValid(true);
           return;
         }
@@ -46,7 +49,6 @@ function Code({ code, isValid, setIsValid, userInfo, setUserInfo }) {
         <div className="wrong-code">잘못된 코드입니다.</div>
       )}
       <button onClick={onSubmit}>제출</button>
-      {/* <img className="texture" alt="" src={texture} /> */}
     </div>
   );
 }

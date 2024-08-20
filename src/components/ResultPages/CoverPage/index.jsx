@@ -1,15 +1,17 @@
+import { UserStateContext } from "../../../App";
 import { formattedDate, getLogoImage } from "../../../util";
 import logo_real from "../../../assets/images/logo_REAL.png";
 import logo_root from "../../../assets/images/logo_root.png";
 import "./index.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-function CoverPage({ userInfo }) {
+function CoverPage() {
+  const userData = useContext(UserStateContext);
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    getLogoImage(userInfo.course).then((res) => setImage(res));
-  }, [userInfo]);
+    getLogoImage(userData.course).then((res) => setImage(res));
+  }, [userData]);
 
   return (
     <div className="CoverPage resultpage">
@@ -21,10 +23,10 @@ function CoverPage({ userInfo }) {
           <div className="title">성장을 위한 행동유형 진단 결과</div>
           <div className="reportfor">Report for</div>
           <div className="user-info-container">
-            <img alt="logo_com" src={image} />
+            <img alt="" src={image} />
             <div className="user-info">
-              <div>{userInfo.company || "기아자동차"}</div>
-              <div>{userInfo.name || "홍길동"}</div>
+              <div>{userData.company || "기아자동차"}</div>
+              <div>{userData.name || "홍길동"}</div>
               <div>{formattedDate}</div>
             </div>
           </div>

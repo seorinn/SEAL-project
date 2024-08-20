@@ -8,7 +8,6 @@ function KeywordItem({ name, isOn, isSummary }) {
         className="item-name"
         dangerouslySetInnerHTML={{ __html: formattedContent }}
       ></div>
-      {/* <div className="hexagon" /> */}
     </div>
   );
 }

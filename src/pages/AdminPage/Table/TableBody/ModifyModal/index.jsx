@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { PulseLoader } from "react-spinners";
 import "./index.css";
 
 function ModifyModal({

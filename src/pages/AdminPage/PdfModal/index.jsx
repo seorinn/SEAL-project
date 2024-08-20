@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserStateContext } from "../../../App";
 
 import CoverPage from "../../../components/ResultPages/CoverPage";
 import RootInfo from "../../../components/ResultPages/Introduction/RootInfo";
@@ -24,40 +25,33 @@ import ScoreGraph from "../../../components/ResultPages/SubCharacter/ScoreGraph"
 import TextPage from "../../../components/ResultPages/AfterTest/TextPage";
 import SheetPage from "../../../components/ResultPages/AfterTest/SheetPage";
 
-const PdfModal = ({ data }) => {
-  const { user, scoreMain, scoreSub, dataMain, dataSub } = data;
+const PdfModal = () => {
+  const userData = useContext(UserStateContext);
 
-  if (!data) return;
+  if (!userData) return;
   return (
     <div className="PdfModal pdfPage">
-      <CoverPage userInfo={user} />
+      <CoverPage />
       <RootInfo />
       <Introduction />
       <Overview />
       <Character />
       <ReportCover />
-      <Summary
-        name={user.name}
-        course={user.course}
-        mainType={user.mainType}
-        subType={user.subType}
-        scoreData={scoreMain}
-        keywordData={dataMain.keywords}
-      />
-      <BarPage mainType={user.mainType} scoreMain={scoreMain} />{" "}
-      <KeywordPage data={dataMain.keywords} />
-      <WorkingStyle data={dataMain.strength} />
-      <Weak data={dataMain.weakness} />
-      <Justifying data={dataMain.work_style} />
-      <Motivation data={dataMain.motivation} />
-      <Changes data={dataMain.changes} />
-      <Stress data={dataMain.stress} />
-      <Cowork data={dataMain.cowork} />
-      <SubTable subType={user.subType} />
-      <Strength data={dataSub.strength} />
-      <Weakness data={dataSub.weakness} />
-      <Behavior data={dataSub.behavior} />
-      <ScoreGraph subType={user.subType} scoreSub={scoreSub} />
+      <Summary keywordData={userData.dataMain.keywords} />
+      <BarPage />
+      <KeywordPage data={userData.dataMain.keywords} />
+      <WorkingStyle data={userData.dataMain.strength} />
+      <Weak data={userData.dataMain.weakness} />
+      <Justifying data={userData.dataMain.work_style} />
+      <Motivation data={userData.dataMain.motivation} />
+      <Changes data={userData.dataMain.changes} />
+      <Stress data={userData.dataMain.stress} />
+      <Cowork data={userData.dataMain.cowork} />
+      <SubTable />
+      <Strength data={userData.dataSub.strength} />
+      <Weakness data={userData.dataSub.weakness} />
+      <Behavior data={userData.dataSub.behavior} />
+      <ScoreGraph />
       <TextPage />
       <SheetPage />
     </div>

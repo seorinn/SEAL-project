@@ -1,11 +1,14 @@
+import { useContext } from "react";
+import { UserStateContext } from "../../../App";
 import "./index.css";
 
-function BarChart({ mainType, scoreData }) {
-  const data = scoreData.map((item) => ({
+function BarChart({}) {
+  const userData = useContext(UserStateContext);
+  const data = userData.scoreMain.map((item) => ({
     maintype: Object.keys(item)[0],
     score:
       (Object.values(item)[0] * 100) / 36 +
-      (Object.keys(item)[0] === mainType ? 5 : 0),
+      (Object.keys(item)[0] === userData.mainType ? 5 : 0),
   }));
 
   const setColor = (name) => {
@@ -43,7 +46,6 @@ function BarChart({ mainType, scoreData }) {
               className="bar-item"
               style={{
                 height: `${item.score}%`,
-                // height: `100%`,
                 backgroundColor: setColor(item.maintype),
               }}
             ></div>

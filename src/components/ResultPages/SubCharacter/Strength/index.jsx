@@ -4,8 +4,8 @@ import Bottom from "../../Bottom";
 import Header from "../../Header";
 import SubHeader from "../../SubHeader";
 import MoreInfoBox from "../../MoreInfoBox";
-import "./index.css";
 import Watermark from "../../Watermark";
+import "./index.css";
 
 function Strength({ data }) {
   const [content, setContent] = useState([]);
@@ -48,7 +48,6 @@ function Strength({ data }) {
             </div>
           </div>
           <div className="table-container">
-            {/* <CharTable current={data[0].type} /> */}
             <img alt={data[0].type} src={getTableImage(nameEng)} />
           </div>
         </div>
