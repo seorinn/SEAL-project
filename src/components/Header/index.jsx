@@ -1,16 +1,12 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserDispatchContext } from "../../App";
 import logo_root_header from "../../assets/images/logo_root_header.png";
 import "./index.css";
 
 function Header() {
-  const dispatch = useContext(UserDispatchContext);
   const navigation = useNavigate();
 
   const goMain = () => {
     navigation("/");
-    dispatch({ type: "init" });
   };
 
   return (

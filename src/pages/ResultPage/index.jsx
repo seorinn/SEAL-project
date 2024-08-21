@@ -1,20 +1,7 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
-import { useLocation } from "react-router-dom";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  deleteObject,
-  getDownloadURL,
-} from "firebase/storage";
-import { UserStateContext } from "../../App";
-import { UserDispatchContext } from "../../App";
-import {
-  fetchData,
-  getUserList,
-  getStoragePath,
-  getFileName,
-} from "../../util";
+import React, { useEffect, useState, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getCookie, setCookie, fetchData, getStoragePath } from "../../util";
 
 import CoverPage from "../../components/ResultPages/CoverPage";
 import Overview from "../../components/ResultPages/Introduction/Overview";
@@ -42,30 +29,50 @@ import KeywordPage from "../../components/ResultPages/MainType/KeywordPage";
 import "./index.css";
 
 function ResultPage() {
-  const userData = useContext(UserStateContext);
-  const dispatch = useContext(UserDispatchContext);
+  const navigaton = useNavigate();
+  const userInfo = getCookie("userinfo");
+  const location = useLocation();
   const pdfRef = useRef(null);
-  const { name, state, scoreMain, scoreSub } = userData;
 
+  const state = location.state.state || [];
+  const scoreMain = location.state.scoreMain || getCookie("scoremain");
+  const scoreSub = location.state.scoreSub || getCookie("scoresub");
+
+  const [mainType, setMainType] = useState("");
+  const [subType, setSubType] = useState("");
   const [dataMain, setDataMain] = useState([]);
   const [dataSub, setDataSub] = useState([]);
 
+  if (
+    getCookie("isadmin") ||
+    !getCookie("userinfo") ||
+    (!location.state && !getCookie("userinfo").mainType)
+  )
+    navigaton("/");
+
   useEffect(() => {
-    dispatch({
-      type: "update",
-      payload: {
-        mainType: setType(scoreMain),
-        subType: setType(scoreSub),
-      },
-    });
+    if (location.state) {
+      setCookie("scoremain", location.state.scoreMain);
+      setCookie("scoresub", location.state.scoreSub);
+      setCookie("userinfo", {
+        ...getCookie("userinfo"),
+        mainType: setType(location.state.scoreMain),
+        subType: setType(location.state.scoreSub),
+      });
+      setMainType(setType(location.state.scoreMain));
+      setSubType(setType(location.state.scoreSub));
+    } else {
+      setMainType(getCookie("userinfo").mainType);
+      setSubType(getCookie("userinfo").subType);
+    }
   }, []);
 
   useEffect(() => {
-    if (userData.mainType && userData.subType && name) {
-      console.log(userData.mainType, userData.subType);
+    if (mainType !== "" && subType !== "" && getCookie("userinfo").name) {
+      console.log(mainType, subType);
       try {
         fetchData("result-sub.xlsx").then((res) => {
-          let array = res.filter((item) => item.type === userData.subType);
+          let array = res.filter((item) => item.type === subType);
           setDataSub({
             strength: array.filter(
               (item) =>
@@ -84,7 +91,7 @@ function ResultPage() {
         });
 
         fetchData("result-main.xlsx").then((res) => {
-          let array = res.filter((item) => item.type === userData.mainType);
+          let array = res.filter((item) => item.type === mainType);
           setDataMain({
             keywords: array.filter((item) => item.category === "keywords"),
             strength: array.filter(
@@ -114,13 +121,14 @@ function ResultPage() {
         console.log(error);
       }
     }
-  }, [userData]);
+  }, [mainType, subType]);
 
   useEffect(() => {
     if (dataMain.strength && dataSub.strength) saveToStorage();
   }, [dataMain, dataSub]);
 
   const setType = (scoreData) => {
+    if (!scoreData) return;
     const resultTotal = findHighest(scoreData);
     if (resultTotal.length === 1) return resultTotal[0];
     else {
@@ -137,6 +145,7 @@ function ResultPage() {
   };
 
   const findMaxValue = (array) => {
+    if (!array) return;
     let max = 0;
     array.forEach((item) => {
       let value = Object.values(item)[0];
@@ -146,6 +155,7 @@ function ResultPage() {
   };
 
   const findHighest = (arr) => {
+    if (!arr) return;
     const max = findMaxValue(arr);
     let array = [];
     arr.forEach((item) => {
@@ -157,6 +167,7 @@ function ResultPage() {
   };
 
   const checkAbsTier = (array) => {
+    if (!state) return;
     state[0].map((item) => {
       if (array.includes(item.type)) {
         const targetData = state[0].filter((item) => array.includes(item.type));
@@ -179,6 +190,7 @@ function ResultPage() {
   };
 
   const checkRelTier = (array) => {
+    if (!state) return;
     let targetState = state[2];
     state[3].map((item) => {
       if (array.includes(item.type)) targetState = state[3];
@@ -205,6 +217,7 @@ function ResultPage() {
   };
 
   const checkPriority = (array) => {
+    if (!state) return;
     let targetState = state[2];
     let min = 5;
     state[3].map((item) => {
@@ -235,7 +248,7 @@ function ResultPage() {
     const fileContent = JSON.stringify(combinedData, null, 2);
     const blob = new Blob([fileContent], { type: "application/json" });
 
-    const storageRef = ref(storage, getStoragePath(userData));
+    const storageRef = ref(storage, getStoragePath(userInfo));
 
     uploadBytes(storageRef, blob)
       .then((snapshot) => getDownloadURL(snapshot.ref))

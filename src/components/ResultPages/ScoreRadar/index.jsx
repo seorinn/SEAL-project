@@ -1,15 +1,17 @@
 import * as React from "react";
 import { ResponsiveRadar } from "@nivo/radar";
-import { UserStateContext } from "../../../App";
+import { getCookie } from "../../../util";
 import "./index.css";
 
 function ScoreRadar() {
-  const userData = React.useContext(UserStateContext);
-  const data = userData.scoreSub.map((item) => ({
+  const userInfo = getCookie("userinfo");
+  const scoreSub = getCookie("scoresub");
+
+  const data = scoreSub.map((item) => ({
     subtype: Object.keys(item)[0],
     score:
       (Object.values(item)[0] * 14.5) / 11 +
-      (Object.keys(item)[0] === userData.subType ? 0.5 : 0),
+      (Object.keys(item)[0] === userInfo.subType ? 0.5 : 0),
   }));
 
   return (

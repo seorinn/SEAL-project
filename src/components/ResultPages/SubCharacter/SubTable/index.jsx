@@ -1,18 +1,22 @@
-import { useContext, useEffect, useState } from "react";
-import { UserStateContext } from "../../../../App";
-import { getIconImage, getTableImage, twelveChar } from "../../../../util";
+import { useEffect, useState } from "react";
+import {
+  getCookie,
+  getIconImage,
+  getTableImage,
+  twelveChar,
+} from "../../../../util";
 import Bottom from "../../Bottom";
 import Header from "../../Header";
 import Watermark from "../../Watermark";
 import "./index.css";
 
 function SubTable() {
-  const userData = useContext(UserStateContext);
+  const userInfo = getCookie("userinfo");
   const [nameEng, setNameEng] = useState("");
 
   useEffect(() => {
     twelveChar.map((item) => {
-      if (item.name === userData.subType) setNameEng(item.nameEng);
+      if (item.name === userInfo.subType) setNameEng(item.nameEng);
     });
   }, []);
 
@@ -30,19 +34,19 @@ function SubTable() {
           </div>
           <div className="characters">
             <div className="table-container">
-              <img alt={userData.subType} src={getTableImage(nameEng)} />
+              <img alt={userInfo.subType} src={getTableImage(nameEng)} />
             </div>
             <div className="center">
               <div className="icon-container">
                 <img
-                  alt={userData.subType}
-                  src={getIconImage(userData.subType)}
+                  alt={userInfo.subType}
+                  src={getIconImage(userInfo.subType)}
                 />
               </div>
               <p>
                 당신의 캐릭터는
                 <br />
-                <b>{userData.subType}</b> 입니다.
+                <b>{userInfo.subType}</b> 입니다.
               </p>
             </div>
           </div>

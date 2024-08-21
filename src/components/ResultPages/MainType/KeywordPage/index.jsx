@@ -3,8 +3,8 @@ import { fourTypes, getIconImage } from "../../../../util";
 import Header from "../../Header";
 import Bottom from "../../Bottom";
 import Keywords from "../../Keywords";
-import "./index.css";
 import Watermark from "../../Watermark";
+import "./index.css";
 
 function KeywordPage({ data }) {
   const [name, setName] = useState("");

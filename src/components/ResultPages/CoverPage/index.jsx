@@ -1,17 +1,16 @@
-import { UserStateContext } from "../../../App";
-import { formattedDate, getLogoImage } from "../../../util";
+import { useEffect, useState } from "react";
+import { formattedDate, getCookie, getLogoImage } from "../../../util";
 import logo_real from "../../../assets/images/logo_REAL.png";
 import logo_root from "../../../assets/images/logo_root.png";
 import "./index.css";
-import { useContext, useEffect, useState } from "react";
 
 function CoverPage() {
-  const userData = useContext(UserStateContext);
+  const userInfo = getCookie("userinfo");
   const [image, setImage] = useState("");
 
   useEffect(() => {
-    getLogoImage(userData.course).then((res) => setImage(res));
-  }, [userData]);
+    getLogoImage(userInfo.course).then((res) => setImage(res));
+  }, [userInfo]);
 
   return (
     <div className="CoverPage resultpage">
@@ -25,8 +24,8 @@ function CoverPage() {
           <div className="user-info-container">
             <img alt="" src={image} />
             <div className="user-info">
-              <div>{userData.company || "기아자동차"}</div>
-              <div>{userData.name || "홍길동"}</div>
+              <div>{userInfo.company}</div>
+              <div>{userInfo.name}</div>
               <div>{formattedDate}</div>
             </div>
           </div>

@@ -3,9 +3,9 @@ import { fourTypes, getIconImage } from "../../../../util";
 import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
-import "./index.css";
 import SubHeader from "../../SubHeader";
 import Watermark from "../../Watermark";
+import "./index.css";
 
 function Stress({ data }) {
   const [name, setName] = useState("");

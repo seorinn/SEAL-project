@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import {
   getStorage,
@@ -11,12 +11,14 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { UserStateContext, UserDispatchContext } from "../../App";
 import {
+  getCookie,
+  fetchData,
   getUserList,
   getCourseList,
   getStoragePath,
   getFileName,
+  setCookie,
 } from "../../util";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
@@ -25,8 +27,7 @@ import PdfModal from "./PdfModal";
 import "./index.css";
 
 function AdminPage() {
-  const dispatch = useContext(UserDispatchContext);
-  const userData = useContext(UserStateContext);
+  const userInfo = getCookie("userinfo");
   const storage = getStorage();
   const pdfRef = useRef();
   const code = process.env.REACT_APP_ADMIN;
@@ -58,10 +59,67 @@ function AdminPage() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [excelDataMain, setExcelDataMain] = useState([]);
+  const [excelDataSub, setExcelDataSub] = useState([]);
+  const [dataMain, setDataMain] = useState([]);
+  const [dataSub, setDataSub] = useState([]);
+
   useEffect(() => {
     initData();
     getCourses();
+    try {
+      fetchData("result-sub.xlsx").then((res) => setExcelDataSub(res));
+      fetchData("result-main.xlsx").then((res) => setExcelDataMain(res));
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
+
+  useEffect(() => {
+    if (excelDataMain && excelDataSub) {
+      let arraySub = excelDataSub.filter(
+        (item) => item.type === userInfo.subType
+      );
+      setDataSub({
+        strength: arraySub.filter(
+          (item) =>
+            item.category.includes("strength") || item.category === "content"
+        ),
+        weakness: arraySub.filter((item) => item.category.includes("weakness")),
+        behavior: arraySub.filter(
+          (item) =>
+            item.category.includes("like") || item.category.includes("opposite")
+        ),
+      });
+      let arrayMain = excelDataMain.filter(
+        (item) => item.type === userInfo.mainType
+      );
+      setDataMain({
+        keywords: arrayMain.filter((item) => item.category === "keywords"),
+        strength: arrayMain.filter(
+          (item) =>
+            item.category.includes("strength") &&
+            !item.category.includes("stress")
+        ),
+        weakness: arrayMain.filter((item) =>
+          item.category.includes("weakness")
+        ),
+        work_style: arrayMain.filter(
+          (item) =>
+            item.category === "work_style" || item.category === "leadership"
+        ),
+        changes: arrayMain.filter(
+          (item) =>
+            item.category === "change_res" || item.category === "conflict"
+        ),
+        motivation: arrayMain.filter((item) =>
+          item.category.includes("motivation")
+        ),
+        stress: arrayMain.filter((item) => item.category.includes("stress")),
+        cowork: arrayMain.filter((item) => item.category === "cowork"),
+      });
+    }
+  }, [excelDataMain, excelDataSub]);
 
   useEffect(() => {
     getSearchedData();
@@ -189,9 +247,12 @@ function AdminPage() {
       const user = targetData[i];
       if (user.isChecked) count++;
     }
-    if (count === 0) alert(`삭제할 항목을 체크해주세요.`);
-    else {
-      if (!window.confirm(`${count}개 항목 삭제`)) return;
+    if (count === 0) {
+      alert(`삭제할 항목을 체크해주세요.`);
+      return;
+    } else if (!window.confirm(`${count}개 항목 삭제`)) return;
+
+    try {
       for (let i = 0; i < targetData.length; i++) {
         const user = {
           ...targetData[i],
@@ -200,22 +261,18 @@ function AdminPage() {
         if (user.isChecked) {
           setLoading(true);
           const pathReference = ref(storage, getStoragePath(user));
-          try {
-            deleteObject(pathReference)
-              .then(() => {
-                initData();
-                alert("삭제되었습니다");
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          } catch (error) {
-            console.log(error);
-          } finally {
-            setLoading(false);
-          }
+          deleteObject(pathReference)
+            .then(() => initData())
+            .catch((error) => {
+              console.log(error);
+            });
         }
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      alert("삭제되었습니다");
     }
   };
 
@@ -226,7 +283,7 @@ function AdminPage() {
       .then((url) => fetch(url))
       .then((response) => response.json())
       .then((data) => {
-        dispatch({ type: "set", payload: { ...user, ...data, isAdmin: true } });
+        setCookie("userinfo", user);
         setShowPdfModal(true);
       })
       .catch((error) => {
@@ -235,7 +292,7 @@ function AdminPage() {
   };
 
   const onClickDownloadPdf = async () => {
-    const storageRef = ref(storage, getStoragePath(userData));
+    const storageRef = ref(storage, getStoragePath(userInfo));
     const metadata = await getMetadata(storageRef);
     const contentType = metadata.contentType;
     const doc = new jsPDF("p", "mm", "a4");
@@ -269,7 +326,7 @@ function AdminPage() {
             heightLeft -= pageHeight;
             heightAdd -= pageHeight;
           }
-          doc.save(getFileName(userData.name));
+          doc.save(getFileName(userInfo.name));
         }
       } catch (error) {
         console.log(error);
@@ -278,7 +335,7 @@ function AdminPage() {
       }
   };
 
-  if (!userData.isAdmin) return <Code code={code} />;
+  if (!getCookie("isadmin")) return <Code code={code} />;
   return (
     <div className="AdminPage">
       <h4>[관리자 페이지]</h4>
@@ -323,7 +380,7 @@ function AdminPage() {
       {showPdfModal && (
         <div className="pdf-container">
           <div className="pdf-modal" ref={pdfRef}>
-            <PdfModal />
+            <PdfModal dataMain={dataMain} dataSub={dataSub} />
           </div>
           <div className="pdf-buttons">
             <button onClick={onClickDownloadPdf}>다운로드</button>

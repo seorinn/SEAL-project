@@ -1,6 +1,8 @@
+import { Cookies } from "react-cookie";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import "./firebase-config";
 import * as XLSX from "xlsx";
+import pako from "pako";
 
 import logo_watermark from "../src/assets/images/logo_watermark.png";
 import icon_facilitator from "../src/assets/icons/icon_facilitator.png";
@@ -37,6 +39,44 @@ import icon_a_white from "../src/assets/icons/icon_action_white.png";
 import icon_l_white from "../src/assets/icons/icon_loyal_white.png";
 
 const storage = getStorage();
+const cookies = new Cookies();
+const LZString = require("lz-string");
+
+export const setCookie = (name, value, options) => {
+  return cookies.set(name, value, { ...options });
+};
+export const getCookie = (name) => {
+  return cookies.get(name);
+};
+export const setArrayCookie = (name, array, options) => {
+  // try {
+  //   const jsonValue = JSON.stringify(array);
+  //   const compressedValue = pako.deflate(jsonValue, { to: "string" });
+  //   const encodedValue = btoa(compressedValue);
+  //   return cookies.set(name, encodedValue, { ...options });
+  // } catch (error) {
+  //   console.error("Error setting cookie:", error);
+  // }
+  return cookies.set(name, JSON.stringify(array), { ...options });
+};
+export const getArrayCookie = (name) => {
+  // try {
+  //   const encodedValue = cookies.get(name);
+  //   console.log(`Encoded Value from cookie: ${encodedValue}`);
+  //   // if (encodedValue) {
+  //   const compressedValue = atob(encodedValue);
+  //   const jsonValue = pako.inflate(compressedValue, { to: "string" });
+  //   return JSON.parse(jsonValue);
+  //   // }
+  //   // return [];
+  // } catch (error) {
+  //   console.error("Error retrieving or parsing cookie:", error);
+  //   return [];
+  // }
+  // return JSON.parse(cookies.get(name));
+  return cookies.get(name);
+};
+
 export const getUserList = async () => {
   const listRef = ref(storage, "userdata/pdfs/");
   let userlist = [];
@@ -271,7 +311,7 @@ export const twelveChar = [
   {
     adj: "지식의 보고,",
     name: "학자",
-    nameEng: "Scholor",
+    nameEng: "Scholar",
     content:
       "역할: 깊은 전문성과 철저한 연구를 바탕으로 지식을 공유합니다., 특징: 지식과 경험을 통해 문제를 해결합니다., 그러나 가끔: 실천보다는 이론에 치중할 수 있습니다.",
   },

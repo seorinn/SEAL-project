@@ -1,15 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserStateContext, UserDispatchContext } from "../../App";
-import { fetchData } from "../../util";
+import { getCookie, fetchData } from "../../util";
 import ProgressBar from "./ProgressBar";
 import MultipleChoices from "./MultipleChoices";
 import Question from "./Question";
 import "./index.css";
 
 function TestPage() {
-  const userData = useContext(UserStateContext);
-  const dispatch = useContext(UserDispatchContext);
   const navigator = useNavigate();
 
   const [state, setState] = useState([]);
@@ -19,7 +16,7 @@ function TestPage() {
   const [sumChecked, setSumChecked] = useState(0);
   const [total, setTotal] = useState(0);
 
-  if (!userData) navigator("/");
+  if (!getCookie("userinfo")) navigator("/");
 
   useEffect(() => {
     fetchData("newquestion-data.xlsx").then((res) => {
@@ -90,11 +87,7 @@ function TestPage() {
     });
 
     console.log(scoreMain, scoreSub);
-    navigator("/result");
-    dispatch({
-      type: "update",
-      payload: { state: state, scoreMain: scoreMain, scoreSub: scoreSub },
-    });
+    navigator("/result", { state: { state, scoreMain, scoreSub } });
   };
 
   if (!questionsOnPage) return;

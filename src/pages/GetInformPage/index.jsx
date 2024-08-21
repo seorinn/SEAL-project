@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserStateContext, UserDispatchContext } from "../../App";
+import { setCookie, getCookie } from "../../util";
 import Code from "../../components/Code";
 import "./index.css";
 
 function GetInformPage() {
-  const dispatch = useContext(UserDispatchContext);
-  const userData = useContext(UserStateContext);
+  const userInfo = getCookie("userinfo");
   const navigation = useNavigate();
 
   const [isUser, setIsUser] = useState(false);
@@ -49,22 +48,21 @@ function GetInformPage() {
     else if (email !== "null" && (!email.includes("@") || !email.includes(".")))
       alert("잘못된 형식의 이메일입니다.");
     else {
-      dispatch({
-        type: "update",
-        payload: {
-          name: name,
-          company: company,
-          affiliation: affiliation,
-          position: position,
-          email: email,
-          phonenumber: phonenumber,
-        },
+      setCookie("isadmin", false);
+      setCookie(`userinfo`, {
+        ...getCookie("userinfo"),
+        name: name,
+        company: company,
+        affiliation: affiliation,
+        position: position,
+        email: email,
+        phonenumber: phonenumber,
       });
       navigation("/test");
     }
   };
 
-  if (!isUser || !userData)
+  if (!isUser || !userInfo)
     return <Code isValid={isUser} setIsValid={setIsUser} />;
   return (
     <div className="GetInformPage">
@@ -72,7 +70,7 @@ function GetInformPage() {
       <div className="input-container">
         <div className="informbox">
           <p>참여 과정</p>
-          <input value={userData.course} disabled />
+          <input value={userInfo.course} disabled />
         </div>
         <div className="informbox">
           <p>이름</p>

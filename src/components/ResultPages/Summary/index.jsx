@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { UserStateContext } from "../../../App";
+import { useEffect, useState } from "react";
 import {
+  getCookie,
   fourTypes,
   getTableImage,
   twelveChar,
@@ -11,11 +11,12 @@ import Bottom from "../Bottom";
 import Header from "../Header";
 import BarChart from "../BarChart";
 import Keywords from "../Keywords";
-import "./index.css";
 import Watermark from "../Watermark";
+import "./index.css";
 
 function Summary({ keywordData }) {
-  const userData = useContext(UserStateContext);
+  const userInfo = getCookie("userinfo");
+  const scoreMain = getCookie("scoremain");
   const [image, setImage] = useState("");
   const [initial, setInitial] = useState("");
   const [nameEng, setNameEng] = useState("");
@@ -29,26 +30,26 @@ function Summary({ keywordData }) {
   const [isLargeGap, setIsLargeGap] = useState(false);
 
   useEffect(() => {
-    getLogoImage(userData.course).then((res) => setImage(res));
+    getLogoImage(userInfo.course).then((res) => setImage(res));
   }, []);
 
   useEffect(() => {
     fourTypes.map((item) => {
-      if (item.name === userData.mainType) {
+      if (item.name === userInfo.mainType) {
         setInitial(item.nameEng.slice(0, 1));
         setContentMain(item.content.split("\n"));
         setAdjMain(item.adj);
       }
     });
     twelveChar.map((item) => {
-      if (item.name === userData.subType) {
+      if (item.name === userInfo.subType) {
         setNameEng(item.nameEng);
         setAdjSub(item.adj);
         setContentSub(item.content.split(", "));
       }
     });
     setKeywords(keywordData[0].content.split(", "));
-    const entries = userData.scoreMain.map((obj) => {
+    const entries = scoreMain.map((obj) => {
       const key = Object.keys(obj)[0];
       const value = obj[key];
       return { key, value };
@@ -59,7 +60,7 @@ function Summary({ keywordData }) {
         setSecondInitial(item.nameEng.slice(0, 1));
     });
     if (entries[0].value === entries[1].value) {
-      setSecondType(entries.filter((i) => i.key !== userData.mainType)[0]);
+      setSecondType(entries.filter((i) => i.key !== userInfo.mainType)[0]);
       setIsLargeGap(false);
     } else {
       setSecondType(entries[1]);
@@ -77,13 +78,13 @@ function Summary({ keywordData }) {
         <div className="content">
           <div className="name-container">
             <img alt="" src={image} />
-            {userData.name} 님의 REAL Personality ™ 진단 주요 결과입니다.
+            {userInfo.name} 님의 REAL Personality ™ 진단 주요 결과입니다.
           </div>
           <div className="box">
             <div className="title">
               {adjMain}
               <b>
-                {initial}({userData.mainType})
+                {initial}({userInfo.mainType})
               </b>
               입니다!
             </div>
@@ -91,7 +92,6 @@ function Summary({ keywordData }) {
               <div className="item-left">
                 <div className="quarter-container">
                   <div className="background">
-                    {/* <Quarter /> */}
                     <img alt="real" src={img_quarter} />
                   </div>
                   <div className="selected">
@@ -132,7 +132,7 @@ function Summary({ keywordData }) {
                   <div className="component-title">
                     탁월한
                     <b>
-                      {initial}({userData.mainType})
+                      {initial}({userInfo.mainType})
                     </b>
                     유형의 스페셜리스트!
                   </div>
@@ -156,12 +156,12 @@ function Summary({ keywordData }) {
           <div className="box">
             <div className="title">
               {adjSub}
-              <b>{userData.subType}</b>캐릭터입니다!
+              <b>{userInfo.subType}</b>캐릭터입니다!
             </div>
             <div className="content-items">
               <div className="item-left">
                 <div className="chartable-container">
-                  <img alt={userData.subType} src={getTableImage(nameEng)} />
+                  <img alt={userInfo.subType} src={getTableImage(nameEng)} />
                 </div>
                 <div className="text-container">
                   {contentSub.map((item) => (

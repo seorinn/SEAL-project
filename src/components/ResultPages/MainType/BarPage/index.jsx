@@ -1,6 +1,4 @@
-import { useContext } from "react";
-import { UserStateContext } from "../../../../App";
-import { fourTypes, getIconImage } from "../../../../util";
+import { fourTypes, getCookie, getIconImage } from "../../../../util";
 import Header from "../../Header";
 import Bottom from "../../Bottom";
 import BarChart from "../../BarChart";
@@ -8,7 +6,7 @@ import "./index.css";
 import Watermark from "../../Watermark";
 
 function BarPage() {
-  const userData = useContext(UserStateContext);
+  const userInfo = getCookie("userinfo");
 
   return (
     <div className="BarPage resultpage">
@@ -16,7 +14,7 @@ function BarPage() {
         <Header reportname="Work Style Report" title="1. 나의 REAL 대표 유형" />
         <div className="content">
           <div className="main-title">
-            나의 대표 유형은 <b>{userData.mainType}</b> 입니다.
+            나의 대표 유형은 <b>{userInfo.mainType}</b> 입니다.
           </div>
           <div className="main-content">
             이 그래프는 네 가지 주요 업무 스타일 유형 중에서 본인의 특성이 가장

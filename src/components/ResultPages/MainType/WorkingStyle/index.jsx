@@ -4,8 +4,8 @@ import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import CaseBox from "../../CaseBox";
 import Header from "../../Header";
-import "./index.css";
 import Watermark from "../../Watermark";
+import "./index.css";
 
 function WorkingStyle({ data }) {
   const [name, setName] = useState("");

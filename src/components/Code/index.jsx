@@ -1,11 +1,9 @@
-import { useContext, useState } from "react";
-import { UserDispatchContext } from "../../App";
-import { getCourseList } from "../../util";
+import { useState } from "react";
+import { getCourseList, setCookie } from "../../util";
 import logo_REAL from "../../assets/images/logo_REAL.png";
 import "./index.css";
 
 function Code({ code, isValid, setIsValid }) {
-  const dispatch = useContext(UserDispatchContext);
   const [input, setInput] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -19,13 +17,14 @@ function Code({ code, isValid, setIsValid }) {
 
   const onSubmit = async () => {
     if (code) {
-      if (code === input)
-        dispatch({ type: "update", payload: { isAdmin: true } });
+      if (code === input) {
+        setCookie("isadmin", true);
+      }
     } else {
       const courseList = getCourseList();
       (await courseList).map((item) => {
         if (item.code === input.toUpperCase()) {
-          dispatch({ type: "update", payload: { course: item.name } });
+          setCookie("userinfo", { course: item.name });
           setIsValid(true);
           return;
         }

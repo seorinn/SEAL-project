@@ -1,14 +1,14 @@
-import { useContext } from "react";
-import { UserStateContext } from "../../../App";
+import { getCookie } from "../../../util";
 import "./index.css";
 
 function BarChart({}) {
-  const userData = useContext(UserStateContext);
-  const data = userData.scoreMain.map((item) => ({
+  const userInfo = getCookie("userinfo");
+  const scoreMain = getCookie("scoremain");
+  const data = scoreMain.map((item) => ({
     maintype: Object.keys(item)[0],
     score:
       (Object.values(item)[0] * 100) / 36 +
-      (Object.keys(item)[0] === userData.mainType ? 5 : 0),
+      (Object.keys(item)[0] === userInfo.mainType ? 5 : 0),
   }));
 
   const setColor = (name) => {

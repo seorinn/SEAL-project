@@ -5,8 +5,8 @@ import icon_checkbox from "../../../../assets/icons/icon_checkbox.png";
 import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
-import "./index.css";
 import Watermark from "../../Watermark";
+import "./index.css";
 
 function Motivation({ data }) {
   const [name, setName] = useState("");

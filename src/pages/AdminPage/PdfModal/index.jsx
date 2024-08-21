@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { UserStateContext } from "../../../App";
+import React from "react";
 
 import CoverPage from "../../../components/ResultPages/CoverPage";
 import RootInfo from "../../../components/ResultPages/Introduction/RootInfo";
@@ -25,10 +24,8 @@ import ScoreGraph from "../../../components/ResultPages/SubCharacter/ScoreGraph"
 import TextPage from "../../../components/ResultPages/AfterTest/TextPage";
 import SheetPage from "../../../components/ResultPages/AfterTest/SheetPage";
 
-const PdfModal = () => {
-  const userData = useContext(UserStateContext);
-
-  if (!userData) return;
+const PdfModal = ({ dataMain, dataSub }) => {
+  if (!dataMain || !dataSub) return;
   return (
     <div className="PdfModal pdfPage">
       <CoverPage />
@@ -37,20 +34,20 @@ const PdfModal = () => {
       <Overview />
       <Character />
       <ReportCover />
-      <Summary keywordData={userData.dataMain.keywords} />
+      <Summary keywordData={dataMain.keywords} />
       <BarPage />
-      <KeywordPage data={userData.dataMain.keywords} />
-      <WorkingStyle data={userData.dataMain.strength} />
-      <Weak data={userData.dataMain.weakness} />
-      <Justifying data={userData.dataMain.work_style} />
-      <Motivation data={userData.dataMain.motivation} />
-      <Changes data={userData.dataMain.changes} />
-      <Stress data={userData.dataMain.stress} />
-      <Cowork data={userData.dataMain.cowork} />
+      <KeywordPage data={dataMain.keywords} />
+      <WorkingStyle data={dataMain.strength} />
+      <Weak data={dataMain.weakness} />
+      <Justifying data={dataMain.work_style} />
+      <Motivation data={dataMain.motivation} />
+      <Changes data={dataMain.changes} />
+      <Stress data={dataMain.stress} />
+      <Cowork data={dataMain.cowork} />
       <SubTable />
-      <Strength data={userData.dataSub.strength} />
-      <Weakness data={userData.dataSub.weakness} />
-      <Behavior data={userData.dataSub.behavior} />
+      <Strength data={dataSub.strength} />
+      <Weakness data={dataSub.weakness} />
+      <Behavior data={dataSub.behavior} />
       <ScoreGraph />
       <TextPage />
       <SheetPage />

@@ -3,8 +3,8 @@ import { getIconImage, fourTypes } from "../../../../util";
 import Bottom from "../../Bottom";
 import BoxTitle from "../../BoxTitle";
 import Header from "../../Header";
-import "./index.css";
 import Watermark from "../../Watermark";
+import "./index.css";
 
 function Justifying({ data }) {
   const [name, setName] = useState("");

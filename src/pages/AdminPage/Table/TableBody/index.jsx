@@ -75,7 +75,16 @@ function TableBody({
                   listData.map((user) => ({
                     ...user,
                     isChecked:
-                      user.phonenumber === userData.phonenumber
+                      user.company +
+                        user.affiliation +
+                        user.position +
+                        user.name +
+                        user.course ===
+                      userData.company +
+                        userData.affiliation +
+                        userData.position +
+                        userData.name +
+                        user.course
                         ? !user.isChecked
                         : user.isChecked,
                   }))
