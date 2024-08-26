@@ -19,6 +19,7 @@ function Code({ code, isValid, setIsValid }) {
     if (code) {
       if (code === input) {
         setCookie("isadmin", true);
+        setIsValid(true);
       }
     } else {
       const courseList = getCourseList();

@@ -4,7 +4,10 @@
   background-color: white;
 }
 .Changes .container {
+  display: flex;
+  flex-direction: column;
   padding: 1.5rem;
+  flex: 1;
 }
 .Changes .content {
   padding: 0 0.5rem;
@@ -13,7 +16,7 @@
 }
 .Changes .maintype-container {
   position: absolute;
-  top: -2rem;
+  /* top: -2rem; */
   right: 1.5rem;
   display: flex;
   align-items: center;

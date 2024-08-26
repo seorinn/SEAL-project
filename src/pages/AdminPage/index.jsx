@@ -20,6 +20,7 @@ import {
   getFileName,
   setCookie,
 } from "../../util";
+import { Compress } from "./compress";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
@@ -27,9 +28,10 @@ import PdfModal from "./PdfModal";
 import "./index.css";
 
 function AdminPage() {
-  const userInfo = getCookie("userinfo");
   const storage = getStorage();
   const pdfRef = useRef();
+  const [isAdmin, setIsAdmin] = useState(getCookie("isadmin"));
+  const [userInfo, setUserInfo] = useState(getCookie("userinfo"));
   const code = process.env.REACT_APP_ADMIN;
 
   const [keyword, setKeyword] = useState("");
@@ -76,7 +78,7 @@ function AdminPage() {
   }, []);
 
   useEffect(() => {
-    if (excelDataMain && excelDataSub) {
+    if (userInfo && excelDataMain && excelDataSub) {
       let arraySub = excelDataSub.filter(
         (item) => item.type === userInfo.subType
       );
@@ -119,7 +121,7 @@ function AdminPage() {
         cowork: arrayMain.filter((item) => item.category === "cowork"),
       });
     }
-  }, [excelDataMain, excelDataSub]);
+  }, [userInfo, excelDataMain, excelDataSub]);
 
   useEffect(() => {
     getSearchedData();
@@ -277,6 +279,7 @@ function AdminPage() {
   };
 
   const handlePdfOpen = (user) => {
+    setUserInfo(user);
     const storageRef = ref(storage, getStoragePath(user));
 
     getDownloadURL(storageRef)
@@ -284,6 +287,8 @@ function AdminPage() {
       .then((response) => response.json())
       .then((data) => {
         setCookie("userinfo", user);
+        setCookie("scoremain", data.scoreMain);
+        setCookie("scoresub", data.scoreSub);
         setShowPdfModal(true);
       })
       .catch((error) => {
@@ -302,22 +307,22 @@ function AdminPage() {
         const element = pdfRef.current;
         if (element) {
           const canvas = await html2canvas(element, {
-            scale: 1.25,
+            scale: 2,
             useCORS: true,
           });
-          const imageFile = canvas.toDataURL("image/png");
+          const imageFile = canvas.toDataURL("image/jpeg");
           const pageWidth = doc.internal.pageSize.getWidth();
           const pageHeight = doc.internal.pageSize.getHeight();
           const widthRatio = pageWidth / canvas.width;
           const customHeight = canvas.height * widthRatio;
-          doc.addImage(imageFile, "png", 0, 0, pageWidth, customHeight);
+          doc.addImage(imageFile, "jpeg", 0, 0, pageWidth, customHeight);
           let heightLeft = customHeight;
           let heightAdd = -pageHeight;
           while (heightLeft >= pageHeight) {
             doc.addPage();
             doc.addImage(
               imageFile,
-              "png",
+              "jpeg",
               0,
               heightAdd,
               pageWidth,
@@ -326,7 +331,10 @@ function AdminPage() {
             heightLeft -= pageHeight;
             heightAdd -= pageHeight;
           }
+          // const pdfBlob = doc.output("blob");
           doc.save(getFileName(userInfo.name));
+          // console.log(pdfBlob);
+          // await Compress(pdfBlob);
         }
       } catch (error) {
         console.log(error);
@@ -335,7 +343,7 @@ function AdminPage() {
       }
   };
 
-  if (!getCookie("isadmin")) return <Code code={code} />;
+  if (!isAdmin) return <Code code={code} setIsValid={setIsAdmin} />;
   return (
     <div className="AdminPage">
       <h4>[관리자 페이지]</h4>
@@ -377,7 +385,7 @@ function AdminPage() {
           />
         )}
       </div>
-      {showPdfModal && (
+      {showPdfModal && userInfo && (
         <div className="pdf-container">
           <div className="pdf-modal" ref={pdfRef}>
             <PdfModal dataMain={dataMain} dataSub={dataSub} />
