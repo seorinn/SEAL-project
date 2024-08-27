@@ -58,9 +58,9 @@
 .Stress .item {
   margin-bottom: 0.25rem;
 }
-.Stress .item.example {
+/* .Stress .item.example {
   color: darkgray;
-}
+} */
 .Stress .strength {
   margin-bottom: 0.5rem;
 }
