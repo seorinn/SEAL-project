@@ -10,7 +10,7 @@ function CoverPage() {
 
   useEffect(() => {
     getLogoImage(userInfo.course).then((res) => setImage(res));
-  }, [userInfo]);
+  }, []);
 
   return (
     <div className="CoverPage resultpage">
