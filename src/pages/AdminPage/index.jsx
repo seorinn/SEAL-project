@@ -6,6 +6,7 @@ import {
   getDownloadURL,
   deleteObject,
   getMetadata,
+  uploadBytes,
 } from "firebase/storage";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -20,7 +21,6 @@ import {
   getFileName,
   setCookie,
 } from "../../util";
-import { Compress } from "./compress";
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
@@ -141,6 +141,7 @@ function AdminPage() {
 
     setLoading(true);
     try {
+      getScoreData();
       const userList = await getUserList();
       const courseList = await getCourseList();
       const formattedList = userList.map((item) => {
@@ -160,6 +161,19 @@ function AdminPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const getScoreData = async () => {
+    const scoreRef = ref(storage, "userdata/scoredata");
+    getDownloadURL(scoreRef)
+      .then((url) => fetch(url))
+      .then((response) => response.json())
+      .then((data) => {
+        setCookie("scoredata", data);
+      })
+      .catch((error) => {
+        console.error("Error downloading file:", error);
+      });
   };
 
   const getCourses = async () => {
@@ -243,6 +257,7 @@ function AdminPage() {
   };
 
   const handleCheckBox = async () => {
+    const scoreRef = ref(storage, "userdata/scoredata");
     const targetData = detailKeyword ? detailData : searchedData;
     let count = 0;
     for (let i = 0; i < targetData.length; i++) {
@@ -254,6 +269,7 @@ function AdminPage() {
       return;
     } else if (!window.confirm(`${count}개 항목 삭제`)) return;
 
+    let scoredata;
     try {
       for (let i = 0; i < targetData.length; i++) {
         const user = {
@@ -263,10 +279,62 @@ function AdminPage() {
         if (user.isChecked) {
           setLoading(true);
           const pathReference = ref(storage, getStoragePath(user));
-          deleteObject(pathReference)
-            .then(() => initData())
-            .catch((error) => {
-              console.log(error);
+
+          await getDownloadURL(scoreRef)
+            .then((url) => fetch(url))
+            .then((response) => response.json())
+            .then((data) => {
+              scoredata = data;
+            });
+
+          await getDownloadURL(pathReference)
+            .then((url) => fetch(url))
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.state) {
+                const updatedData = scoredata.map((pagedata) =>
+                  pagedata.map((questiondata) => {
+                    let newItem;
+                    data.state.map((page) =>
+                      page.map((question) => {
+                        if (question.id === questiondata.id) {
+                          if (question.id.startsWith("ABS"))
+                            newItem = {
+                              ...questiondata,
+                              [question.isPos
+                                ? question.value - 1
+                                : 5 - question.value]:
+                                questiondata[
+                                  question.isPos
+                                    ? question.value - 1
+                                    : 5 - question.value
+                                ] + 1,
+                            };
+                          else
+                            newItem = {
+                              ...questiondata,
+                              [question.answerId.slice(3, 4) - 1]:
+                                questiondata[
+                                  question.answerId.slice(3, 4) - 1
+                                ] + 1,
+                            };
+                        }
+                      })
+                    );
+                    return newItem;
+                  })
+                );
+                const fileContent = JSON.stringify(updatedData, null, 2);
+                const blob = new Blob([fileContent], {
+                  type: "application/json",
+                });
+                uploadBytes(scoreRef, blob)
+                  .then((snapshot) => getDownloadURL(snapshot.ref))
+                  .then(() => {
+                    console.log("Score uploaded successfully");
+                  });
+              }
+              deleteObject(pathReference);
             });
         }
       }
@@ -274,6 +342,7 @@ function AdminPage() {
       console.log(error);
     } finally {
       setLoading(false);
+      initData();
       alert("삭제되었습니다");
     }
   };

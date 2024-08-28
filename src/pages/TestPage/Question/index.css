@@ -35,6 +35,14 @@
   align-items: center;
   flex: 1;
 }
+.Question .buttons.true {
+  display: flex;
+  width: 55%;
+  padding: 0 2rem;
+  justify-content: space-between;
+  align-items: end;
+  flex: 1;
+}
 .Question.true {
   opacity: 0.3;
 }

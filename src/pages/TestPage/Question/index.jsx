@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonItem from "./ButtonItem";
 import "./index.css";
 
@@ -12,6 +12,7 @@ function Question({
   setSumChecked,
   state,
   setState,
+  scoredata,
 }) {
   const buttons = [
     { id: 0, type: "agree" },
@@ -22,8 +23,19 @@ function Question({
   ];
   const [selectedBtn, setSelectedBtn] = useState(-1);
   const [isChecked, setIsChecked] = useState(false);
+  const [scores, setScores] = useState([]);
+
+  useEffect(() => {
+    if (scoredata.length > 0)
+      scoredata.map((page) =>
+        page.map((item) => {
+          if (item.id === id) setScores({ ...item });
+        })
+      );
+  }, []);
 
   const handleSelection = (buttonId) => {
+    if (scoredata.length > 0) return;
     if (!isChecked) {
       setChecked(checked + 1);
       setSumChecked(sumChecked + 1);
@@ -58,13 +70,15 @@ function Question({
       <div className="title">{content}</div>
       <div className="button-container" id={`${id}`}>
         <p className="agree">동의함</p>
-        <div className="buttons">
+        <div className={`buttons ${scoredata.length > 0}`}>
           {buttons.map((item, index) => (
             <ButtonItem
               key={index}
               {...item}
               selectedBtn={selectedBtn}
               handleSelection={handleSelection}
+              scoredata={scoredata}
+              scores={scores}
             />
           ))}
         </div>

@@ -5,6 +5,8 @@ import TableHead from "./TableHead";
 import CourseListModal from "./CourseListModal";
 import AddCourseModal from "./AddCourseModal";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
+import { setCookie } from "../../../util";
 
 function Table({
   data,
@@ -24,6 +26,7 @@ function Table({
   getCourses,
   handlePdfOpen,
 }) {
+  const navigation = useNavigate();
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
   const [showAddCourse, setShowAddCourse] = useState(false);
@@ -82,6 +85,15 @@ function Table({
           </button>
         </div>
         <div className="buttons">
+          <button
+            className="btn_statistic"
+            onClick={() => {
+              navigation(`/test`);
+              setCookie("statistic", true);
+            }}
+          >
+            통계
+          </button>
           <button className="btn_excel" onClick={handleDownloadExcel}>
             전체 Excel 다운로드
           </button>

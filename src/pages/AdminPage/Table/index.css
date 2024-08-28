@@ -72,6 +72,9 @@
 .Table .buttons .btn_pdf {
   border: 2px solid rgb(184, 0, 0);
 }
+.Table .buttons .btn_statistic {
+  border: 2px solid salmon;
+}
 .Table .buttons .btn_excel {
   border: 2px solid green;
 }

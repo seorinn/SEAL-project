@@ -8,6 +8,8 @@ import "./index.css";
 
 function TestPage() {
   const navigator = useNavigate();
+  const isStatistic = getCookie("statistic") || false;
+  const [scoredata, setScoredata] = useState([]);
 
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
@@ -19,6 +21,7 @@ function TestPage() {
   if (!getCookie("userinfo")) navigator("/");
 
   useEffect(() => {
+    if (isStatistic) setScoredata(getCookie("scoredata"));
     fetchData("newquestion-data.xlsx").then((res) => {
       let count = 0;
       let answers = [];
@@ -51,8 +54,18 @@ function TestPage() {
     });
   }, []);
 
+  const onClickBack = () => {
+    if (pageIndex === 0) navigator(`/admin`);
+    setPageIndex(pageIndex - 1);
+    setQuestionsOnPage(state[pageIndex - 1]);
+    window.scrollTo({
+      top: 10,
+      behavior: "instant",
+    });
+  };
+
   const onClickNext = () => {
-    if (sumCheckedOnPage < questionsOnPage.length) {
+    if (!isStatistic && sumCheckedOnPage < questionsOnPage.length) {
       alert("모든 항목에 체크해주세요.");
       return;
     }
@@ -61,8 +74,10 @@ function TestPage() {
       setSumCheckedOnPage(0);
       setQuestionsOnPage(state[pageIndex + 1]);
       setPageIndex(pageIndex + 1);
-    } else {
+    } else if (!isStatistic) {
       handleGetResult();
+    } else {
+      navigator(`/admin`);
     }
     window.scrollTo({
       top: 10,
@@ -97,9 +112,11 @@ function TestPage() {
         <div className="logo-text">
           <b>REAL</b> Personality
         </div>
-        <div className="progressbar-container">
-          <ProgressBar sumChecked={sumChecked} total={total} />
-        </div>
+        {!isStatistic && (
+          <div className="progressbar-container">
+            <ProgressBar sumChecked={sumChecked} total={total} />
+          </div>
+        )}
       </div>
       <div className="question-box">
         {questionsOnPage.map((item) =>
@@ -113,6 +130,7 @@ function TestPage() {
               setSumChecked={setSumChecked}
               state={state}
               setState={setState}
+              scoredata={scoredata}
             />
           ) : (
             <MultipleChoices
@@ -124,13 +142,32 @@ function TestPage() {
               setSumChecked={setSumChecked}
               state={state}
               setState={setState}
+              scoredata={scoredata}
             />
           )
         )}
       </div>
-      <button className="btn_submit" onClick={onClickNext}>
-        {pageIndex === state.length - 1 ? "제출하기" : "다음"}
-      </button>
+      <div className="bottom-buttons">
+        {isStatistic && (
+          <button className="btn_back" onClick={() => onClickBack()}>
+            이전
+          </button>
+        )}
+        {/* {isStatistic && pageIndex !== state.length - 1 && (
+          <button className="btn_submit" onClick={onClickNext}>
+            다음
+          </button>
+        )} */}
+        {/* {!isStatistic && ( */}
+        <button className="btn_submit" onClick={onClickNext}>
+          {pageIndex === state.length - 1
+            ? isStatistic
+              ? "관리자 페이지로"
+              : "제출하기"
+            : "다음"}
+        </button>
+        {/* )} */}
+      </div>
     </div>
   );
 }

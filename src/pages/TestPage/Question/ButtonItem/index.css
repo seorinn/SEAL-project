@@ -1,52 +1,67 @@
-.Question button {
+.Question .ButtonItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Question .ButtonItem button {
   padding: 1.5rem;
   border-radius: 100%;
   border: 2px solid var(--navy700);
   background-color: transparent;
 }
-.Question button:nth-child(2),
-.Question button:nth-child(4) {
+.Question .ButtonItem:nth-child(2) button,
+.Question .ButtonItem:nth-child(4) button {
   border: 2px solid var(--navy500);
   padding: 1.125rem;
 }
-.Question button:nth-child(3) {
+.Question .ButtonItem:nth-child(3) button {
   border: 2px solid var(--navy400);
   padding: 0.875rem;
 }
 
-.Question button:hover {
+.Question .ButtonItem button:hover {
   background-color: var(--navy700);
   border: 2px solid var(--navy700);
   opacity: 0.75;
   animation: scale 0.1s ease forwards;
 }
-.Question button.true {
+.Question .ButtonItem button.true {
   background-color: var(--navy700);
   border: 2px solid var(--navy700);
 }
+.Question .ButtonItem.true button {
+  margin-bottom: 1rem;
+}
+.Question .ButtonItem:nth-child(2).true button,
+.Question .ButtonItem:nth-child(4).true button {
+  margin-bottom: 1.375rem;
+}
+.Question .ButtonItem:nth-child(3).true button {
+  margin-bottom: 1.625rem;
+}
 
 @media (max-width: 450px) {
-  .Question button {
+  .Question .ButtonItem button {
     padding: 0.875rem;
   }
-  .Question button:nth-child(2),
-  .Question button:nth-child(4) {
+  .Question .ButtonItem:nth-child(2) button,
+  .Question .ButtonItem:nth-child(4) button {
     padding: 0.75rem;
   }
-  .Question button:nth-child(3) {
+  .Question .ButtonItem:nth-child(3) button {
     padding: 0.625rem;
   }
 }
 
 @media (max-width: 350px) {
-  .Question button {
+  .Question .ButtonItem button {
     padding: 0.625rem;
   }
-  .Question button:nth-child(2),
-  .Question button:nth-child(4) {
+  .Question .ButtonItem:nth-child(2) button,
+  .Question .ButtonItem:nth-child(4) button {
     padding: 0.5rem;
   }
-  .Question button:nth-child(3) {
+  .Question .ButtonItem:nth-child(3) button {
     padding: 0.325rem;
   }
 }

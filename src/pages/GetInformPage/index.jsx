@@ -58,6 +58,7 @@ function GetInformPage() {
         email: email,
         phonenumber: phonenumber,
       });
+      setCookie("statistic", false);
       navigation("/test");
     }
   };

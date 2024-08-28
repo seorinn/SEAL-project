@@ -1,7 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getCookie, setCookie, fetchData, getStoragePath } from "../../util";
+import {
+  getCookie,
+  setCookie,
+  fetchData,
+  getStoragePath,
+  getUserList,
+} from "../../util";
 
 import CoverPage from "../../components/ResultPages/CoverPage";
 import Overview from "../../components/ResultPages/Introduction/Overview";
@@ -237,6 +243,80 @@ function ResultPage() {
     return resultType;
   };
 
+  const handleScoreDatabase = async () => {
+    const userList = await getUserList();
+    let isExist = false;
+    userList.map((item) => {
+      if (
+        `${item.company}_${item.affiliation}_${item.position}_${item.name}_${item.course}` ===
+        `${userInfo.company}_${userInfo.affiliation}_${userInfo.position}_${userInfo.name}_${userInfo.course}`
+      )
+        isExist = true;
+    });
+    if (isExist) return;
+    const storage = getStorage();
+    const storageRef = ref(storage, `userdata/scoredata`);
+
+    await getDownloadURL(storageRef)
+      .then((url) => fetch(url))
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedData = data.map((pagedata) =>
+          pagedata.map((questiondata) => {
+            let newItem;
+            state.map((page) =>
+              page.map((question) => {
+                if (question.id === questiondata.id) {
+                  if (question.id.startsWith("ABS"))
+                    newItem = {
+                      ...questiondata,
+                      [question.isPos
+                        ? question.value - 1
+                        : 5 - question.value]:
+                        questiondata[
+                          question.isPos
+                            ? question.value - 1
+                            : 5 - question.value
+                        ] + 1,
+                    };
+                  else
+                    newItem = {
+                      ...questiondata,
+                      [question.answerId.slice(3, 4) - 1]:
+                        questiondata[question.answerId.slice(3, 4) - 1] + 1,
+                    };
+                }
+              })
+            );
+            return newItem;
+          })
+        );
+
+        // const updatedData = state.map((page) =>
+        //   page.map((question) => {
+        //     return {
+        //       id: question.id,
+        //       0: 0,
+        //       1: 0,
+        //       2: 0,
+        //       3: 0,
+        //       4: 0,
+        //     };
+        //   })
+        // );
+        const fileContent = JSON.stringify(updatedData, null, 2);
+        const blob = new Blob([fileContent], { type: "application/json" });
+        uploadBytes(storageRef, blob)
+          .then((snapshot) => getDownloadURL(snapshot.ref))
+          .then(() => {
+            console.log("Score uploaded successfully");
+          });
+      })
+      .catch((error) => {
+        console.error("Error downloading file:", error);
+      });
+  };
+
   const saveToStorage = async () => {
     const storage = getStorage();
     const combinedData = {
@@ -244,7 +324,9 @@ function ResultPage() {
       scoreSub: scoreSub,
       dataMain: dataMain,
       dataSub: dataSub,
+      state: state,
     };
+
     const fileContent = JSON.stringify(combinedData, null, 2);
     const blob = new Blob([fileContent], { type: "application/json" });
 
@@ -252,12 +334,13 @@ function ResultPage() {
 
     uploadBytes(storageRef, blob)
       .then((snapshot) => getDownloadURL(snapshot.ref))
-      .then((downloadURL) => {
-        console.log("File uploaded successfully:", downloadURL);
+      .then(() => {
+        console.log("File uploaded successfully");
       })
       .catch((error) => {
         console.error("Error uploading file:", error);
       });
+    handleScoreDatabase();
   };
 
   if (dataMain.length === 0 || dataSub.length === 0) return;
