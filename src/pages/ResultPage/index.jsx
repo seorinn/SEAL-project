@@ -322,8 +322,6 @@ function ResultPage() {
     const combinedData = {
       scoreMain: scoreMain,
       scoreSub: scoreSub,
-      dataMain: dataMain,
-      dataSub: dataSub,
       state: state,
     };
 
