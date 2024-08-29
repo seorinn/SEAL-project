@@ -261,16 +261,7 @@ function AdminPage() {
 
   const handleCheckBox = async (type) => {
     const targetData = detailKeyword ? detailData : searchedData;
-    // let count = 0;
     let users = [];
-    // for (let i = 0; i < targetData.length; i++) {
-    //   const user = targetData[i];
-    //   if (user.isChecked) count++;
-    // }
-    // if (count === 0) {
-    //   alert(`삭제할 항목을 체크해주세요.`);
-    //   return;
-    // } else if (!window.confirm(`${count}개 항목 삭제`)) return;
 
     setLoading(true);
     for (let i = 0; i < targetData.length; i++) {
@@ -278,11 +269,7 @@ function AdminPage() {
         ...targetData[i],
         email: targetData[i].email.replace(/_/g, `&`),
       };
-      if (user.isChecked) {
-        users.push(user);
-        // setLoading(true);
-        // type === "del" ? handleDelete(user) : handleDelete(user);
-      }
+      if (user.isChecked) users.push(user);
     }
 
     if (users.length < 1) {
@@ -295,9 +282,8 @@ function AdminPage() {
         return;
       }
     try {
-      if (type === "del") {
-        handleDelete(users).then(() => initData());
-      } else if (type === "group") {
+      if (type === "del") handleDelete(users).then(() => initData());
+      else if (type === "group") {
         setGroupUsers(users);
         setShowGroupModal(true);
       }
@@ -431,10 +417,7 @@ function AdminPage() {
             heightLeft -= pageHeight;
             heightAdd -= pageHeight;
           }
-          // const pdfBlob = doc.output("blob");
           doc.save(getFileName(userInfo.name));
-          // console.log(pdfBlob);
-          // await Compress(pdfBlob);
         }
       } catch (error) {
         console.log(error);
