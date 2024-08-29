@@ -18,7 +18,7 @@ function TestPage() {
   const [sumChecked, setSumChecked] = useState(0);
   const [total, setTotal] = useState(0);
 
-  if (!getCookie("userinfo")) navigator("/");
+  if (!getCookie("userinfo") && !getCookie("statistic")) navigator("/");
 
   useEffect(() => {
     if (isStatistic) setScoredata(getCookie("scoredata"));
