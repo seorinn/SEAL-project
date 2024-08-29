@@ -296,7 +296,7 @@ function AdminPage() {
       }
     try {
       if (type === "del") {
-        // handleDelete(users);
+        handleDelete(users).then(() => initData());
       } else if (type === "group") {
         setGroupUsers(users);
         setShowGroupModal(true);
@@ -319,60 +319,59 @@ function AdminPage() {
       let scoredata;
       setLoading(true);
 
-      console.log(getStoragePath(user));
-      // await getDownloadURL(scoreRef)
-      //   .then((url) => fetch(url))
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     scoredata = data;
-      //   });
-      // await getDownloadURL(pathReference)
-      //   .then((url) => fetch(url))
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     if (data.state) {
-      //       const updatedData = scoredata.map((pagedata) =>
-      //         pagedata.map((questiondata) => {
-      //           let newItem;
-      //           data.state.map((page) =>
-      //             page.map((question) => {
-      //               if (question.id === questiondata.id) {
-      //                 if (question.id.startsWith("ABS"))
-      //                   newItem = {
-      //                     ...questiondata,
-      //                     [question.isPos
-      //                       ? question.value - 1
-      //                       : 5 - question.value]:
-      //                       questiondata[
-      //                         question.isPos
-      //                           ? question.value - 1
-      //                           : 5 - question.value
-      //                       ] + 1,
-      //                   };
-      //                 else
-      //                   newItem = {
-      //                     ...questiondata,
-      //                     [question.answerId.slice(3, 4) - 1]:
-      //                       questiondata[question.answerId.slice(3, 4) - 1] + 1,
-      //                   };
-      //               }
-      //             })
-      //           );
-      //           return newItem;
-      //         })
-      //       );
-      //       const fileContent = JSON.stringify(updatedData, null, 2);
-      //       const blob = new Blob([fileContent], {
-      //         type: "application/json",
-      //       });
-      //       uploadBytes(scoreRef, blob)
-      //         .then((snapshot) => getDownloadURL(snapshot.ref))
-      //         .then(() => {
-      //           console.log("Score uploaded successfully");
-      //         });
-      //     }
-      //     deleteObject(pathReference);
-      //   });
+      await getDownloadURL(scoreRef)
+        .then((url) => fetch(url))
+        .then((response) => response.json())
+        .then((data) => {
+          scoredata = data;
+        });
+      await getDownloadURL(pathReference)
+        .then((url) => fetch(url))
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.state) {
+            const updatedData = scoredata.map((pagedata) =>
+              pagedata.map((questiondata) => {
+                let newItem;
+                data.state.map((page) =>
+                  page.map((question) => {
+                    if (question.id === questiondata.id) {
+                      if (question.id.startsWith("ABS"))
+                        newItem = {
+                          ...questiondata,
+                          [question.isPos
+                            ? question.value - 1
+                            : 5 - question.value]:
+                            questiondata[
+                              question.isPos
+                                ? question.value - 1
+                                : 5 - question.value
+                            ] - 1,
+                        };
+                      else
+                        newItem = {
+                          ...questiondata,
+                          [question.answerId.slice(3, 4) - 1]:
+                            questiondata[question.answerId.slice(3, 4) - 1] - 1,
+                        };
+                    }
+                  })
+                );
+                return newItem;
+              })
+            );
+            const fileContent = JSON.stringify(updatedData, null, 2);
+            const blob = new Blob([fileContent], {
+              type: "application/json",
+            });
+            uploadBytes(scoreRef, blob)
+              .then((snapshot) => getDownloadURL(snapshot.ref))
+              .then(() => {
+                console.log("Score uploaded successfully");
+              });
+          }
+          deleteObject(pathReference);
+        });
     };
     users.map((user) => {
       deleteUser(user);
