@@ -1,12 +1,12 @@
 import { useState } from "react";
 import icon_polygon from "../../../assets/icons/icon_polygon.png";
+import { setCookie } from "../../../util";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import CourseListModal from "./CourseListModal";
 import AddCourseModal from "./AddCourseModal";
-import "./index.css";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../../util";
+import "./index.css";
 
 function Table({
   data,
@@ -80,8 +80,11 @@ function Table({
               {isAscending ? "오름차순" : "내림차순"}
             </button>
           </div>
-          <button className="btn_delete" onClick={() => handleCheckBox()}>
+          <button className="btn_delete" onClick={() => handleCheckBox("del")}>
             삭제
+          </button>
+          <button className="btn_group" onClick={() => handleCheckBox("group")}>
+            그룹별 요약
           </button>
         </div>
         <div className="buttons">

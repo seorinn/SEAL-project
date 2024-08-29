@@ -24,6 +24,7 @@ import {
 import Code from "../../components/Code";
 import Search from "../../components/Search";
 import Table from "./Table";
+import GroupModal from "./GroupModal";
 import PdfModal from "./PdfModal";
 import "./index.css";
 
@@ -32,6 +33,7 @@ function AdminPage() {
   const pdfRef = useRef();
   const [isAdmin, setIsAdmin] = useState(getCookie("isadmin"));
   const [userInfo, setUserInfo] = useState(getCookie("userinfo"));
+  const [groupUsers, setGroupUsers] = useState([]);
   const code = process.env.REACT_APP_ADMIN;
 
   const [keyword, setKeyword] = useState("");
@@ -58,6 +60,7 @@ function AdminPage() {
   const widths = [4, 10, 10, 9, 8, 20, 15, 15, 5, 8, 8, 10];
   const [sortBy, setSortBy] = useState(headers[1]);
   const [showPdfModal, setShowPdfModal] = useState(false);
+  const [showGroupModal, setShowGroupModal] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -256,95 +259,124 @@ function AdminPage() {
     }
   };
 
-  const handleCheckBox = async () => {
-    const scoreRef = ref(storage, "userdata/scoredata");
+  const handleCheckBox = async (type) => {
     const targetData = detailKeyword ? detailData : searchedData;
-    let count = 0;
+    // let count = 0;
+    let users = [];
+    // for (let i = 0; i < targetData.length; i++) {
+    //   const user = targetData[i];
+    //   if (user.isChecked) count++;
+    // }
+    // if (count === 0) {
+    //   alert(`삭제할 항목을 체크해주세요.`);
+    //   return;
+    // } else if (!window.confirm(`${count}개 항목 삭제`)) return;
+
+    setLoading(true);
     for (let i = 0; i < targetData.length; i++) {
-      const user = targetData[i];
-      if (user.isChecked) count++;
+      const user = {
+        ...targetData[i],
+        email: targetData[i].email.replace(/_/g, `&`),
+      };
+      if (user.isChecked) {
+        users.push(user);
+        // setLoading(true);
+        // type === "del" ? handleDelete(user) : handleDelete(user);
+      }
     }
-    if (count === 0) {
-      alert(`삭제할 항목을 체크해주세요.`);
+
+    if (users.length < 1) {
+      alert(`하나 이상의 항목을 선택해주세요.`);
+      setLoading(false);
       return;
-    } else if (!window.confirm(`${count}개 항목 삭제`)) return;
-
-    let scoredata;
+    } else if (type === "del")
+      if (!window.confirm(`${users.length}개 항목 삭제`)) {
+        setLoading(false);
+        return;
+      }
     try {
-      for (let i = 0; i < targetData.length; i++) {
-        const user = {
-          ...targetData[i],
-          email: targetData[i].email.replace(/_/g, `&`),
-        };
-        if (user.isChecked) {
-          setLoading(true);
-          const pathReference = ref(storage, getStoragePath(user));
-
-          await getDownloadURL(scoreRef)
-            .then((url) => fetch(url))
-            .then((response) => response.json())
-            .then((data) => {
-              scoredata = data;
-            });
-
-          await getDownloadURL(pathReference)
-            .then((url) => fetch(url))
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.state) {
-                const updatedData = scoredata.map((pagedata) =>
-                  pagedata.map((questiondata) => {
-                    let newItem;
-                    data.state.map((page) =>
-                      page.map((question) => {
-                        if (question.id === questiondata.id) {
-                          if (question.id.startsWith("ABS"))
-                            newItem = {
-                              ...questiondata,
-                              [question.isPos
-                                ? question.value - 1
-                                : 5 - question.value]:
-                                questiondata[
-                                  question.isPos
-                                    ? question.value - 1
-                                    : 5 - question.value
-                                ] + 1,
-                            };
-                          else
-                            newItem = {
-                              ...questiondata,
-                              [question.answerId.slice(3, 4) - 1]:
-                                questiondata[
-                                  question.answerId.slice(3, 4) - 1
-                                ] + 1,
-                            };
-                        }
-                      })
-                    );
-                    return newItem;
-                  })
-                );
-                const fileContent = JSON.stringify(updatedData, null, 2);
-                const blob = new Blob([fileContent], {
-                  type: "application/json",
-                });
-                uploadBytes(scoreRef, blob)
-                  .then((snapshot) => getDownloadURL(snapshot.ref))
-                  .then(() => {
-                    console.log("Score uploaded successfully");
-                  });
-              }
-              deleteObject(pathReference);
-            });
-        }
+      if (type === "del") {
+        // handleDelete(users);
+      } else if (type === "group") {
+        setGroupUsers(users);
+        setShowGroupModal(true);
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      initData();
-      alert("삭제되었습니다");
+      if (type === "del") {
+        initData();
+        alert("삭제되었습니다");
+      }
     }
+  };
+
+  const handleDelete = async (users) => {
+    const deleteUser = async (user) => {
+      const scoreRef = ref(storage, "userdata/scoredata");
+      const pathReference = ref(storage, getStoragePath(user));
+      let scoredata;
+      setLoading(true);
+
+      console.log(getStoragePath(user));
+      // await getDownloadURL(scoreRef)
+      //   .then((url) => fetch(url))
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     scoredata = data;
+      //   });
+      // await getDownloadURL(pathReference)
+      //   .then((url) => fetch(url))
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     if (data.state) {
+      //       const updatedData = scoredata.map((pagedata) =>
+      //         pagedata.map((questiondata) => {
+      //           let newItem;
+      //           data.state.map((page) =>
+      //             page.map((question) => {
+      //               if (question.id === questiondata.id) {
+      //                 if (question.id.startsWith("ABS"))
+      //                   newItem = {
+      //                     ...questiondata,
+      //                     [question.isPos
+      //                       ? question.value - 1
+      //                       : 5 - question.value]:
+      //                       questiondata[
+      //                         question.isPos
+      //                           ? question.value - 1
+      //                           : 5 - question.value
+      //                       ] + 1,
+      //                   };
+      //                 else
+      //                   newItem = {
+      //                     ...questiondata,
+      //                     [question.answerId.slice(3, 4) - 1]:
+      //                       questiondata[question.answerId.slice(3, 4) - 1] + 1,
+      //                   };
+      //               }
+      //             })
+      //           );
+      //           return newItem;
+      //         })
+      //       );
+      //       const fileContent = JSON.stringify(updatedData, null, 2);
+      //       const blob = new Blob([fileContent], {
+      //         type: "application/json",
+      //       });
+      //       uploadBytes(scoreRef, blob)
+      //         .then((snapshot) => getDownloadURL(snapshot.ref))
+      //         .then(() => {
+      //           console.log("Score uploaded successfully");
+      //         });
+      //     }
+      //     deleteObject(pathReference);
+      //   });
+    };
+    users.map((user) => {
+      deleteUser(user);
+    });
   };
 
   const handlePdfOpen = (user) => {
@@ -469,6 +501,18 @@ function AdminPage() {
               다운로드 중입니다.
             </div>
           )}
+        </div>
+      )}
+      {}
+      {}
+      {showGroupModal && groupUsers && (
+        <div className="pdf-container">
+          <div className="pdf-modal" ref={pdfRef}>
+            <GroupModal groupUsers={groupUsers} />
+          </div>
+          <div className="pdf-buttons">
+            <button onClick={() => setShowGroupModal(false)}>×</button>
+          </div>
         </div>
       )}
     </div>

@@ -1,0 +1,24 @@
+.GroupQuarter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  overflow: hidden;
+}
+.GroupQuarter .quarter-container {
+  /* scale: 1.1; */
+  transform-origin: 50% 0;
+  /* height: 22.5rem; */
+}
+.GroupQuarter .percentage {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0 3rem 0;
+}
+.GroupQuarter .user-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
