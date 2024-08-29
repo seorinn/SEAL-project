@@ -41,6 +41,12 @@ function GetInformPage() {
     )
       alert("이메일 외 항목에 사용 불가능한 문자( _ )가 포함되어 있습니다.");
     else if (
+      [name, company, affiliation, position, email, phonenumber]
+        .join(" ")
+        .includes("/")
+    )
+      alert("사용 불가능한 문자( / )가 포함되어 있습니다.");
+    else if (
       phonenumber !== "null" &&
       (!phonenumber.startsWith("010") || phonenumber.length !== 11)
     )

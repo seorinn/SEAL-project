@@ -73,6 +73,7 @@ function MultipleChoices({
                   marginRight: "1.25rem",
                   width: "5rem",
                   textAlign: "end",
+                  fontSize: "0.9rem",
                 }}
               >
                 {scores[index]} /
@@ -106,7 +107,13 @@ function MultipleChoices({
               {item.content}
             </button>
             {scoredata.length > 0 && (
-              <div style={{ marginLeft: "1.25rem", width: "5rem" }}>
+              <div
+                style={{
+                  marginLeft: "1.25rem",
+                  width: "5rem",
+                  fontSize: "0.9rem",
+                }}
+              >
                 {Math.round(
                   (scores[index] /
                     keys.reduce(
