@@ -27,6 +27,7 @@ import Table from "./Table";
 import GroupModal from "./GroupModal";
 import PdfModal from "./PdfModal";
 import "./index.css";
+import GroupInfoModal from "./GroupInfoModal";
 
 function AdminPage() {
   const storage = getStorage();
@@ -59,8 +60,14 @@ function AdminPage() {
   ];
   const widths = [4, 10, 10, 9, 8, 20, 15, 15, 5, 8, 8, 10];
   const [sortBy, setSortBy] = useState(headers[1]);
+  const [showInputModal, setShowInputModal] = useState(false);
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [showGroupModal, setShowGroupModal] = useState(false);
+  const [input, setInput] = useState({
+    companyname: "",
+    groupname: "",
+    date: "",
+  });
   const [pdfLoading, setPdfLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -285,7 +292,8 @@ function AdminPage() {
       if (type === "del") handleDelete(users).then(() => initData());
       else if (type === "group") {
         setGroupUsers(users);
-        setShowGroupModal(true);
+        // setShowGroupModal(true);
+        setShowInputModal(true);
       }
     } catch (error) {
       console.log(error);
@@ -469,12 +477,14 @@ function AdminPage() {
         )}
       </div>
       {showPdfModal && userInfo && (
-        <div className="pdf-container">
+        <div className="modal-container">
           <div className="pdf-modal" ref={pdfRef}>
             <PdfModal dataMain={dataMain} dataSub={dataSub} />
           </div>
           <div className="pdf-buttons">
-            <button onClick={onClickDownloadPdf}>다운로드</button>
+            <button className="btn-download-pdf" onClick={onClickDownloadPdf}>
+              다운로드
+            </button>
             <button onClick={() => setShowPdfModal(false)}>×</button>
           </div>
           {pdfLoading && (
@@ -485,13 +495,24 @@ function AdminPage() {
           )}
         </div>
       )}
-      {}
-      {}
+      {showInputModal && groupUsers && (
+        <div className="modal-container">
+          <GroupInfoModal
+            setShowInputModal={setShowInputModal}
+            setShowGroupModal={setShowGroupModal}
+            input={input}
+            setInput={setInput}
+          />
+        </div>
+      )}
       {showGroupModal && groupUsers && (
-        <div className="pdf-container">
-          <div className="pdf-modal" ref={pdfRef}>
-            <GroupModal groupUsers={groupUsers} />
-          </div>
+        <div className="modal-container">
+          <GroupModal
+            groupUsers={groupUsers}
+            input={input}
+            excelDataMain={excelDataMain}
+            excelDataSub={excelDataSub}
+          />
           <div className="pdf-buttons">
             <button onClick={() => setShowGroupModal(false)}>×</button>
           </div>

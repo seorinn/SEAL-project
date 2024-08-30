@@ -1,0 +1,6 @@
+.GroupModal .page {
+  width: 297mm;
+  height: 210mm;
+  background-color: white;
+  box-shadow: 0 0 50px 0.2px rgb(0 0 0 / 0.075);
+}

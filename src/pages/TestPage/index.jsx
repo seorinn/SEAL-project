@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie, fetchData } from "../../util";
+import MultipleChoices from "../../components/MultipleChoices";
+import Question from "../../components/Question";
 import ProgressBar from "./ProgressBar";
-import MultipleChoices from "./MultipleChoices";
-import Question from "./Question";
 import "./index.css";
 
 function TestPage() {

@@ -32,7 +32,7 @@ function ButtonItem({
         }
       ></button>
       {scoredata.length > 0 && (
-        <span style={{ fontSize: "0.875rem" }}>
+        <span>
           {scores[4 - id]} / {sum} (
           {Math.round((scores[4 - id] / sum) * 100 * 10) / 10}%)
         </span>

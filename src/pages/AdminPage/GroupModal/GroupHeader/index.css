@@ -1,0 +1,28 @@
+.GroupHeader {
+  background-color: var(--navy700);
+  height: 3.5rem;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+.GroupHeader .header-title {
+  display: flex;
+  align-items: center;
+}
+.GroupHeader .logo_root {
+  width: 6rem;
+  margin-right: 1rem;
+}
+.GroupHeader span {
+  padding-right: 1rem;
+}
+.GroupHeader span.eng {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: bold;
+}
+.GroupHeader .img-container img {
+  width: 4.5rem;
+  margin-top: 3.75rem;
+}

@@ -77,3 +77,33 @@
     padding: 0 0.5rem;
   }
 }
+
+/*그룹 통계*/
+.Statistic .Question {
+  height: 6.5rem;
+  margin-bottom: 0.5rem;
+  /* background-color: aliceblue; */
+}
+.Statistic .Question .title {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  font-size: 0.9rem;
+}
+.Statistic .Question .button-container {
+  width: 100%;
+  padding: 0rem;
+  border-bottom: none;
+  flex: 1;
+  height: fit-content;
+}
+.Statistic .Question p {
+  min-width: 3rem;
+  font-size: 0.75rem;
+}
+.Statistic .Question .buttons.true {
+  display: flex;
+  width: 100%;
+}
+.Statistic .Question.true {
+  opacity: 0.3;
+}

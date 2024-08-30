@@ -1,0 +1,20 @@
+.GroupTables .BoxTitle {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  border-bottom: 1px solid var(--navy700);
+  margin-bottom: 0.5rem;
+}
+.GroupTables .BoxTitle div {
+  background: linear-gradient(
+    to right,
+    var(--navy700),
+    var(--navy700),
+    var(--navy400)
+  );
+  color: white;
+  padding: 0.325rem 0.75rem;
+  border-top-left-radius: 1rem;
+  font-size: 0.9rem;
+  min-width: 9.5rem;
+}

@@ -1,9 +1,10 @@
 import img_table from "../../../../assets/images/chartable.png";
 import { useEffect, useState } from "react";
 import { twelveChar } from "../../../../util";
+import GroupHeader from "../GroupHeader";
 import "./index.css";
 
-function GroupCharacter({ userdata }) {
+function GroupCharacter({ userdata, groupinfo }) {
   const [countData, setCountData] = useState([]);
 
   useEffect(() => {
@@ -47,7 +48,8 @@ function GroupCharacter({ userdata }) {
   };
 
   return (
-    <div className="GroupCharacter resultpage">
+    <div className="GroupCharacter page">
+      <GroupHeader groupinfo={groupinfo} />
       <h1>REAL 12캐릭터 그룹 분포</h1>
       <div className="table-container">
         <img alt="" src={img_table} />

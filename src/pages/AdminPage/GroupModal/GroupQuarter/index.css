@@ -1,9 +1,8 @@
 .GroupQuarter {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: white;
   overflow: hidden;
+  width: 100%;
 }
 .GroupQuarter .quarter-container {
   /* scale: 1.1; */

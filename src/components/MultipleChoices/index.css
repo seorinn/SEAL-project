@@ -40,6 +40,17 @@
   background-color: var(--navy700);
   color: white;
 }
+.MultipleChoices .count-text {
+  margin-right: 1.25rem;
+  width: 5rem;
+  text-align: end;
+  font-size: 0.9rem;
+}
+.MultipleChoices .percentage {
+  margin-left: 1.25rem;
+  width: 5rem;
+  font-size: 0.9rem;
+}
 
 @media (max-width: 450px) {
   .MultipleChoices {
@@ -58,4 +69,34 @@
     margin-bottom: 0.75rem;
     font-size: 0.75rem;
   }
+}
+
+/*그룹화 통계*/
+.Statistic .MultipleChoices {
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+  height: 10rem;
+}
+.Statistic .MultipleChoices .title {
+  height: fit-content;
+  margin-bottom: 0rem;
+  font-size: 0.875rem;
+}
+.Statistic .MultipleChoices .button-container .btn_answer {
+  width: 25rem;
+  padding: 0.325rem;
+  font-size: 0.8rem;
+  margin: 0.2rem 0.75rem;
+}
+.Statistic .MultipleChoices .button-container .btn_answer.true {
+  border: none;
+}
+.Statistic .MultipleChoices .count-text {
+  margin-right: 0rem;
+  text-align: end;
+  font-size: 0.75rem;
+}
+.Statistic .MultipleChoices .percentage {
+  margin-left: 0rem;
+  font-size: 0.75rem;
 }

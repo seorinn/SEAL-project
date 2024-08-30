@@ -47,7 +47,7 @@ h4 {
 .AdminPage button:hover {
   scale: 1.03;
 }
-.AdminPage .pdf-container {
+.AdminPage .modal-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -66,14 +66,14 @@ h4 {
   top: 5rem;
   right: 5rem;
 }
-.AdminPage .pdf-container button {
+.AdminPage .modal-container .pdf-buttons button {
   background-color: white;
   padding: 0.5rem 0.875rem;
   margin: 0.75rem;
   font-size: 1.25rem;
   border-radius: 2rem;
 }
-.AdminPage .pdf-container button:first-child {
+.AdminPage .modal-container .btn-download-pdf {
   padding: 0.5rem 2rem;
   border: 2px solid hwb(205 41% 23%);
 }

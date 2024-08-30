@@ -1,0 +1,21 @@
+.Statistic .container {
+  display: flex;
+  flex-direction: column;
+}
+.Statistic .intro {
+  padding: 1rem 3rem;
+  font-weight: bold;
+}
+.Statistic .content {
+  /* scale: 0.5; */
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  /* padding: 1rem 0; */
+}
+.Statistic .left-section {
+  width: 40%;
+}
+.Statistic .right-section {
+  width: 40%;
+}

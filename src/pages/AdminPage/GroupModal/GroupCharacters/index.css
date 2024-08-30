@@ -1,8 +1,6 @@
 .GroupCharacter {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: white;
   overflow: hidden;
 }
 .GroupCharacter .table-container img {

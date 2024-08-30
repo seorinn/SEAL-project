@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import Quarter from "../../../../components/Quarter";
+import img_quarter from "../../../../assets/images/quarter.png";
 import { fourTypes } from "../../../../util";
+import GroupHeader from "../GroupHeader";
 import "./index.css";
 
-function GroupQuarter({ userdata }) {
+function GroupQuarter({ userdata, groupinfo }) {
   const [countData, setCountData] = useState([]);
 
   useEffect(() => {
@@ -26,10 +27,12 @@ function GroupQuarter({ userdata }) {
   };
 
   return (
-    <div className="GroupQuarter resultpage">
+    <div className="GroupQuarter page">
+      <GroupHeader groupinfo={groupinfo} />
+
       <h1>REAL 4유형 그룹 분포</h1>
       <div className="quarter-container">
-        <Quarter />
+        <img alt="" src={img_quarter} />
       </div>
       <div className="percentage">
         {fourTypes.map((type) => (

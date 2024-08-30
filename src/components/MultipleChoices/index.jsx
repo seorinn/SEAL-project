@@ -68,14 +68,7 @@ function MultipleChoices({
         {answers.map((item, index) => (
           <div key={item.id} style={{ display: "flex", alignItems: "center" }}>
             {scoredata.length > 0 && (
-              <div
-                style={{
-                  marginRight: "1.25rem",
-                  width: "5rem",
-                  textAlign: "end",
-                  fontSize: "0.9rem",
-                }}
-              >
+              <div className="count-text">
                 {scores[index]} /
                 {keys.reduce(
                   (accumulator, key) => accumulator + (scores[key] || 0),
@@ -107,13 +100,7 @@ function MultipleChoices({
               {item.content}
             </button>
             {scoredata.length > 0 && (
-              <div
-                style={{
-                  marginLeft: "1.25rem",
-                  width: "5rem",
-                  fontSize: "0.9rem",
-                }}
-              >
+              <div className="percentage">
                 {Math.round(
                   (scores[index] /
                     keys.reduce(

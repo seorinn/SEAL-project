@@ -1,0 +1,88 @@
+.GroupTables {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.GroupTables .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  margin-bottom: 5rem;
+}
+.GroupTables .intro {
+  padding: 2rem 3rem 0.5rem 3rem;
+  font-weight: bold;
+}
+.GroupTables .content {
+  display: flex;
+  padding: 0rem 2.5rem;
+  justify-content: space-around;
+  height: 100%;
+  gap: 1rem;
+}
+.GroupTables .boxcontent {
+  display: flex;
+  gap: 0.75rem;
+}
+.GroupTables .quarter-box,
+.GroupTables .char-box {
+  width: 19.75rem;
+  height: 100%;
+}
+.GroupTables .bottom-text {
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  flex: 1;
+}
+.GroupTables .bottom-text b {
+  color: black;
+}
+
+.GroupTables .text-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.GroupTables .table-container {
+  margin-bottom: 2rem;
+  height: 23rem;
+}
+.GroupTables .table-container img {
+  width: 18rem;
+}
+.GroupTables .text-container {
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+.GroupTables .text-container .text-body {
+  padding: 0 0.5rem;
+}
+.GroupTables .text-container.motivation .text-body.false,
+.GroupTables .text-container.changes .text-body.false {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.875rem;
+  font-weight: bold;
+  gap: 1rem;
+  padding: 0;
+}
+.GroupTables .text-container.motivation .text-body.false .item {
+  color: var(--navy700);
+}
+.GroupTables .text-container.changes .text-body.false .item {
+  background-color: var(--text-box);
+  color: var(--navy500);
+  padding: 0.5rem;
+  width: 5rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+.GroupTables .url-container {
+  text-align: center;
+  font-size: 0.875rem;
+  color: gray;
+}

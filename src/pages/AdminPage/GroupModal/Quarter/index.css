@@ -1,31 +1,36 @@
 .Quarter {
-  width: 18rem;
-  height: 18rem;
+  width: 15rem;
+  height: 15rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 .Quarter div {
   display: flex;
+  /* opacity: 0.625; */
 }
 .Quarter .top-left {
   background-color: var(--navy700);
   border-top-left-radius: 100%;
+  transform-origin: bottom right;
 }
 .Quarter .top-right {
   left: 0;
   background-color: var(--navy600);
   border-top-right-radius: 100%;
+  transform-origin: bottom left;
 }
 .Quarter .bottom-left {
   top: 0;
   background-color: var(--navy400);
   border-bottom-left-radius: 100%;
+  transform-origin: top right;
 }
 .Quarter .bottom-right {
   top: 0;
   left: 0;
   background-color: var(--navy500);
   border-bottom-right-radius: 100%;
+  transform-origin: top left;
 }
 .Quarter .top-left,
 .Quarter .top-right {
@@ -41,14 +46,15 @@
 }
 
 .Quarter .inner {
-  width: 6rem;
-  height: 6rem;
+  width: 5rem;
+  height: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Times New Roman", Times, serif;
-  font-size: 4.5rem;
+  font-size: 4.25rem;
   font-weight: bold;
+  user-select: none;
 }
 
 .Quarter .top-left .inner {
@@ -70,4 +76,37 @@
   background-color: var(--navy-l);
   padding: 0 1.5rem 1.5rem 0;
   border-bottom-right-radius: 100%;
+}
+
+.Quarter .counts {
+  position: absolute;
+  color: black;
+}
+.Quarter .counts .percentage {
+  position: absolute;
+  color: black;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.Quarter .top-left .percentage {
+  top: -5rem;
+  left: -8rem;
+}
+.Quarter .top-right .percentage {
+  top: -5rem;
+  left: 6rem;
+}
+.Quarter .bottom-left .percentage {
+  top: 6.5rem;
+  left: -8rem;
+}
+.Quarter .bottom-right .percentage {
+  top: 6.5rem;
+  left: 6rem;
+}
+
+.Quarter .counts .count {
+  color: white;
+  font-size: 0.9rem;
+  padding: 0.125rem;
 }
