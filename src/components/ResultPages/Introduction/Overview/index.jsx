@@ -14,9 +14,9 @@ function Overview({}) {
         <div className="content">
           <div className="text">
             <b>REAL 업무성향 진단</b>은 개인의 성격과 행동 패턴을 체계적으로
-            평가하여, 그 결과를 네 가지 주요 유형으로 분류하는 도구입니다. 각
-            업무 성향 유형은 개인의 주된 사고 방식과 행동 양식을 반영하여,
-            다음과 같은 특징을 가집니다.
+            평가하여, 그 결과를 네 가지 주요 유형으로 분류하는 도구입니다.
+            <br /> 각 업무 성향 유형은 개인의 주된 사고 방식과 행동 양식을
+            반영하여, 다음과 같은 특징을 가집니다.
           </div>
           <div className="content-four-types">
             {fourTypes.map((item) => (

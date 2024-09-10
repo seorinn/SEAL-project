@@ -24,7 +24,7 @@ function Character({}) {
             <img alt="table" src={getTableImage("all")} />
           </div>
           <div className="bottom-text">
-            12개 캐릭터는 두 가지 주요 축을 중심으로 분류됩니다.
+            12가지의 캐릭터는 두 가지 주요 축을 중심으로 분류됩니다.
             <br />
             X축: 집중 영역: 사람 중심(People-Focused) vs 과제 중심(Task-Focused)
             <br />
