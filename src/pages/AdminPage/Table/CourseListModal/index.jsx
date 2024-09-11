@@ -54,7 +54,7 @@ function CourseListModal({
           <PulseLoader color="hsla(194, 56%, 63%, 1)" />
         </div>
       )}
-      <div className="modal-container">
+      <div className="course-modal-container">
         <div className="title">진단 과정 수정</div>
         <div className="course-container">
           <div className="header">

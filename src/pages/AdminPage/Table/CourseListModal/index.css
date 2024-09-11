@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
 }
-.CourseModal .modal-container {
+.CourseModal .course-modal-container {
   background-color: white;
   width: fit-content;
   height: 30rem;
