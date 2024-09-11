@@ -68,6 +68,7 @@ function AdminPage() {
     groupname: "",
     date: "",
   });
+  const [groupscore, setGroupscore] = useState([]);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -179,7 +180,8 @@ function AdminPage() {
       .then((url) => fetch(url))
       .then((response) => response.json())
       .then((data) => {
-        setCookie("scoredata", data);
+        setCookie("scoredataA", data.slice(0, 2));
+        setCookie("scoredataR", data.slice(2, 4));
       })
       .catch((error) => {
         console.error("Error downloading file:", error);
@@ -290,11 +292,7 @@ function AdminPage() {
       }
     try {
       if (type === "del") handleDelete(users).then(() => initData());
-      else if (type === "group") {
-        setGroupUsers(users);
-        // setShowGroupModal(true);
-        setShowInputModal(true);
-      }
+      else if (type === "group") handleGroupScore(users);
     } catch (error) {
       console.log(error);
     } finally {
@@ -369,6 +367,71 @@ function AdminPage() {
     };
     users.map((user) => {
       deleteUser(user);
+    });
+  };
+
+  const handleGroupScore = async (users) => {
+    setGroupUsers(users);
+    setShowInputModal(true);
+    setLoading(true);
+
+    const scoreRef = ref(storage, "userdata/scoredata");
+    let scoredata;
+    await getDownloadURL(scoreRef)
+      .then((url) => fetch(url))
+      .then((response) => response.json())
+      .then((data) => {
+        scoredata = data.map((page) =>
+          page.map((item) => {
+            return { id: item.id, 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
+          })
+        );
+      });
+
+    const setGroupScore = async (user) => {
+      const pathReference = ref(storage, getStoragePath(user));
+      await getDownloadURL(pathReference)
+        .then((url) => fetch(url))
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.state) {
+            const updatedData = scoredata.map((pagedata) =>
+              pagedata.map((questiondata) => {
+                let newItem;
+                data.state.map((page) =>
+                  page.map((question) => {
+                    if (question.id === questiondata.id) {
+                      if (question.id.startsWith("ABS"))
+                        newItem = {
+                          ...questiondata,
+                          [question.isPos
+                            ? question.value - 1
+                            : 5 - question.value]:
+                            questiondata[
+                              question.isPos
+                                ? question.value - 1
+                                : 5 - question.value
+                            ] + 1,
+                        };
+                      else
+                        newItem = {
+                          ...questiondata,
+                          [question.answerId.slice(3, 4) - 1]:
+                            questiondata[question.answerId.slice(3, 4) - 1] + 1,
+                        };
+                    }
+                  })
+                );
+                return newItem;
+              })
+            );
+            scoredata = updatedData;
+          }
+        });
+    };
+
+    users.map((user) => {
+      setGroupScore(user).then(() => setGroupscore(scoredata));
     });
   };
 
@@ -509,6 +572,7 @@ function AdminPage() {
         <div className="modal-container">
           <GroupModal
             groupUsers={groupUsers}
+            groupscore={groupscore}
             input={input}
             excelDataMain={excelDataMain}
             excelDataSub={excelDataSub}

@@ -5,9 +5,8 @@ import Question from "../../../../components/Question";
 import GroupHeader from "../GroupHeader";
 import "./index.css";
 
-function Statistic({ groupinfo, state, total }) {
+function Statistic({ groupinfo, groupscore, state, total }) {
   const [questiontype, setQuestiontype] = useState("");
-  const [scoredata, setScoredata] = useState([]);
   const [stateLeft, setStateLeft] = useState([]);
   const [stateRight, setStateRight] = useState([]);
 
@@ -16,7 +15,6 @@ function Statistic({ groupinfo, state, total }) {
       state[0].id.startsWith("ABS")
         ? setQuestiontype("question")
         : setQuestiontype("multiple");
-    setScoredata(getCookie("scoredata"));
   }, [state]);
 
   useEffect(() => {
@@ -45,16 +43,15 @@ function Statistic({ groupinfo, state, total }) {
                   key={item.id}
                   {...item}
                   state={state}
-                  scoredata={scoredata}
+                  scoredata={groupscore}
                 />
               ) : (
                 <MultipleChoices
                   key={item.id}
                   {...item}
                   state={state}
-                  scoredata={scoredata}
+                  scoredata={groupscore}
                 />
-                // <p>123</p>
               )
             )}
           </div>
@@ -65,16 +62,15 @@ function Statistic({ groupinfo, state, total }) {
                   key={item.id}
                   {...item}
                   state={state}
-                  scoredata={scoredata}
+                  scoredata={groupscore}
                 />
               ) : (
                 <MultipleChoices
                   key={item.id}
                   {...item}
                   state={state}
-                  scoredata={scoredata}
+                  scoredata={groupscore}
                 />
-                // <p>123</p>
               )
             )}
           </div>

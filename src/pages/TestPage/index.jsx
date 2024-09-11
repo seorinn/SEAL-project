@@ -9,7 +9,8 @@ import "./index.css";
 function TestPage() {
   const navigator = useNavigate();
   const isStatistic = getCookie("statistic") || false;
-  const [scoredata, setScoredata] = useState([]);
+  const [scoredataA, setScoredataA] = useState([]);
+  const [scoredataR, setScoredataR] = useState([]);
 
   const [state, setState] = useState([]);
   const [questionsOnPage, setQuestionsOnPage] = useState([]);
@@ -21,7 +22,10 @@ function TestPage() {
   if (!getCookie("userinfo") && !getCookie("statistic")) navigator("/");
 
   useEffect(() => {
-    if (isStatistic) setScoredata(getCookie("scoredata"));
+    if (isStatistic) {
+      setScoredataA(getCookie("scoredataA"));
+      setScoredataR(getCookie("scoredataR"));
+    }
     fetchData("newquestion-data.xlsx").then((res) => {
       let count = 0;
       let answers = [];
@@ -130,7 +134,7 @@ function TestPage() {
               setSumChecked={setSumChecked}
               state={state}
               setState={setState}
-              scoredata={scoredata}
+              scoredata={scoredataA}
             />
           ) : (
             <MultipleChoices
@@ -142,7 +146,7 @@ function TestPage() {
               setSumChecked={setSumChecked}
               state={state}
               setState={setState}
-              scoredata={scoredata}
+              scoredata={scoredataR}
             />
           )
         )}

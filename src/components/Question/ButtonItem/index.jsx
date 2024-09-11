@@ -33,7 +33,7 @@ function ButtonItem({
       ></button>
       {scoredata.length > 0 && (
         <span>
-          {scores[4 - id]} / {sum} (
+          {scores[4 - id]} / {sum} <br />(
           {Math.round((scores[4 - id] / sum) * 100 * 10) / 10}%)
         </span>
       )}

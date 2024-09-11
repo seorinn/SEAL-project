@@ -5,6 +5,7 @@
 }
 .Question .ButtonItem span {
   font-size: 0.875rem;
+  text-align: center;
 }
 .Question .ButtonItem button {
   padding: 1.5rem;

@@ -7,7 +7,13 @@ import GroupCharacter from "./GroupCharacters";
 import GroupTables from "./GroupTables";
 import Statistic from "./Statistic";
 
-const GroupModal = ({ groupUsers, input, excelDataMain, excelDataSub }) => {
+const GroupModal = ({
+  groupUsers,
+  groupscore,
+  input,
+  excelDataMain,
+  excelDataSub,
+}) => {
   const [userdata, setUserdata] = useState([]);
   const [countDataMain, setCountDataMain] = useState([]);
   const [countDataSub, setCountDataSub] = useState([]);
@@ -97,10 +103,30 @@ const GroupModal = ({ groupUsers, input, excelDataMain, excelDataSub }) => {
       />
       <GroupQuarter userdata={userdata} groupinfo={input} />
       <GroupCharacter userdata={userdata} groupinfo={input} />
-      <Statistic groupinfo={input} state={state[0]} total={userdata.length} />
-      <Statistic groupinfo={input} state={state[1]} total={userdata.length} />
-      <Statistic groupinfo={input} state={state[2]} total={userdata.length} />
-      <Statistic groupinfo={input} state={state[3]} total={userdata.length} />
+      <Statistic
+        groupinfo={input}
+        groupscore={groupscore}
+        state={state[0]}
+        total={userdata.length}
+      />
+      <Statistic
+        groupinfo={input}
+        groupscore={groupscore}
+        state={state[1]}
+        total={userdata.length}
+      />
+      <Statistic
+        groupinfo={input}
+        groupscore={groupscore}
+        state={state[2]}
+        total={userdata.length}
+      />
+      <Statistic
+        groupinfo={input}
+        groupscore={groupscore}
+        state={state[3]}
+        total={userdata.length}
+      />
     </div>
   );
 };
